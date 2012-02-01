@@ -6,8 +6,7 @@ package basics;
  * 
  * @author Fabian M. Suchanek
  * 
- * TODO: are two facts equal if their id is equal?
- * 
+ * Convention: all fact components must be the output of a method of the class FactComponent 
  */
 public class Fact {
 	/** ID */
@@ -21,15 +20,28 @@ public class Fact {
     /** Datatype of arg2 (or null)*/
 	public String arg2datatype;
 	
+	/** All fact components must be the output of a method of the class FactComponent!*/
 	public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
 		super();
 		this.arg1 = arg1.intern();
 		this.arg2 = arg2.intern();
 		this.relation = relation.intern();
-        this.id=id.intern();
+		this.id=id==null?null:id.intern();
         this.arg2datatype=arg2datatype.intern();
 	}
 
+	/** All fact components must be the output of a method of the class FactComponent!*/
+	public Fact(String id, String arg1, String relation, String arg2withDataType) {
+		super();
+		String[] a2=arg2withDataType.split("^^");
+		this.arg1 = arg1.intern();
+		this.arg2 = a2[0].intern();
+		this.relation = relation.intern();
+        this.id=id==null?null:id.intern();
+        this.arg2datatype=a2.length>1?a2[1].intern():null;
+	}
+
+	/** Creates a copy of the fact*/
 	public Fact(Fact copy) {
 		this.arg1 = copy.arg1;
 		this.arg2 = copy.arg2;
@@ -97,7 +109,7 @@ public class Fact {
 	
 	@Override
 	public String toString() {		
-		return id+" "+arg1+" "+relation+" "+arg2;
+		return id+" "+arg1+" "+relation+" "+arg2+(arg2datatype==null?"":"^^"+arg2datatype);
 	}
 
 }

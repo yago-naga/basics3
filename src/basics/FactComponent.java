@@ -9,7 +9,9 @@ import javatools.parsers.DateParser;
 import javatools.parsers.NumberParser;
 
 /**
- * Class Formatter - YAGO2S
+ * Class FactComponent - YAGO2S
+ * 
+ * Formats an RDF item to be used with Fact.java
  * 
  * Conventions:
  * (1) YAGO entities are always given as relative URIs "<Albert_Einstein>".
@@ -17,9 +19,10 @@ import javatools.parsers.NumberParser;
  * (2) All entities from standard namespaces are given as qnames
  * This is to save space and keep readability.
  * (3) All other entities are given as full URIs "<http://...>"
+ * 
  * @author Fabian M. Suchanek
  */
-public class Formatter {
+public class FactComponent {
 	
 	/** YAGO namespace*/
 	public static final String YAGONAMESPACE="http://yago-knowledge/resource/";
@@ -36,34 +39,33 @@ public class Formatter {
 	public static int ids=0;
 
 	public static String makeId() {
-		return(makeQname("y:","id"+(ids++)));
+		return(forQname("y:","id"+(ids++)));
 	}
-	public static String makeUri(String s) {
+	public static String forUri(String s) {
 		if(s.startsWith(YAGONAMESPACE)) {
 			return('<'+s.substring(YAGONAMESPACE.length())+'>');
 		}
 		if(s.startsWith("http://")) {
 			for(Entry<String,String> entry :standardPrefixes.entrySet()) {
 				if(s.startsWith(entry.getValue())) {
-					s=entry.getKey()+s.substring(entry.getValue().length());
-					break;
+					return(forQname(entry.getKey(),s.substring(entry.getValue().length())));
 				}
 			}
 		}
 		return ('<'+s+'>');
 	}
-	public static String makeNumber(String s) {
-		return (makeString(s,null,makeQname("xsd:","decimal")));
+	public static String forNumber(String s) {
+		return (forString(s,null,forQname("xsd:","decimal")));
 	}
 
-	public static String makeQname(String prefixWithColon,String name) {
-		if(prefixWithColon.equals("y:")) return(makeUri(name));
+	public static String forQname(String prefixWithColon,String name) {
+		if(prefixWithColon.equals("y:")) return(forUri(name));
 		//if(standardPrefixes.containsKey(prefixWithColon)) return(makeUri(standardPrefixes.get(prefixWithColon)+name));
 		return(prefixWithColon+name);
 	}
-	public static String makeString(String string,String language,String datatype) {
-		if(datatype!=null) return ('"'+string+"\"^^"+datatype);
-		return ('"'+string+'"');
+	public static String forString(String string,String language,String datatype) {
+		if(datatype!=null) return ('"'+(Char.decodeBackslash(string).replace("\"","\\\""))+"\"^^"+datatype);
+		return ('"'+Char.decodeBackslash(string).replace("\"","\\\"")+'"');
 	}
 
 	

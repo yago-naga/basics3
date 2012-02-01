@@ -21,8 +21,8 @@ import javatools.parsers.Char;
  * 
  * Provides a reader for facts from an N4 document. This follows the Turtle
  * Specification http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It
- * (1) understands a first (optional) component (2) and it does not support all
- * Turtle features
+ * (1) understands a first (optional) component in the p[receding comment (2)
+ * and it does not support all Turtle features
  * 
  * Passes all tests from
  * http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23
@@ -61,22 +61,29 @@ public class N4Reader extends PeekIterator<Fact> {
 			c = READNEW;
 			return ('@' + FileLines.readToSpace(reader).toString());
 		case '#':
-			c = READNEW;
-			FileLines.scrollTo(reader, '\n', '\r');
-			return (nextItem());
+			c = reader.read();
+			// Special YAGO fact identifier
+			if (c == '@') {
+				c = READNEW;
+				return ('&' + nextItem());
+			} else {
+				// Normal comment
+				c = READNEW;
+				FileLines.scrollTo(reader, '\n', '\r');
+				return (nextItem());
+			}
 		case -1:
 			return ("EOF");
-		case '.':
-			c = READNEW;
-			return (".");
 		case '<':
 			c = READNEW;
-			return (Formatter.makeUri(FileLines.readTo(reader, '>').toString()));
+			String uri=FileLines.readTo(reader, '>').toString();
+			if(base!=null && !uri.startsWith("http://")) uri=base+uri;
+			return (FactComponent.forUri(uri));
 		case '"':
 			String language = null;
 			String datatype = null;
 			String string = FileLines.readTo(reader, '"').toString();
-			while (string.endsWith("\\"))
+			while (string.endsWith("\\") && !string.endsWith("\\\\"))
 				string += '"' + FileLines.readTo(reader, '"').toString();
 			c = reader.read();
 			switch (c) {
@@ -96,20 +103,24 @@ public class N4Reader extends PeekIterator<Fact> {
 				c = READNEW;
 				break;
 			}
-			if(Character.isWhitespace(c)) c=READNEW;
-			return (Formatter.makeString(string, language, datatype));
+			if (Character.isWhitespace(c))
+				c = READNEW;
+			return (FactComponent.forString(string, language, datatype));
 		case '[':
 			String blank = FileLines.readTo(reader, ']').toString().trim();
 			if (blank.length() != 0) {
 				Announce.warning("Properties of blank node ignored", blank);
 			}
 			c = READNEW;
-			return (Formatter.makeId());
+			return (FactComponent.makeId());
 		case '(':
 			c = READNEW;
 			String list = FileLines.readTo(reader, ')').toString().trim();
 			Announce.warning("Cannot handle list", list);
-			return (Formatter.makeId());
+			return (FactComponent.forQname("rdf:", "nil"));
+		case '.':
+			c = READNEW;
+			return (".");
 		case ',':
 			c = READNEW;
 			Announce.warning("Commas are not supported");
@@ -134,7 +145,7 @@ public class N4Reader extends PeekIterator<Fact> {
 		case '9':
 			String number = ((char) c) + FileLines.readToSpace(reader).toString();
 			c = READNEW;
-			return (Formatter.makeNumber(number));
+			return (FactComponent.forNumber(number));
 		default:
 			String name = ((char) c) + FileLines.readToSpace(reader).toString();
 			// Save some stuff that follows...
@@ -146,11 +157,11 @@ public class N4Reader extends PeekIterator<Fact> {
 			}
 			// Predefined Turtle entities
 			if (name.equals("a"))
-				return (Formatter.makeQname("rdf:", "type"));
+				return (FactComponent.forQname("rdf:", "type"));
 			if (name.equals("true"))
-				return (Formatter.makeString("true", Formatter.makeQname("xsd:", "boolean"), null));
+				return (FactComponent.forString("true", null, FactComponent.forQname("xsd:", "boolean")));
 			if (name.equals("false"))
-				return (Formatter.makeString("false", Formatter.makeQname("xsd:", "boolean"), null));
+				return (FactComponent.forString("false", null, FactComponent.forQname("xsd:", "boolean")));
 			// Prefixes
 			int colon = name.indexOf(':');
 			if (colon == -1) {
@@ -162,10 +173,10 @@ public class N4Reader extends PeekIterator<Fact> {
 			String prefix = name.substring(0, colon + 1);
 			name = name.substring(colon + 1);
 			if (prefixes.containsKey(prefix)) {
-				return (Formatter.makeUri(prefixes.get(prefix) + name));
+				return (FactComponent.forUri(prefixes.get(prefix) + name));
 			}
 			// Other
-			return (Formatter.makeQname(prefix, name));
+			return (FactComponent.forQname(prefix, name));
 		}
 	}
 
@@ -180,12 +191,13 @@ public class N4Reader extends PeekIterator<Fact> {
 				String prefix = FileLines.readTo(reader, ':').toString().trim() + ':';
 				FileLines.scrollTo(reader, '<');
 				String dest = FileLines.readTo(reader, '>').toString().trim();
+				if(base!=null && !dest.startsWith("http://")) dest=base+dest;
 				FileLines.scrollTo(reader, '.');
-				if (Formatter.standardPrefixes.containsKey(prefix)) {
-					if (dest.equals(Formatter.standardPrefixes.get(prefix)))
+				if (FactComponent.standardPrefixes.containsKey(prefix)) {
+					if (dest.equals(FactComponent.standardPrefixes.get(prefix)))
 						continue;
 					else
-						Announce.warning("Redefining standard prefix", prefix, "from", Formatter.standardPrefixes
+						Announce.warning("Redefining standard prefix", prefix, "from", FactComponent.standardPrefixes
 								.get(prefix), "to", dest);
 				}
 				prefixes.put(prefix, dest);
@@ -195,7 +207,9 @@ public class N4Reader extends PeekIterator<Fact> {
 			// Base
 			if (item.equalsIgnoreCase("@BASE")) {
 				FileLines.scrollTo(reader, '<');
-				base = FileLines.readTo(reader, '>').toString().trim();
+				String uri = FileLines.readTo(reader, '>').toString().trim();
+				if(uri.startsWith("http://")) base=uri;
+				else base=base+uri;
 				FileLines.scrollTo(reader, '.');
 				continue;
 			}
@@ -207,30 +221,35 @@ public class N4Reader extends PeekIterator<Fact> {
 				continue;
 			}
 
-			// Subject Verb Object
-			String item2 = nextItem();
-			if (item2.equals(".")) {
-				Announce.warning("Only one item on line", item, item2);
-				continue;
-			}
-			String item3 = nextItem();
-			if (item3.equals(".")) {
-				Announce.warning("Only two items on line", item, item2);
-				continue;
-			}
-			String item4 = nextItem();
-			if (item4.equals(".")) {
-				return (new Fact(Formatter.makeId(), item, item2, item3));
-			}
-			String item5 = nextItem();
-			if (item5.equals(".")) {
-				return (new Fact(item, item2, item3, item4));
+			// Fact identifier
+			String factId = null;
+			String subject;
+			if (item.startsWith("&")) {
+				factId = item.substring(1);
+				subject = nextItem();
+			} else {
+				subject = item;
 			}
 
-			// Line too long
-			Announce.warning("More than four items on line", item, item2, item3, item4, item5);
-			FileLines.scrollTo(reader, '.');
-			continue;
+			// Subject Verb Object
+			if (subject.equals(".")) {
+				Announce.warning("Dot on empty line");
+				continue;
+			}
+			String predicate = nextItem();
+			if (predicate.equals(".")) {
+				Announce.warning("Only one item on line", subject);
+				continue;
+			}
+			String object = nextItem();
+			String dot = nextItem();
+			if (!dot.equals(".")) {
+				// Line too long
+				Announce.warning("More than three items on line", factId, subject, predicate, object, dot);
+				FileLines.scrollTo(reader, '.');
+				continue;
+			}
+			return (new Fact(factId, subject, predicate, object));
 		}
 	}
 
@@ -249,7 +268,8 @@ public class N4Reader extends PeekIterator<Fact> {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		/*for (File in : new File("/Users/Fabian/Fabian/Temp/tests").listFiles()) {
+
+		for (File in : new File("/Users/Fabian/Fabian/Temp/tests").listFiles()) {
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
@@ -259,7 +279,8 @@ public class N4Reader extends PeekIterator<Fact> {
 			}
 			w.close();
 			Announce.done();
-		}*/
+		}
+
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
 		Writer w = new FileWriter(in.toString().replace("nt", "myout"));
 		for (Fact f : new N4Reader(in)) {
