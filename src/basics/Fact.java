@@ -18,13 +18,16 @@ public class Fact {
 	public String relation;
 	/** Argument 2 */
 	public String arg2;
-
-	public Fact(String id, String arg1, String relation, String arg2) {
+    /** Datatype of arg2 (or null)*/
+	public String arg2datatype;
+	
+	public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
 		super();
 		this.arg1 = arg1.intern();
 		this.arg2 = arg2.intern();
 		this.relation = relation.intern();
         this.id=id.intern();
+        this.arg2datatype=arg2datatype.intern();
 	}
 
 	public Fact(Fact copy) {
@@ -32,6 +35,7 @@ public class Fact {
 		this.arg2 = copy.arg2;
 		this.relation = copy.relation;
 		this.id=copy.id;
+		this.arg2datatype=copy.arg2datatype;
 	}
 
 	@Override

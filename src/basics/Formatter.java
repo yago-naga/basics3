@@ -1,29 +1,35 @@
 package basics;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
 import javatools.parsers.DateParser;
-import javatools.parsers.NumberFormatter;
 import javatools.parsers.NumberParser;
 
 /**
  * Class Formatter - YAGO2S
  * 
- * Transforms strings to valid Turtle entities
- * 
+ * Conventions:
+ * (1) YAGO entities are always given as relative URIs "<Albert_Einstein>".
+ * This is because qnames may not contain certain characters
+ * (2) All entities from standard namespaces are given as qnames
+ * This is to save space and keep readability.
+ * (3) All other entities are given as full URIs "<http://...>"
  * @author Fabian M. Suchanek
  */
 public class Formatter {
+	
+	/** YAGO namespace*/
+	public static final String YAGONAMESPACE="http://yago-knowledge/resource/";
 	
 	/** Standard namespace prefixes that this N4Reader will assume */
 	public static final Map<String, String> standardPrefixes = new FinalMap<String, String>("rdf:",
 			"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdfs:", "http://www.w3.org/2000/01/rdf-schema#", "xsd:",
 			"http://www.w3.org/2001/XMLSchema#", "owl:", "http://www.w3.org/2002/07/owl#", "dc:",
 			"http://purl.org/dc/terms/", "foaf:", "http://xmlns.com/foaf/0.1/", "vcard:",
-			"http://www.w3.org/2006/vcard/ns#", "dbp:", "http://dbpedia.org/", "y:",
-			"http://yago-knowledge.org/resource/", "gn:", "http://www.geonames.org/ontology#");
+			"http://www.w3.org/2006/vcard/ns#");
 	
 
 	/** Some id counter for blank nodes*/
@@ -33,15 +39,27 @@ public class Formatter {
 		return(makeQname("y:","id"+(ids++)));
 	}
 	public static String makeUri(String s) {
+		if(s.startsWith(YAGONAMESPACE)) {
+			return('<'+s.substring(YAGONAMESPACE.length())+'>');
+		}
+		if(s.startsWith("http://")) {
+			for(Entry<String,String> entry :standardPrefixes.entrySet()) {
+				if(s.startsWith(entry.getValue())) {
+					s=entry.getKey()+s.substring(entry.getValue().length());
+					break;
+				}
+			}
+		}
 		return ('<'+s+'>');
 	}
 	public static String makeNumber(String s) {
-		return ('"'+s+"\"^^<http://www.w3.org/2001/XMLSchema#integer>");
+		return (makeString(s,null,makeQname("xsd:","decimal")));
 	}
 
 	public static String makeQname(String prefixWithColon,String name) {
-		if(standardPrefixes.containsKey(prefixWithColon)) return(makeUri(standardPrefixes.get(prefixWithColon)+name));
-		return(name);
+		if(prefixWithColon.equals("y:")) return(makeUri(name));
+		//if(standardPrefixes.containsKey(prefixWithColon)) return(makeUri(standardPrefixes.get(prefixWithColon)+name));
+		return(prefixWithColon+name);
 	}
 	public static String makeString(String string,String language,String datatype) {
 		if(datatype!=null) return ('"'+string+"\"^^"+datatype);
