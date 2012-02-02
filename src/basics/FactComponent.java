@@ -5,8 +5,6 @@ import java.util.Map.Entry;
 
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
-import javatools.parsers.DateParser;
-import javatools.parsers.NumberParser;
 
 /**
  * Class FactComponent - YAGO2S
@@ -38,9 +36,12 @@ public class FactComponent {
 	/** Some id counter for blank nodes*/
 	public static int ids=0;
 
+	/** Creates a new unique YAGO id*/
 	public static String makeId() {
 		return(forQname("y:","id"+(ids++)));
 	}
+	
+	/** Creates a fact component for a URI*/
 	public static String forUri(String s) {
 		if(s.startsWith(YAGONAMESPACE)) {
 			return('<'+s.substring(YAGONAMESPACE.length())+'>');
@@ -54,121 +55,32 @@ public class FactComponent {
 		}
 		return ('<'+s+'>');
 	}
+	
+	/** Creates a fact component for number*/
 	public static String forNumber(String s) {
+		if(s.indexOf('.')==-1 && s.indexOf("e")==-1 && s.indexOf("E")==-1) return (forString(s,null,forQname("xsd:","integer")));
 		return (forString(s,null,forQname("xsd:","decimal")));
 	}
 
+	/** Creates a fact component for a Qname*/
 	public static String forQname(String prefixWithColon,String name) {
 		if(prefixWithColon.equals("y:")) return(forUri(name));
-		//if(standardPrefixes.containsKey(prefixWithColon)) return(makeUri(standardPrefixes.get(prefixWithColon)+name));
 		return(prefixWithColon+name);
 	}
+	
+	/** Creates a fact component for a String*/
 	public static String forString(String string,String language,String datatype) {
-		if(datatype!=null) return ('"'+(Char.decodeBackslash(string).replace("\"","\\\""))+"\"^^"+datatype);
-		return ('"'+Char.decodeBackslash(string).replace("\"","\\\"")+'"');
+		if(datatype!=null) return ('"'+Char.encodeBackslash(string,turtleString)+"\"^^"+datatype);
+		return ('"'+Char.encodeBackslash(string,turtleString)+'"');
 	}
-
 	
-	/** Normalizes an entity */
-	public static String entity(String s) {
-		return (Char.encodeBackslashToAlphanumeric(s.trim().replace(' ', '_')));
-	}
-
-	/** Returns the readable string for an entity */
-	public static String unEntity(String s) {
-		return (Char.decodeBackslash(s).replace('_', ' '));
-	}
-
-	/** Normalizes a string */
-	public static String string(String s) {
-		return ('"' + Char.encodeBackslashToASCII(s.trim()).replace("\"", "\\u0022") + '"');
-	}
-
-	/** Normalizes a fact id */
-	public static String factId(long myFactId) {
-		return ("#" + myFactId);
-	}
-  
-  /** Un-Normalizes a fact id  
-   * @return numeric value of the fact id if the given string is a normalized fact id, null otherwise
-   */public static Long unFactId(String normalizedFactId){
-     if(normalizedFactId.matches("#\\d++"))
-       return new Long(normalizedFactId.substring(1));
-     else return null;
-   }
-
-	/** Normalizes a wordnet entity */
-	public static String wordNetEntity(String word, String id) {
-		return ("wordnet_" + entity(word) + "_" + id);
-	}
-
-	/** Normalizes a wordnet entity */
-	public static String wikiCategory(String wikiCat) {
-		return ("wikicategory_" + entity(wikiCat));
-	}
-
-	/** Returns the name of the wordnet Entity (or null) */
-	public static String unWordNetEntity(String wn) {
-		if (!wn.startsWith("wordnet_"))
-			return (null);
-		wn = wn.substring("wordnet_".length());
-		wn = wn.substring(0, wn.lastIndexOf('_'));
-		return (unEntity(wn));
-	}
-
-	/** Returns the name of the wiki category (or null) */
-	public static String unWikiCategory(String wn) {
-		if (!wn.startsWith("wikicategory_"))
-			return (null);
-		wn = wn.substring("wikicategory_".length());
-		return (unEntity(wn));
-	}
-
-	/** Returns the pure number with unit (or null) */
-	public static String unNumber(String s) {
-		String[] nu = NumberParser.getNumberAndUnit(s, new int[2]);
-		if (nu == null)
-			return (null);
-		if (nu[1] == null)
-			return (nu[0]);
-		return (nu[0] + ' ' + nu[1]);
-	}
-
-	
-	/** Normalizes a geonames entitiy */
-	public static String geonamesEntity(String word, String id) {
-		return ("geoent_" + entity(word) + "_" + id);
-	}
-
-	/** Returns the name of a geonames entity (or null) */
-	public static String unGeonamesEntity(String entity) {
-		if (!entity.startsWith("geoent_"))
-			return (null);
-		entity = entity.substring("geoent_".length());
-		entity = entity.substring(0, entity.lastIndexOf('_'));
-		return (unEntity(entity));
-	}
-
-	/** Normalizes a geonames class */
-	public static String geonamesClass(String name) {
-		return ("geoclass_" + entity(name));
-	}
-
-	/** Returns the name of a geonames class (or null) */
-	public static String unGeonamesClass(String entity) {
-		if (!entity.startsWith("geoclass_"))
-			return (null);
-		entity = entity.substring("geoclass_".length());
-		return (unEntity(entity));
-	}
-
-	/** Returns the wikipedia URL for an entity */
-	public static String urlForEntity(String e) {
-		if (e.startsWith("wiki_") || DateParser.isDate(e) || e.startsWith("wordnet_"))
-			return (null);
-		if (e.startsWith("wikicategory_")) {
-			return ("http://en.wikipedia.org/wiki/Category:" + Char.encodeURIPathComponent(e.substring(13)));
+	/** Turtle valid string characters */
+	public static Char.Legal turtleString= new Char.Legal() {
+		public boolean isLegal(char c) {
+			if(c=='"') return(false);
+			if(c=='\\') return(false);
+			if(c<0x20) return(false);
+			return(true);
 		}
-		return ("http://en.wikipedia.org/wiki/" + Char.encodeURIPathComponent(e));
-	}
+	};
 }

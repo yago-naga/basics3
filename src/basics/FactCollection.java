@@ -2,6 +2,7 @@ package basics;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,11 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.zip.DataFormatException;
 
 import javatools.administrative.Announce;
-import javatools.filehandlers.FileLines;
 
 /**
  * Class FactCollection - YAGO2S
@@ -23,24 +21,25 @@ import javatools.filehandlers.FileLines;
  * 
  * @author Fabian M. Suchanek
  */
-public class FactCollection implements Iterable<Fact> {
+public class FactCollection extends AbstractSet<Fact> {
 
 	private static final long serialVersionUID = -1L;
 
 	/** Holds the facts */
 	protected Set<Fact> facts;
 	/** Maps first arg to relation to facts */
-	protected Map<String, Map<String, List<Fact>>> index = Collections.synchronizedMap(new TreeMap<String, Map<String, List<Fact>>>());
+	protected Map<String, Map<String, List<Fact>>> index = Collections
+			.synchronizedMap(new TreeMap<String, Map<String, List<Fact>>>());
 	/** Maps relation to facts */
 	protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new TreeMap<String, List<Fact>>());
 
 	public synchronized boolean add(Fact fact) {
 		if (facts.contains(fact)) {
-			Announce.debug("Duplicate fact not added:",fact);
+			Announce.debug("Duplicate fact not added:", fact);
 			return (false);
 		}
 		if (fact.arg1.equals(fact.arg2)) {
-			Announce.debug("Identical arguments not added",fact);
+			Announce.debug("Identical arguments not added", fact);
 			return (false);
 		}
 		facts.add(fact);
@@ -55,7 +54,7 @@ public class FactCollection implements Iterable<Fact> {
 		return (true);
 	}
 
-    /** Empty list */
+	/** Empty list */
 	protected static final List<Fact> EMPTY = new ArrayList<Fact>(0);
 
 	/** Returns facts with matching first arg and relation */
@@ -73,10 +72,10 @@ public class FactCollection implements Iterable<Fact> {
 			return (EMPTY);
 		return (relindex.get(relation));
 	}
-	
+
 	/** Loads from N4 file */
 	public FactCollection(File n4File) throws IOException {
-	  facts = Collections.synchronizedSet(new HashSet<Fact>());
+		facts = Collections.synchronizedSet(new HashSet<Fact>());
 		load(n4File);
 	}
 
@@ -88,7 +87,7 @@ public class FactCollection implements Iterable<Fact> {
 		facts = Collections.synchronizedSet(new HashSet<Fact>(capacity));
 	}
 
-	/** Adds for positive facts, removes else */
+	/** Add facts */
 	public synchronized boolean add(Iterable<Fact> facts) {
 		boolean change = false;
 		for (Fact f : facts)
@@ -96,6 +95,7 @@ public class FactCollection implements Iterable<Fact> {
 		return (change);
 	}
 
+	/** Removes a fact */
 	public synchronized boolean remove(Object f) {
 		if (!facts.remove(f))
 			return (false);
@@ -105,33 +105,32 @@ public class FactCollection implements Iterable<Fact> {
 		return (true);
 	}
 
+	/** Removes all facts */
 	public void clear() {
 		facts.clear();
 		index.clear();
 		relindex.clear();
 	}
-	
+
 	/** Loads from N4 file */
 	public void load(File n4File) throws IOException {
-		for (String line : new FileLines(n4File, "Loading from " + n4File)) {
-			String[] split = line.split("\t");
-			if (split.length != 4)
-				continue;
-			else
-				add(new Fact(split[0].trim(), split[1].trim(), split[2].trim(), split[3].trim()));
+		Announce.doing("Loading from", n4File);
+		for (Fact f : new N4Reader(n4File)) {
+			add(f);
 		}
+		Announce.done();
 	}
 
 	@Override
-  public Iterator<Fact> iterator() {
-    return facts.iterator();
-  }
+	public Iterator<Fact> iterator() {
+		return facts.iterator();
+	}
 
-  public int size() {
-    return facts.size();
-  }
-  
-  public String toString() {
-    return facts.toString();
-  }
+	public int size() {
+		return facts.size();
+	}
+
+	public String toString() {
+		return facts.toString();
+	}
 }

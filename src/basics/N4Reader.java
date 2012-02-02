@@ -2,16 +2,13 @@ package basics;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Writer;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javatools.administrative.Announce;
-import javatools.administrative.D;
 import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.FileLines;
 import javatools.parsers.Char;
@@ -26,6 +23,7 @@ import javatools.parsers.Char;
  * 
  * Passes all tests from
  * http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23
+ * http://www.w3.org/2000/10/rdf-tests/rdfcore/ntriples/test.nt
  * 
  * @author Fabian M. Suchanek
  * 
@@ -43,7 +41,12 @@ public class N4Reader extends PeekIterator<Fact> {
 
 	/** Creates a N4 reader */
 	public N4Reader(File f) throws IOException {
-		reader = new InputStreamReader(new FileInputStream(f), "UTF-8");
+		this(new InputStreamReader(new FileInputStream(f), "UTF-8"));
+	}
+
+	/** Creates a N4 reader */
+	public N4Reader(Reader r) throws IOException {
+		reader = r;
 	}
 
 	/** Value for "Ignore, read new */
@@ -105,7 +108,7 @@ public class N4Reader extends PeekIterator<Fact> {
 			}
 			if (Character.isWhitespace(c))
 				c = READNEW;
-			return (FactComponent.forString(string, language, datatype));
+			return (FactComponent.forString(Char.decodeBackslash(string), language, datatype));
 		case '[':
 			String blank = FileLines.readTo(reader, ']').toString().trim();
 			if (blank.length() != 0) {
@@ -267,25 +270,24 @@ public class N4Reader extends PeekIterator<Fact> {
 	 * 
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		for (File in : new File("/Users/Fabian/Fabian/Temp/tests").listFiles()) {
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
-			Writer w = new FileWriter(in.toString().replace("ttl", "myout"));
+			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")),"Test run");
 			for (Fact f : new N4Reader(in)) {
-				w.write(f.toString() + " .\n");
+				w.write(f);
 			}
 			w.close();
 			Announce.done();
 		}
 
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
-		Writer w = new FileWriter(in.toString().replace("nt", "myout"));
+		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")),"Test run");
 		for (Fact f : new N4Reader(in)) {
-			w.write(f.toString() + " .\n");
-			D.p(f.toString());
+			w.write(f);
 		}
 		w.close();
 

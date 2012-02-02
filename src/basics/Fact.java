@@ -1,15 +1,17 @@
 package basics;
 
+import javatools.administrative.D;
+
 
 /**
  * Class Fact Represents a fact - YAGO2S
  * 
  * @author Fabian M. Suchanek
  * 
- * Convention: all fact components must be the output of a method of the class FactComponent 
+ * Convention: all fact components must be the output of a method of the class FactComponent
  */
 public class Fact {
-	/** ID */
+	/** ID (or NULL)*/
 	public String id;
 	/** Argument 1 */
 	public String arg1;
@@ -27,7 +29,7 @@ public class Fact {
 		this.arg2 = arg2.intern();
 		this.relation = relation.intern();
 		this.id=id==null?null:id.intern();
-        this.arg2datatype=arg2datatype.intern();
+        this.arg2datatype=arg2datatype==null?null:arg2datatype.intern();
 	}
 
 	/** All fact components must be the output of a method of the class FactComponent!*/
@@ -52,46 +54,22 @@ public class Fact {
 
 	@Override
 	public int hashCode() {
-		return(id.hashCode());
-		/*
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arg1 == null) ? 0 : arg1.hashCode());
-		result = prime * result + ((arg2 == null) ? 0 : arg2.hashCode());
-		result = prime * result
-				+ ((relation == null) ? 0 : relation.hashCode());
-		return result;
-		*/
+		if(id!=null) return(id.hashCode());
+		return(arg1.hashCode()^relation.hashCode()^arg2.hashCode());
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return(obj instanceof Fact && ((Fact)(obj)).id.equals(id));
-		/*
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Fact other = (Fact) obj;
-		if (arg1 == null) {
-			if (other.arg1 != null)
-				return false;
-		} else if (!arg1.equals(other.arg1))
-			return false;
-		if (arg2 == null) {
-			if (other.arg2 != null)
-				return false;
-		} else if (!arg2.equals(other.arg2))
-			return false;
-		if (relation == null) {
-			if (other.relation != null)
-				return false;
-		} else if (!relation.equals(other.relation))
-			return false;
-		return true;
-		*/		
+		if(!(obj instanceof Fact)) return(false);
+		Fact f=(Fact)obj;
+		// I have an id
+		if(id!=null) {
+			if(f.id==null) return(false);
+			return(id.equals(f.id));
+		}
+		// I don't have an id
+		if(f.id!=null) return(false);
+ 		return(D.equalPairs(arg1,f.arg1,relation,f.relation,arg2,f.arg2));
 	}
 
 	/** Sets argument 1 or 2 */
