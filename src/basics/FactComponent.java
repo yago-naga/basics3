@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
+import javatools.parsers.DateParser;
 
 /**
  * Class FactComponent - YAGO2S
@@ -60,6 +61,7 @@ public class FactComponent {
 	
 	/** Creates a fact component for number. We don't do any syntax checks here.*/
 	public static String forNumber(String s) {
+		if(DateParser.isDate(s)) return (forString(s,null,forQname("xsd:","date")));
 		if(s.indexOf('.')==-1 && s.indexOf("e")==-1 && s.indexOf("E")==-1) return (forString(s,null,forQname("xsd:","integer")));
 		return (forString(s,null,forQname("xsd:","decimal")));
 	}
@@ -76,6 +78,26 @@ public class FactComponent {
 		return ('"'+Char.encodeBackslash(string,turtleString)+'"');
 	}
 	
+	/** Translates anything into a FactComponent*/
+	public static String forAny(String s) {
+		if(s==null || s.length()==0) return(null);
+		if(s.startsWith("\"")) {
+			return(forString(Char.cutLast(s.substring(1)),null,null));
+		}
+		if(Character.isDigit(s.charAt(0)) || s.charAt(0)=='-'|| s.charAt(0)=='+' || s.charAt(0)=='.') {
+			return(forNumber(s));
+		}
+		if(s.startsWith("http://")) {
+			return(forUri(s));
+		}
+		if(s.startsWith("<")) {
+			return(s);
+		}
+		if(s.indexOf(':')!=-1) {
+			return(forQname(s.substring(0,s.indexOf(':')+1), s.substring(s.indexOf(':')+1)));
+		}		
+		return(forUri(s));
+	}
 	/** Turtle valid string characters */
 	public static Char.Legal turtleString= new Char.Legal() {
 		public boolean isLegal(char c) {

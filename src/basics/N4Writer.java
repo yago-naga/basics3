@@ -11,9 +11,12 @@ import java.io.Writer;
 /**
  * N4Writer - YAGO2s
  * 
- * Writes YAGO facts into a Turtle-compatible outout format
+ * Writes YAGO facts into a Turtle-compatible output format
  * 
- * @author Fabian
+ * Output validates with
+ * http://www.rdfabout.com/demo/validator
+ * 
+ * @author Fabian Suchanek
  * 
  */
 public class N4Writer implements Closeable {
@@ -26,7 +29,7 @@ public class N4Writer implements Closeable {
 		for(String line : header.split("\n")) {
 			writer.write("# "+line+"\n");			
 		}
-		writer.write("\n@base <http://yago-knowledge.org> .\n");
+		writer.write("\n@base <"+FactComponent.YAGONAMESPACE+"> .\n");
 		for(String prefix : FactComponent.standardPrefixes.keySet()) {
 			writer.write("@prefix "+prefix+" <"+FactComponent.standardPrefixes.get(prefix)+"> .\n");
 		}
