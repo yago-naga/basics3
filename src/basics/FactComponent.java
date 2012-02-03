@@ -10,6 +10,8 @@ import javatools.parsers.Char;
  * Class FactComponent - YAGO2S
  * 
  * Formats an RDF item to be used with Fact.java
+ * The format is Turtle
+ * http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar 
  * 
  * Conventions:
  * (1) YAGO entities are always given as relative URIs "<Albert_Einstein>".
@@ -30,7 +32,7 @@ public class FactComponent {
 			"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdfs:", "http://www.w3.org/2000/01/rdf-schema#", "xsd:",
 			"http://www.w3.org/2001/XMLSchema#", "owl:", "http://www.w3.org/2002/07/owl#", "dc:",
 			"http://purl.org/dc/terms/", "foaf:", "http://xmlns.com/foaf/0.1/", "vcard:",
-			"http://www.w3.org/2006/vcard/ns#");
+			"http://www.w3.org/2006/vcard/ns#","skos:","http://www.w3.org/2004/02/skos/core#");
 	
 
 	/** Some id counter for blank nodes*/
@@ -53,22 +55,22 @@ public class FactComponent {
 				}
 			}
 		}
-		return ('<'+s+'>');
+		return ('<'+Char.encodeBackslash(s,turtleUri)+'>');
 	}
 	
-	/** Creates a fact component for number*/
+	/** Creates a fact component for number. We don't do any syntax checks here.*/
 	public static String forNumber(String s) {
 		if(s.indexOf('.')==-1 && s.indexOf("e")==-1 && s.indexOf("E")==-1) return (forString(s,null,forQname("xsd:","integer")));
 		return (forString(s,null,forQname("xsd:","decimal")));
 	}
 
-	/** Creates a fact component for a Qname*/
+	/** Creates a fact component for a Qname. We don't do any syntax checks here.*/
 	public static String forQname(String prefixWithColon,String name) {
 		if(prefixWithColon.equals("y:")) return(forUri(name));
 		return(prefixWithColon+name);
 	}
 	
-	/** Creates a fact component for a String*/
+	/** Creates a fact component for a String. We check the syntax*/
 	public static String forString(String string,String language,String datatype) {
 		if(datatype!=null) return ('"'+Char.encodeBackslash(string,turtleString)+"\"^^"+datatype);
 		return ('"'+Char.encodeBackslash(string,turtleString)+'"');
@@ -78,6 +80,16 @@ public class FactComponent {
 	public static Char.Legal turtleString= new Char.Legal() {
 		public boolean isLegal(char c) {
 			if(c=='"') return(false);
+			if(c=='\\') return(false);
+			if(c<0x20) return(false);
+			return(true);
+		}
+	};
+	
+	/** Turtle valid URI characters */
+	public static Char.Legal turtleUri= new Char.Legal() {
+		public boolean isLegal(char c) {
+			if(c=='>') return(false);
 			if(c=='\\') return(false);
 			if(c<0x20) return(false);
 			return(true);

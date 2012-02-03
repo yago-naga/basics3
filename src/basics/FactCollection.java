@@ -114,7 +114,7 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Loads from N4 file */
 	public void load(File n4File) throws IOException {
-		Announce.doing("Loading from", n4File);
+		Announce.doing("Loading", n4File);
 		for (Fact f : new N4Reader(n4File)) {
 			add(f);
 		}
