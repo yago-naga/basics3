@@ -1,0 +1,69 @@
+# Manually coded facts of YAGO.
+#  DO NOT OVERWRITE!
+
+@base <http://yago-knowledge/resource/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<hasInternalWikipediaLinkTo>	rdfs:domain	rdf:Resource .
+<hasInternalWikipediaLinkTo>	rdfs:range	rdf:Resource .
+<hasInternalWikipediaLinkTo>	rdf:type	<yagoExtendedRelation> .
+<hasExternalWikipediaLinkTo>	rdfs:domain	rdf:Resource .
+<hasExternalWikipediaLinkTo>	rdfs:range	rdf:Resource .
+<hasExternalWikipediaLinkTo>	rdf:type	<yagoExtendedRelation> .
+<hasAnchorText>	rdfs:domain	rdf:Statement .
+<hasAnchorText>	rdfs:range	xsd:string .
+<hasAnchorText>	rdf:type	<yagoExtendedRelation> .
+<hasContextPrecedingAnchor>	rdfs:domain	rdf:Statement .
+<hasContextPrecedingAnchor>	rdfs:range	xsd:string .
+<hasContextPrecedingAnchor>	rdf:type	<yagoExtendedRelation> .
+<hasContextSucceedingAnchor>	rdfs:domain	rdf:Statement .
+<hasContextSucceedingAnchor>	rdfs:range	xsd:string .
+<hasContextSucceedingAnchor>	rdf:type	<yagoExtendedRelation> .
+<hasWikipediaCategory>	rdfs:domain	rdf:Resource .
+<hasWikipediaCategory>	rdfs:range	xsd:string .
+<hasWikipediaCategory>	rdf:type	<yagoExtendedRelation> .
+<hasWikipediaCategory>	 rdfs:subPropertyOf	<hasContext> .
+<hasWikipediaAnchorText>	rdfs:domain	rdf:Resource .
+<hasWikipediaAnchorText>	rdfs:range	xsd:string .
+<hasWikipediaAnchorText>	rdf:type	<yagoExtendedRelation> .
+<hasWikipediaAnchorText>	 rdfs:subPropertyOf	<hasContext> .
+<hasWikipediaArticleLength>	rdfs:domain	rdf:Resource .
+<hasWikipediaArticleLength>	rdfs:range	xsd:decimal .
+<hasWikipediaArticleLength>	rdf:type	<yagoExtendedRelation> .
+<hasWikipediaAbstract>	rdfs:domain	rdf:Resource .
+<hasWikipediaAbstract>	rdfs:range	xsd:string .
+<hasWikipediaAbstract>	rdf:type	<yagoExtendedRelation> .
+<hasWikipediaArticleText>	rdfs:domain	rdf:Resource .
+<hasWikipediaArticleText>	rdfs:range	xsd:string .
+<hasWikipediaArticleText>	rdf:type	<yagoExtendedRelation> .
+<hasNumberOfWikipediaLinks>	rdfs:domain	rdf:Resource .
+<hasNumberOfWikipediaLinks>	rdfs:range	xsd:decimal .
+<hasNumberOfWikipediaLinks>	rdf:type	<yagoExtendedRelation> .
+<hasCitationTitle>	rdfs:domain	rdf:Resource .
+<hasCitationTitle>	rdfs:range	xsd:string .
+<hasCitationTitle>	rdf:type	<yagoExtendedRelation> .
+<hasCitationTitle>	 rdfs:subPropertyOf	<hasContext> .
+<hasTitleText>	rdfs:domain	rdf:Resource .
+<hasTitleText>	rdfs:range	xsd:string .
+<hasTitleText>	rdf:type	<yagoExtendedRelation> .
+<hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
+<hasInternalWikipediaLinkTo>	<hasGloss>	"$1 has internal link target $2 in Wikipedia" .
+<hasExternalWikipediaLinkTo>	<hasGloss>	"$1 has external link target $2 in Wikipedia" .
+<hasAnchorText>	<hasGloss>	"Link $1 has anchor text $2" .
+<hasContextPrecedingAnchor>	<hasGloss>	"Link $1 has context $2 preceding the anchor" .
+<hasContextSucceedingAnchor>	<hasGloss>	"Link $1 has context $1 succeeding the anchor" .
+<hasWikipediaAnchorText>	<hasGloss>	"$1 has the link anchor text $2 in Wikipedia" .
+<hasWikipediaCategory>	<hasGloss>	"$1 has Wikipedia category $2" .
+<hasWikipediaArticleLength>	<hasGloss>	"$1 has a Wikipedia article with length $2" .
+<hasWikipediaAbstract>	<hasGloss>	"$1 has $2 as Wikipedia abstract text" .
+<hasWikipediaArticleText>	<hasGloss>	"$1 has $2 as Wikipedia article" .
+<hasNumberOfWikipediaLinks>	<hasGloss>	"$1 has $2 links in its Wikipedia article" .
+<hasCitationTitle>	<hasGloss>	"$1 has a citation with the title '$2'" .
+<hasTitleText>	<hasGloss>	"$1 has a title '$2'" .
