@@ -36,7 +36,7 @@ public class Translator {
 		arg1 = Char.decodeBackslash(D.getOr(identifierMap, arg1, arg1));
 		relation = Char.decodeBackslash(D.getOr(identifierMap, relation, relation));
 		arg2 = Char.decodeBackslash(D.getOr(identifierMap, arg2, arg2));
-		if (arg1.startsWith("\"")) {
+		if (arg1.startsWith("\"") && !arg2.startsWith("\"") && relation.indexOf(':')==-1) {
 			String temp = arg1;
 			arg1 = arg2;
 			arg2 = temp;
@@ -85,10 +85,10 @@ public class Translator {
 	/** Translates all files */
 	public static void main(String[] args) throws Exception {
 		if (D.readBoolean("Are you sure you want to overwrite the new manual hard facts?")) {
-			for (File f : new File("/Users/Fabian/Fabian/Work/eclipseProjects/basics2/data").listFiles()) {
+			for (File f : new File("/Users/Fabian/Fabian/Work/EclipseProjects/yago2/data").listFiles()) {
 				if (!f.getName().endsWith(".tsv"))
 					continue;
-				translate(f, new File("/Users/Fabian/Fabian/Work/eclipseProjects/basics2s/data/"
+				translate(f, new File("/Users/Fabian/Fabian/Work/EclipseProjects/yago2s/data/"
 						+ f.getName().replace("tsv", "ttl")));
 			}
 		}

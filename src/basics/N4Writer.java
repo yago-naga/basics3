@@ -22,7 +22,9 @@ import java.io.Writer;
 public class N4Writer implements Closeable {
 	/** Writes the file */
 	protected Writer writer;
-
+    /** Name of the file*/
+	public final File file;
+	
 	/** Starts a writer to this file*/
 	public N4Writer(File f, String header) throws Exception {
 		writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f),"UTF-8"));
@@ -34,6 +36,7 @@ public class N4Writer implements Closeable {
 			writer.write("@prefix "+prefix+" <"+FactComponent.standardPrefixes.get(prefix)+"> .\n");
 		}
 		writer.write("\n");
+		file=f;
 	}
 	
 	/** Writes a fact*/

@@ -1,6 +1,7 @@
 package basics;
 
 import javatools.administrative.D;
+import javatools.parsers.Char;
 
 
 /**
@@ -80,6 +81,10 @@ public class Fact {
 			arg2 = s;
 	}
 
+	/** Returns arg n, strips quiotes*/
+	public String getArgNoQuotes(int a) {
+		return(FactComponent.stripQuotes(getArg(a)));
+	}
 	/** Gets argument 1 or 2 */
 	public String getArg(int a) {
 		return (a == 1 ? arg1 : arg2);

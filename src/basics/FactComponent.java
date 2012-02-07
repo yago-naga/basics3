@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
 import javatools.parsers.DateParser;
+import javatools.parsers.NumberFormatter;
 
 /**
  * Class FactComponent - YAGO2S
@@ -41,7 +42,7 @@ public class FactComponent {
 
 	/** Creates a new unique YAGO id*/
 	public static String makeId() {
-		return(forQname("y:","id"+(ids++)));
+		return(forQname("y:","id_"+NumberFormatter.timeStamp()+"_"+(ids++)));
 	}
 	
 	/** Creates a fact component for a URI*/
@@ -70,6 +71,10 @@ public class FactComponent {
 	public static String forQname(String prefixWithColon,String name) {
 		if(prefixWithColon.equals("y:")) return(forUri(name));
 		return(prefixWithColon+name);
+	}
+	/** Creates a fact component for a YAGO entity*/
+	public static String forYagoEntity(String name) {
+		return(forUri(name));		
 	}
 	
 	/** Creates a fact component for a String. We check the syntax*/
@@ -117,4 +122,11 @@ public class FactComponent {
 			return(true);
 		}
 	};
+
+	/** removes quotes*/
+	public static String stripQuotes(String result) {
+		if(result.startsWith("\"")) result=result.substring(1);
+		if(result.endsWith("\"")) result=Char.cutLast(result);
+		return(result);
+	}
 }

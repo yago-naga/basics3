@@ -66,6 +66,13 @@ public class FactCollection extends AbstractSet<Fact> {
 		return (index.get(arg1).get(relation));
 	}
 
+	/** Returns the first arg2 (or null) */
+	public String getArg2(String arg1, String relation) {
+		List<Fact> res=get(arg1,relation);
+		if(res==null || res.isEmpty()) return(null);
+		return(res.get(0).arg2);
+	}
+	
 	/** Returns facts with matching relation */
 	public List<Fact> get(String relation) {
 		if (!relindex.containsKey(relation))
