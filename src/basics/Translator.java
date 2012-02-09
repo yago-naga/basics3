@@ -23,7 +23,7 @@ public class Translator {
 
 	/** Mapping to new identifiers */
 	public static Map<String, String> identifierMap = new FinalMap<String, String>("means", "rdfs:label",
-			"hasPreferredMeaning", "isPreferredMeaningOf", "hasDomain", "rdfs:domain", "hasRange", "rdfs:range",
+			"hasDomain", "rdfs:domain", "hasRange", "rdfs:range",
 			"type", "rdf:type", "yagoFact", "rdf:Statement", "yagoString", "xsd:string", "subpropertyOf",
 			" rdfs:subPropertyOf", "subclassOf", "rdfs:subClassOf", "hasPreferredName", "skos:prefLabel",
 			"yagoRationalNumber", "xsd:decimal", "yagoBoolean", "xsd:boolean", "yagoDuration", "xsd:duration",
