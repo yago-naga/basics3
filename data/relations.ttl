@@ -1,5 +1,7 @@
 # Manually coded facts of YAGO.
 #  DO NOT OVERWRITE!
+# These are the relations of YAGO2s.
+# The HardExtractor will make this data part of YAGO2s
 
 @base <http://yago-knowledge/resource/> .
 @prefix dc: <http://purl.org/dc/terms/> .
@@ -11,6 +13,14 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+rdf:Class	rdf:type	rdf:Resource .
+rdf:Statement	rdf:type	rdf:Resource .
+<yagoExtendedRelation>	rdfs:subClassOf	rdf:Property .
+<yagoFunction>	rdfs:subClassOf	rdf:Property .
+<yagoInverseFunction>	rdfs:subClassOf	rdf:Property .
+rdf:Property	rdf:type	rdf:Resource .
+<yagoSymmetricRelation>	rdfs:subClassOf	rdf:Property .
+<yagoTransitiveRelation>	rdfs:subClassOf	rdf:Property .
 rdfs:domain	rdfs:domain	rdf:Property .
 rdfs:range	rdfs:domain	rdf:Property .
 rdf:type	rdfs:domain	rdf:Resource .

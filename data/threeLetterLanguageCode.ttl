@@ -1,5 +1,7 @@
 # Manually coded facts of YAGO.
 #  DO NOT OVERWRITE!
+# These are the three letter language codes of YAGO2s.
+# The HardExtractor will make this data part of YAGO2s
 
 @base <http://yago-knowledge/resource/> .
 @prefix dc: <http://purl.org/dc/terms/> .

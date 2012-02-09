@@ -1,5 +1,7 @@
 # Manually coded facts of YAGO.
 #  DO NOT OVERWRITE!
+# These are hard wired facts of YAGO2s.
+# The HardExtractor will make this data part of YAGO2s
 
 @base <http://yago-knowledge/resource/> .
 @prefix dc: <http://purl.org/dc/terms/> .
@@ -11,24 +13,24 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-#@ <id9>
+#@ <hardId9>
 <yagoLegalActorGeo>	rdfs:subClassOf	rdf:Resource .
-<id9>	<_hasComment>	"Additional YAGO class" .
+<hardId9>	<_hasComment>	"Additional YAGO class" .
 <yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity" .
 <yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity" .
 <yagoLegalActorGeo>	rdfs:labelOf	"yagoLegalActorGeo" .
-#@ <id10>
+#@ <hardId10>
 <yagoLegalActor>	rdfs:subClassOf	<yagoLegalActorGeo> .
-<id10>	<_hasComment>	"Additional YAGO class" .
+<hardId10>	<_hasComment>	"Additional YAGO class" .
 <yagoLegalActor>	skos:prefLabel	"legal actor" .
 <yagoLegalActor>	<hasGloss>	"legal actor" .
 <yagoLegalActor>	rdfs:labelOf	"yagoLegalActor" .
 <wordnet_person_100007846>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
-#@ <id11>
+#@ <hardId11>
 <yagoGeoEntity>	rdfs:labelOf	"yagoGeoEntity" .
-<id11>	<_hasComment>	"Additional YAGO class for individuals with geographical coordinates" .
+<hardId11>	<_hasComment>	"Additional YAGO class for individuals with geographical coordinates" .
 <yagoGeoEntity>	skos:prefLabel	"geographical entity" .
 <yagoGeoEntity>	<hasGloss>	"geographical entity" .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoGeoEntity> .
@@ -43,9 +45,9 @@
 <wordnet_land_109334396>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
 <yagoPermanentlyLocatedEntity>	rdfs:labelOf	"yagoPermanentlyLocatedEntity" .
-#@ <id12>
+#@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	rdf:Resource .
-<id12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere" .
+<hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere" .
 <wordnet_event_100029378>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <yagoGeoEntity>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
