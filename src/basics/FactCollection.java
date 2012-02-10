@@ -80,6 +80,17 @@ public class FactCollection extends AbstractSet<Fact> {
 		return (relindex.get(relation));
 	}
 
+	/** Returns facts with matching relation and second argument. This is very slow. */
+	public List<Fact> getBySecondArgSlow(String relation, String arg2) {
+		if (!relindex.containsKey(relation))
+			return (EMPTY);
+		List<Fact> result=new ArrayList<Fact>();
+		for(Fact f : relindex.get(relation)) {
+			if(f.arg2.equals(arg2)) result.add(f);
+		}
+		return (result);
+	}
+	
 	/** Loads from N4 file */
 	public FactCollection(File n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());

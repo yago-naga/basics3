@@ -85,7 +85,7 @@ public class FactComponent {
 	
 	/** Creates a fact component for a wordnet entity*/
 	public static String forWordnetEntity(String word, String id) {
-		return(forYagoEntity("wordnet_"+word+"_"+id));
+		return(forYagoEntity("wordnet_"+word.replace(' ','_')+"_"+id));
 	}
 	
 	/** Translates anything into a FactComponent*/
