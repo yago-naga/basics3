@@ -1,4 +1,4 @@
-# Manually coded facts of YAGO.
+# Manually coded facts of YAGO2s.
 #  DO NOT OVERWRITE!
 # These are preferred meanings of certain words.
 # They are used by the CategoryExtractor, but also part of YAGO2s.
@@ -47,7 +47,6 @@
 <wordnet_bus_topology_105730591>	<isPreferredMeaningOf>	"computer bus" .
 <wordnet_championship_107457834>	<isPreferredMeaningOf>	"championship" .
 
-<wordnet_class_107997703>	<isPreferredMeaningOf>	"language families" .
 <wordnet_class_107997703>	<isPreferredMeaningOf>	"language family" .
 <wordnet_capital_108518505>	<isPreferredMeaningOf>	"capital" .
 

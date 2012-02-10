@@ -83,6 +83,11 @@ public class FactComponent {
 		return ('"'+Char.encodeBackslash(string,turtleString)+'"');
 	}
 	
+	/** Creates a fact component for a wordnet entity*/
+	public static String forWordnetEntity(String word, String id) {
+		return(forYagoEntity("wordnet_"+word+"_"+id));
+	}
+	
 	/** Translates anything into a FactComponent*/
 	public static String forAny(String s) {
 		if(s==null || s.length()==0) return(null);
