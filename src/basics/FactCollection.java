@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javatools.administrative.Announce;
+import javatools.filehandlers.FileSet;
 
 /**
  * Class FactCollection - YAGO2S
@@ -132,6 +133,7 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Loads from N4 file */
 	public void load(File n4File) throws IOException {
+		if(!n4File.getName().contains(".")) n4File=FileSet.newExtension(n4File, ".ttl");
 		Announce.doing("Loading", n4File);
 		for (Fact f : new N4Reader(n4File)) {
 			add(f);
@@ -150,5 +152,28 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	public String toString() {
 		return facts.toString();
+	}
+
+	/** Checks if all of my facts are in the other set, prints differences*/
+	public boolean checkContainedIn(FactCollection goldStandard) {
+		Announce.doing("Checking containment");
+		boolean matches=true;
+		next: for(Fact fact : facts) {
+			for(Fact other : goldStandard.get(fact.arg1, fact.relation)) {
+				if(other.arg2.equals(fact.arg2)) continue next;
+			}
+			Announce.message("Not found:",fact);
+			matches=false;
+		}
+		Announce.done();
+		return(matches);
+	}
+	
+	/** Checks for differences, returns TRUE if equal, prints differences*/
+	public boolean checkEqual(FactCollection goldStandard) {
+		Announce.doing("Comparing fact collections");
+		boolean b=checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
+		Announce.done();
+		return(b);
 	}
 }

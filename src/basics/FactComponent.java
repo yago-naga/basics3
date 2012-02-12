@@ -72,6 +72,17 @@ public class FactComponent {
 		if(prefixWithColon.equals("y:")) return(forUri(name));
 		return(prefixWithColon+name);
 	}
+
+	/** Creates a fact component for a date. No checks done.*/
+	public static String forDate(String date) {
+		return(forString(date, null, "xsd:date"));
+	}
+
+	/** Creates a fact component for a year. No checks done.*/
+	public static String forYear(String year) {
+		return(forString(year+"-00-00", null, "xsd:date"));
+	}
+
 	/** Creates a fact component for a YAGO entity*/
 	public static String forYagoEntity(String name) {
 		return(forUri(name));		
@@ -93,6 +104,9 @@ public class FactComponent {
 		if(s==null || s.length()==0) return(null);
 		if(s.startsWith("\"")) {
 			return(forString(Char.cutLast(s.substring(1)),null,null));
+		}
+		if(DateParser.isDate(s)) {
+			return(forDate(s));
 		}
 		if(Character.isDigit(s.charAt(0)) || s.charAt(0)=='-'|| s.charAt(0)=='+' || s.charAt(0)=='.') {
 			return(forNumber(s));
