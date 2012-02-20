@@ -176,4 +176,16 @@ public class FactCollection extends AbstractSet<Fact> {
 		Announce.done();
 		return(b);
 	}
+	
+	/** TRUE if this collection contains this fact with any id*/
+	public boolean contains(String arg1, String rel, String arg2) {
+		Map<String,List<Fact>> map=index.get(arg1);
+		if(map==null) return(false);
+	    List<Fact> facts=map.get(rel);
+	    if(facts==null) return(false);
+	    for(Fact f : facts) {
+	    	if(f.arg2.equals(arg2)) return(true);
+	    }
+	    return(false);
+	}
 }

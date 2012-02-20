@@ -1,5 +1,7 @@
 package basics;
 
+import java.util.regex.Pattern;
+
 import javatools.administrative.D;
 import javatools.parsers.Char;
 
@@ -81,10 +83,16 @@ public class Fact {
 			arg2 = s;
 	}
 
-	/** Returns arg n, strips quiotes*/
+	/** Returns arg n, strips quotes*/
 	public String getArgNoQuotes(int a) {
 		return(FactComponent.stripQuotes(getArg(a)));
 	}
+
+	/** Returns arg n, strips quotes, compiles a case-insensitive pattern*/
+	public Pattern getArgPattern(int a) {
+		return(Pattern.compile(Char.decodeBackslash(getArgNoQuotes(a)),Pattern.CASE_INSENSITIVE));
+	}
+
 	/** Gets argument 1 or 2 */
 	public String getArg(int a) {
 		return (a == 1 ? arg1 : arg2);
