@@ -93,7 +93,12 @@ public class FactComponent {
 		if(datatype!=null) return ('"'+Char.encodeBackslash(string,turtleString)+"\"^^"+datatype);
 		return ('"'+Char.encodeBackslash(string,turtleString)+'"');
 	}
-	
+
+	/** Creates a fact component for a String. We check the syntax*/
+	public static String forString(String string) {
+		return (forString(string,null,null));
+	}
+
 	/** Creates a fact component for a wordnet entity*/
 	public static String forWordnetEntity(String word, String id) {
 		return(forYagoEntity("wordnet_"+word.replace(' ','_')+"_"+id));

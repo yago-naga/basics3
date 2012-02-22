@@ -46,6 +46,12 @@ public class Fact {
         this.arg2datatype=a2.length>1?a2[1].intern():null;
 	}
 
+	/** All fact components must be the output of a method of the class FactComponent!*/
+	public Fact(String arg1, String relation, String arg2withDataType) {
+		this(null,arg1,relation,arg2withDataType);
+	}
+	
+	
 	/** Creates a copy of the fact*/
 	public Fact(Fact copy) {
 		this.arg1 = copy.arg1;
