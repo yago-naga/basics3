@@ -153,4 +153,24 @@ public class FactComponent {
 		if(result.endsWith("\"")) result=Char.cutLast(result);
 		return(result);
 	}
+	
+	/** Returns a Java string for a YAGO string*/
+	public static String asJavaString(String string) {
+		int pos=string.indexOf("\"^^");
+		if(pos!=-1) string=string.substring(0, pos+1);
+		return(FactComponent.stripQuotes(Char.decodeBackslash(string)));
+	}
+
+	/** Sets data type*/
+	public static String setDataType(String string, String datatype) {
+		if(!isLiteral(string)) return(string);
+		int pos=string.indexOf("\"^^");
+		if(pos!=-1) string=string.substring(0, pos+1);
+		return(FactComponent.forString(string, null, datatype));
+	}
+
+	/** TRUE for literals*/
+	public static boolean isLiteral(String entity) {
+		return(entity.startsWith("\""));
+	}
 }

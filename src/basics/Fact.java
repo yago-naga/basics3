@@ -89,14 +89,14 @@ public class Fact {
 			arg2 = s;
 	}
 
-	/** Returns arg n, strips quotes*/
-	public String getArgNoQuotes(int a) {
-		return(FactComponent.stripQuotes(getArg(a)));
+	/** Returns arg n as a Java string*/
+	public String getArgString(int a) {
+		return(Char.decodeBackslash(FactComponent.stripQuotes(getArg(a))));
 	}
 
 	/** Returns arg n, strips quotes, compiles a case-insensitive pattern*/
 	public Pattern getArgPattern(int a) {
-		return(Pattern.compile(Char.decodeBackslash(getArgNoQuotes(a)),Pattern.CASE_INSENSITIVE));
+		return(Pattern.compile(getArgString(a),Pattern.CASE_INSENSITIVE));
 	}
 
 	/** Gets argument 1 or 2 */

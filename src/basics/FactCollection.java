@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javatools.administrative.Announce;
 import javatools.filehandlers.FileSet;
@@ -69,11 +71,12 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Returns the first arg2 (or null) */
 	public String getArg2(String arg1, String relation) {
-		List<Fact> res=get(arg1,relation);
-		if(res==null || res.isEmpty()) return(null);
-		return(res.get(0).arg2);
+		List<Fact> res = get(arg1, relation);
+		if (res == null || res.isEmpty())
+			return (null);
+		return (res.get(0).arg2);
 	}
-	
+
 	/** Returns facts with matching relation */
 	public List<Fact> get(String relation) {
 		if (!relindex.containsKey(relation))
@@ -81,17 +84,21 @@ public class FactCollection extends AbstractSet<Fact> {
 		return (relindex.get(relation));
 	}
 
-	/** Returns facts with matching relation and second argument. This is very slow. */
+	/**
+	 * Returns facts with matching relation and second argument. This is very
+	 * slow.
+	 */
 	public List<Fact> getBySecondArgSlow(String relation, String arg2) {
 		if (!relindex.containsKey(relation))
 			return (EMPTY);
-		List<Fact> result=new ArrayList<Fact>();
-		for(Fact f : relindex.get(relation)) {
-			if(f.arg2.equals(arg2)) result.add(f);
+		List<Fact> result = new ArrayList<Fact>();
+		for (Fact f : relindex.get(relation)) {
+			if (f.arg2.equals(arg2))
+				result.add(f);
 		}
 		return (result);
 	}
-	
+
 	/** Loads from N4 file */
 	public FactCollection(File n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
@@ -133,7 +140,8 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Loads from N4 file */
 	public void load(File n4File) throws IOException {
-		if(!n4File.getName().contains(".")) n4File=FileSet.newExtension(n4File, ".ttl");
+		if (!n4File.getName().contains("."))
+			n4File = FileSet.newExtension(n4File, ".ttl");
 		Announce.doing("Loading", n4File);
 		for (Fact f : new N4Reader(n4File)) {
 			add(f);
@@ -154,38 +162,64 @@ public class FactCollection extends AbstractSet<Fact> {
 		return facts.toString();
 	}
 
-	/** Checks if all of my facts are in the other set, prints differences*/
+	/** Checks if all of my facts are in the other set, prints differences */
 	public boolean checkContainedIn(FactCollection goldStandard) {
 		Announce.doing("Checking containment");
-		boolean matches=true;
-		next: for(Fact fact : facts) {
-			for(Fact other : goldStandard.get(fact.arg1, fact.relation)) {
-				if(other.arg2.equals(fact.arg2)) continue next;
+		boolean matches = true;
+		next: for (Fact fact : facts) {
+			for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
+				if (other.arg2.equals(fact.arg2))
+					continue next;
 			}
-			Announce.message("Not found:",fact);
-			matches=false;
+			Announce.message("Not found:", fact);
+			matches = false;
 		}
 		Announce.done();
-		return(matches);
+		return (matches);
 	}
-	
-	/** Checks for differences, returns TRUE if equal, prints differences*/
+
+	/** Checks for differences, returns TRUE if equal, prints differences */
 	public boolean checkEqual(FactCollection goldStandard) {
 		Announce.doing("Comparing fact collections");
-		boolean b=checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
+		boolean b = checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
 		Announce.done();
-		return(b);
+		return (b);
+	}
+
+	/** TRUE if this collection contains this fact with any id */
+	public boolean contains(String arg1, String rel, String arg2) {
+		Map<String, List<Fact>> map = index.get(arg1);
+		if (map == null)
+			return (false);
+		List<Fact> facts = map.get(rel);
+		if (facts == null)
+			return (false);
+		for (Fact f : facts) {
+			if (f.arg2.equals(arg2))
+				return (true);
+		}
+		return (false);
+	}
+
+	/** Returns a map for a relation */
+	public Map<String, String> asStringMap(String relation) {
+		Map<String, String> objects = new HashMap<String, String>();
+		for (Fact fact : get(relation)) {
+			objects.put(fact.getArgString(1), fact.getArgString(2));
+		}
+		if (objects.isEmpty())
+			Announce.warning("No instances of", relation, "found");
+		return (objects);
+	}
+
+	/** Returns a set of strings for a type */
+	public Set<String> asStringSet(String type) {
+		Set<String> result = new TreeSet<String>();
+		for (Fact fact : getBySecondArgSlow("rdf:type", type)) {
+			result.add(fact.getArgString(1));
+		}
+		if(result.isEmpty()) Announce.warning("No instances of",type,"found");
+		return (result);
 	}
 	
-	/** TRUE if this collection contains this fact with any id*/
-	public boolean contains(String arg1, String rel, String arg2) {
-		Map<String,List<Fact>> map=index.get(arg1);
-		if(map==null) return(false);
-	    List<Fact> facts=map.get(rel);
-	    if(facts==null) return(false);
-	    for(Fact f : facts) {
-	    	if(f.arg2.equals(arg2)) return(true);
-	    }
-	    return(false);
-	}
 }
