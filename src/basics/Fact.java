@@ -90,13 +90,13 @@ public class Fact {
 	}
 
 	/** Returns arg n as a Java string*/
-	public String getArgString(int a) {
+	public String getArgJavaString(int a) {
 		return(Char.decodeBackslash(FactComponent.stripQuotes(getArg(a))));
 	}
 
 	/** Returns arg n, strips quotes, compiles a case-insensitive pattern*/
 	public Pattern getArgPattern(int a) {
-		return(Pattern.compile(getArgString(a),Pattern.CASE_INSENSITIVE));
+		return(Pattern.compile(getArgJavaString(a),Pattern.CASE_INSENSITIVE));
 	}
 
 	/** Gets argument 1 or 2 */

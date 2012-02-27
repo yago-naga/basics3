@@ -38,11 +38,11 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	public synchronized boolean add(Fact fact) {
 		if (facts.contains(fact)) {
-			Announce.debug("Duplicate fact not added:", fact);
+			Announce.warning("Duplicate fact not added:", fact);
 			return (false);
 		}
 		if (fact.arg1.equals(fact.arg2)) {
-			Announce.debug("Identical arguments not added", fact);
+			Announce.warning("Identical arguments not added", fact);
 			return (false);
 		}
 		facts.add(fact);
@@ -205,7 +205,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	public Map<String, String> asStringMap(String relation) {
 		Map<String, String> objects = new HashMap<String, String>();
 		for (Fact fact : get(relation)) {
-			objects.put(fact.getArgString(1), fact.getArgString(2));
+			objects.put(fact.getArgJavaString(1), fact.getArgJavaString(2));
 		}
 		if (objects.isEmpty())
 			Announce.warning("No instances of", relation, "found");
@@ -216,7 +216,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	public Set<String> asStringSet(String type) {
 		Set<String> result = new TreeSet<String>();
 		for (Fact fact : getBySecondArgSlow("rdf:type", type)) {
-			result.add(fact.getArgString(1));
+			result.add(fact.getArgJavaString(1));
 		}
 		if(result.isEmpty()) Announce.warning("No instances of",type,"found");
 		return (result);

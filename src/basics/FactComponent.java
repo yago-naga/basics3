@@ -12,15 +12,7 @@ import javatools.parsers.NumberFormatter;
  * Class FactComponent - YAGO2S
  * 
  * Formats an RDF item to be used with Fact.java
- * The format is Turtle
- * http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar 
- * 
- * Conventions:
- * (1) YAGO entities are always given as relative URIs "<Albert_Einstein>".
- * This is because qnames may not contain certain characters
- * (2) All entities from standard namespaces are given as qnames
- * This is to save space and keep readability.
- * (3) All other entities are given as full URIs "<http://...>"
+ * See yago2s/policies/dataFormat for details
  * 
  * @author Fabian M. Suchanek
  */
