@@ -15,15 +15,15 @@ import javatools.parsers.Char;
  */
 public class Fact {
 	/** ID (or NULL)*/
-	public String id;
+	public final String id;
 	/** Argument 1 */
-	public String arg1;
+	public final String arg1;
 	/** Relation */
-	public String relation;
+	public final String relation;
 	/** Argument 2 */
-	public String arg2;
+	public final String arg2;
     /** Datatype of arg2 (or null)*/
-	public String arg2datatype;
+	public final String arg2datatype;
 	
 	/** All fact components must be the output of a method of the class FactComponent!*/
 	public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
@@ -79,14 +79,6 @@ public class Fact {
 		// I don't have an id
 		if(f.id!=null) return(false);
  		return(D.equalPairs(arg1,f.arg1,relation,f.relation,arg2,f.arg2));
-	}
-
-	/** Sets argument 1 or 2 */
-	public void setArg(int a, String s) {
-		if (a == 1)
-			arg1 = s;
-		else
-			arg2 = s;
 	}
 
 	/** Returns arg n as a Java string*/

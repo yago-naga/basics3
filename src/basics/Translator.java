@@ -53,8 +53,7 @@ public class Translator {
 		if (attached.isEmpty()) {
 			writer.write(f);
 		} else {
-			f.id = FactComponent.makeId();
-			writer.write(f);
+			writer.write(new Fact(FactComponent.makeId(), f.arg1, f.relation,f.arg2, f.arg2datatype));
 			for (String[] a : attached) {
 				writer.write(makeFact(null, f.id, a[1], a[2]));
 			}
@@ -84,6 +83,8 @@ public class Translator {
 
 	/** Translates all files */
 	public static void main(String[] args) throws Exception {
+		D.p(identifierMap.values());
+		
 		if (D.readBoolean("Are you sure you want to overwrite the new manual hard facts?")) {
 			for (File f : new File("/Users/Fabian/Fabian/Work/EclipseProjects/yago2/data").listFiles()) {
 				if (!f.getName().endsWith(".tsv"))
