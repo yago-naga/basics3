@@ -230,5 +230,11 @@ public class FactCollection extends AbstractSet<Fact> {
 		if(result.isEmpty()) Announce.warning("No instances of",type,"found");
 		return (result);
 	}
+
+	
+	/** Returns the classes of an object*/
+	public Set<String> classesOf(String arg2) {	
+		return null;
+	}
 	
 }

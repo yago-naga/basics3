@@ -83,7 +83,7 @@ public class Fact {
 
 	/** Returns arg n as a Java string*/
 	public String getArgJavaString(int a) {
-		return(Char.decodeBackslash(FactComponent.stripQuotes(getArg(a))));
+		return(Char.decodeBackslash(FactComponent.stripQuotes(a==1?arg1:arg2)));
 	}
 
 	/** Returns arg n, strips quotes, compiles a case-insensitive pattern*/
@@ -93,7 +93,7 @@ public class Fact {
 
 	/** Gets argument 1 or 2 */
 	public String getArg(int a) {
-		return (a == 1 ? arg1 : arg2);
+		return (a == 1 ? arg1 : arg2+(arg2datatype==null?"":"^^"+arg2datatype));
 	}
 	
 	@Override
