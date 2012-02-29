@@ -26,8 +26,6 @@ import javatools.filehandlers.FileSet;
  */
 public class FactCollection extends AbstractSet<Fact> {
 
-	private static final long serialVersionUID = -1L;
-
 	/** Holds the facts */
 	protected Set<Fact> facts;
 	/** Maps first arg to relation to facts */
@@ -105,6 +103,12 @@ public class FactCollection extends AbstractSet<Fact> {
 		load(n4File);
 	}
 
+	/** Loads from N4 file */
+	public FactCollection(N4Reader n4File) throws IOException {
+		facts = Collections.synchronizedSet(new HashSet<Fact>());
+		load(n4File);
+	}
+
 	public FactCollection() {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
 	}
@@ -143,10 +147,15 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (!n4File.getName().contains("."))
 			n4File = FileSet.newExtension(n4File, ".ttl");
 		Announce.doing("Loading", n4File);
-		for (Fact f : new N4Reader(n4File)) {
+		load(new N4Reader(n4File));
+		Announce.done();
+	}
+	
+	/** Loads from N4 file */
+	public void load(N4Reader reader) throws IOException {
+		for (Fact f : reader) {
 			add(f);
 		}
-		Announce.done();
 	}
 
 	@Override

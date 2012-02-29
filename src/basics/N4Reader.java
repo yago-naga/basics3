@@ -265,6 +265,20 @@ public class N4Reader extends PeekIterator<Fact> {
 		}
 	}
 
+	/** returns only facts with a specific relation*/
+	public PeekIterator<Fact> factsWithRelation(final String relation) {
+		return(new PeekIterator<Fact>() {
+
+			@Override
+			protected Fact internalNext() throws Exception {
+				while(N4Reader.this.hasNext()) {
+					Fact next=N4Reader.this.next();
+					if(next.relation.equals(relation)) return(next);
+				}
+				return(null);
+			}			
+		});
+	}
 	/**
 	 * Test
 	 * 
