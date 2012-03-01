@@ -1,5 +1,6 @@
 package basics;
 
+import java.io.Closeable;
 import java.io.IOException;
 
 /**
@@ -12,7 +13,8 @@ import java.io.IOException;
  * 
  * 
  */
-public interface FactReader {
+public interface FactReader extends Closeable{
   public Fact read() throws IOException;
+  @Override
   public void close()throws IOException;
 }

@@ -16,7 +16,7 @@ import javatools.filehandlers.FileLines;
 import javatools.filehandlers.UTF8Reader;
 import javatools.parsers.Char;
 
-import basics.N4Writer.N4FileWriter;
+
 
 /**
  * N4Reader - YAGO2S
@@ -55,8 +55,14 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 
 	/** Creates a N4 reader */
 	public N4Reader(Reader r) throws IOException {
-		reader = r;
+	  reader = r;
 	}
+
+	/** Creates a N4 reader */
+	public N4Reader(URL url) throws IOException{	      	      
+	  this(new UTF8Reader(url.openStream()));      
+	}
+
 
 	/** Value for "Ignore, read new */
 	public static final int READNEW = -2;
@@ -283,24 +289,6 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 		}
 	}
 	
-	public static class N4WebReader extends N4Reader{
-	  InputStream io=null;;
-	  public N4WebReader(URL url) throws IOException{
-	    super();
-	    io=url.openStream();
-	    reader=new UTF8Reader(io);	    
-	  }
-	  
-	  @Override
-	  public void close(){
-	    super.close();
-	    try {
-	      io.close();
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }
-	  }
-	}
 
 	/** returns only facts with a specific relation*/
 	public PeekIterator<Fact> factsWithRelation(final String relation) {
@@ -327,7 +315,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
-			N4Writer w = new N4FileWriter(new File(in.toString().replace("ttl", "myout")),"Test run");
+			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")),"Test run");
 			for (Fact f : new N4Reader(in)) {
 				w.write(f);
 			}
@@ -336,7 +324,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 		}
 
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
-		N4Writer w = new N4FileWriter(new File(in.toString().replace("nt", "myout")),"Test run");
+		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")),"Test run");
 		for (Fact f : new N4Reader(in)) {
 			w.write(f);
 		}

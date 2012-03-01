@@ -1,13 +1,10 @@
 package basics;
 
-import java.io.BufferedWriter;
+
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
@@ -50,11 +47,18 @@ public class N4Writer implements Closeable, FactWriter{
 		this(w,header,FactComponent.YAGONAMESPACE,null);
 	}
 	
-	/** Starts a writer to this file*/
-	public N4Writer(File file, String string) throws Exception {
-		this(new FileWriter(file),string);
-	}
-
+  /** Starts a writer to this file*/
+  public N4Writer(File f, String header, String base, Map<String,String> prefixes ) throws Exception {
+    this(new FileWriter(f), header, base, prefixes);    
+  }
+  
+  /** Starts a writer to this file*/
+  public N4Writer(File f, String header) throws Exception {
+    this(new FileWriter(f),header);
+  }
+  
+  
+	
 	/** Writes a fact*/
 	@Override
 	public synchronized void write(Fact f) throws IOException {
@@ -72,55 +76,5 @@ public class N4Writer implements Closeable, FactWriter{
 	public void close() throws IOException {
 		writer.close();
 	}
-	
-	public static class N4FileWriter extends N4Writer implements Closeable{
-	  
-	      /** Name of the file*/
-	    public final File file;
-
-	    
-	     /** Starts a writer to this file*/
-	    public N4FileWriter(File f, String header, String base, Map<String,String> prefixes ) throws Exception {
-	      super(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f),"UTF-8")),
-	            header, base, prefixes);
-	      file=f;
-	    }
-	    
-	    /** Starts a writer to this file*/
-	    public N4FileWriter(File f, String header) throws Exception {
-	      this(f,header,FactComponent.YAGONAMESPACE,null);
-	    }
-	    
-	    @Override
-	    public void close() throws IOException {
-	      super.close();
-	    }	  
-	}
-	
-	public static class N4StringWriter extends N4Writer implements Closeable{
-
-
-	  /** Starts a writer to this file*/
-	  public N4StringWriter(String header, String base, Map<String,String> prefixes ) throws Exception {
-	    super(new StringWriter(), header, base, prefixes);     
-	  }
-
-	  /** Starts a writer to this file*/
-	  public N4StringWriter(String header) throws Exception {
-	    this(header,FactComponent.YAGONAMESPACE,null);
-	  }
-
-	  /** returns the ontology as N4 formatted string */
-	  @Override
-	  public String toString(){     
-	    return writer.toString();
-	  }
-
-	  @Override
-	  public void close() throws IOException {
-	    super.close();
-	  }
-	}
-
 
 }

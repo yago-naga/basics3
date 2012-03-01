@@ -11,7 +11,7 @@ import javatools.datatypes.FinalMap;
 import javatools.filehandlers.FileLines;
 import javatools.parsers.Char;
 
-import basics.N4Writer.N4FileWriter;
+
 
 /**
  * Translates old hard facts to new hard facts
@@ -66,7 +66,7 @@ public class Translator {
 	public static void translate(File oldFile, File newFile) throws Exception {
 		Fact previous = null;
 		List<String[]> attached = new ArrayList<String[]>();
-		N4Writer writer = new N4FileWriter(newFile, "Manually coded facts of YAGO.\n DO NOT OVERWRITE!");
+		N4Writer writer = new N4Writer(newFile, "Manually coded facts of YAGO.\n DO NOT OVERWRITE!");
 		for (String line : new FileLines(oldFile, "Translating from " + oldFile.getName())) {
 			String[] split = line.split("\t");
 			if (split.length != 3)
