@@ -3,15 +3,20 @@ package basics;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javatools.administrative.Announce;
 import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.FileLines;
+import javatools.filehandlers.UTF8Reader;
 import javatools.parsers.Char;
+
+import basics.N4Writer.N4FileWriter;
 
 /**
  * N4Reader - YAGO2S
@@ -28,7 +33,7 @@ import javatools.parsers.Char;
  * @author Fabian M. Suchanek
  * 
  */
-public class N4Reader extends PeekIterator<Fact> {
+public class N4Reader extends PeekIterator<Fact> implements FactReader{
 
 	/** Reads the file */
 	protected Reader reader;
@@ -39,6 +44,10 @@ public class N4Reader extends PeekIterator<Fact> {
 	/** Custom base */
 	protected String base = null;
 
+	/** Creates an N4 reader, 
+	 * only for use by derived classes as no reader is defined by this constructor */
+	protected N4Reader() {};
+	
 	/** Creates a N4 reader */
 	public N4Reader(File f) throws IOException {
 		this(new InputStreamReader(new FileInputStream(f), "UTF-8"));
@@ -55,6 +64,15 @@ public class N4Reader extends PeekIterator<Fact> {
 	/** Current character */
 	protected int c = READNEW;
 
+	/** returns element after element, null iff no element left */
+	@Override
+	public Fact read(){
+	  if(hasNext())
+	    return next();
+	  else 
+	    return null;
+	}
+	
 	/** returns the next item */
 	public String nextItem() throws IOException {
 		if (c == READNEW)
@@ -264,6 +282,25 @@ public class N4Reader extends PeekIterator<Fact> {
 			e.printStackTrace();
 		}
 	}
+	
+	public static class N4WebReader extends N4Reader{
+	  InputStream io=null;;
+	  public N4WebReader(URL url) throws IOException{
+	    super();
+	    io=url.openStream();
+	    reader=new UTF8Reader(io);	    
+	  }
+	  
+	  @Override
+	  public void close(){
+	    super.close();
+	    try {
+	      io.close();
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+	  }
+	}
 
 	/** returns only facts with a specific relation*/
 	public PeekIterator<Fact> factsWithRelation(final String relation) {
@@ -290,7 +327,7 @@ public class N4Reader extends PeekIterator<Fact> {
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
-			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")),"Test run");
+			N4Writer w = new N4FileWriter(new File(in.toString().replace("ttl", "myout")),"Test run");
 			for (Fact f : new N4Reader(in)) {
 				w.write(f);
 			}
@@ -299,7 +336,7 @@ public class N4Reader extends PeekIterator<Fact> {
 		}
 
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
-		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")),"Test run");
+		N4Writer w = new N4FileWriter(new File(in.toString().replace("nt", "myout")),"Test run");
 		for (Fact f : new N4Reader(in)) {
 			w.write(f);
 		}
