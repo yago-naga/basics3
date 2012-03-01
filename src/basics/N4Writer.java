@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -49,6 +50,11 @@ public class N4Writer implements Closeable, FactWriter{
 		this(w,header,FactComponent.YAGONAMESPACE,null);
 	}
 	
+	/** Starts a writer to this file*/
+	public N4Writer(File file, String string) throws Exception {
+		this(new FileWriter(file),string);
+	}
+
 	/** Writes a fact*/
 	@Override
 	public synchronized void write(Fact f) throws IOException {
