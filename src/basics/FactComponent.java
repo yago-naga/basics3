@@ -53,6 +53,12 @@ public class FactComponent {
 		return ('<' + Char.encodeBackslash(s, turtleUri) + '>');
 	}
 
+
+	/** Creates a fact component for number*/
+	public static String forNumber(int i) {
+		return(forString(i+"",null,forQname("xsd:", "decimal")));
+	}
+	
 	/** Creates a fact component for number. We don't do any syntax checks here. */
 	public static String forNumber(String s) {
 		if (DateParser.isDate(s))

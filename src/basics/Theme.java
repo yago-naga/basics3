@@ -1,6 +1,11 @@
 package basics;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javatools.administrative.D;
+import javatools.filehandlers.FileSet;
 
 /**
  * Represents a theme
@@ -18,9 +23,12 @@ public class Theme implements Comparable<Theme>{
 	
 	/** (dynamic) Id of this theme*/
 	protected final int id=ids++;
+
+	/** Theme of entire YAGO*/
+	public static final Theme ALL=new Theme("ALL");
 	
 	public Theme(String name) {
-		this.name=name;
+		this.name=name;	
 	}
 	
 	/** Returns the file name of this theme in the given folder*/
