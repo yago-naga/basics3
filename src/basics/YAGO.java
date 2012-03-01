@@ -11,4 +11,6 @@ package basics;
 public class YAGO {
 
 	public static final String function="<yagoFunction>";
+	public static final String string="xsd:string";
+	public static final String entity = FactComponent.forWordnetEntity("entity", "100001740");
 }

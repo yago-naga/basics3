@@ -187,6 +187,15 @@ public class FactComponent {
 		return (FactComponent.forString(string, null, datatype));
 	}
 
+	/** Sets data type */
+	public static String getDataType(String string) {
+		if (!isLiteral(string))
+			return (null);
+		int pos = string.indexOf("\"^^");
+		if (pos != -1) return(YAGO.string);
+		return (string.substring(pos+3));
+	}
+
 	/** TRUE for literals */
 	public static boolean isLiteral(String entity) {
 		return (entity.startsWith("\""));

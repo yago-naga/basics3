@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.AbstractSet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,6 +75,15 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (res == null || res.isEmpty())
 			return (null);
 		return (res.get(0).arg2);
+	}
+
+	/** Returns the arg2s */
+	public Set<String> getArg2s(String arg1, String relation) {
+		Set<String> result=new TreeSet<>();
+		for(Fact f : get(arg1, relation)) {
+			result.add(f.getArg(2));
+		}
+		return (result);
 	}
 
 	/** Returns facts with matching relation */
@@ -204,7 +215,7 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (facts == null)
 			return (false);
 		for (Fact f : facts) {
-			if (f.arg2.equals(arg2))
+			if (f.getArg(2).equals(arg2))
 				return (true);
 		}
 		return (false);
@@ -232,9 +243,27 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	
-	/** Returns the classes of an object*/
-	public Set<String> classesOf(String arg2) {	
-		return null;
+	/** TRUE if the object is an instance of the class */
+	public boolean instanceOf(String instance, String clss) {	
+		Collection<String> classes;
+		if(FactComponent.isLiteral(instance)) {
+			classes=Arrays.asList(FactComponent.getDataType(instance));
+		} else {
+			classes=getArg2s(instance,RDFS.type);
+		}
+		for(String c : classes) {
+			if(isSubClassOf(c,clss)) return(true);
+		}
+		return(false);
+	}
+
+	/** TRUE if the first class is equal to or a subclass of the second*/
+	public boolean isSubClassOf(String sub, String supr) {
+		if(sub.equals(supr)) return(true);
+		for(String s : getArg2s(sub,RDFS.subclassOf)) {
+			if(isSubClassOf(s, supr)) return(true);
+		}
+		return(false);
 	}
 	
 }
