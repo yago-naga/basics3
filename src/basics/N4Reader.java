@@ -3,7 +3,6 @@ package basics;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
@@ -65,9 +64,8 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 	/** Creates a N4 reader */
 	public N4Reader(URL url) throws IOException{	      	      
 	  this(new UTF8Reader(url.openStream()));      
-		name="N4Reader from Reader";
+		name="N4Reader from "+url;;
 	}
-
 
 	/** Value for "Ignore, read new */
 	public static final int READNEW = -2;

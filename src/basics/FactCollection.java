@@ -115,7 +115,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Loads from N4 file */
-	public FactCollection(N4Reader n4File) throws IOException {
+	public FactCollection(FactReader n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
 		load(n4File);
 	}
@@ -163,7 +163,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 	
 	/** Loads from N4 file */
-	public void load(N4Reader reader) throws IOException {
+	public void load(FactReader reader) throws IOException {
 		Announce.doing("Loading",reader);
 		for (Fact f : reader) {
 			add(f);

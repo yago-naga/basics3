@@ -2,6 +2,7 @@ package basics;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * FactReader interface - YAGO2S
@@ -10,11 +11,9 @@ import java.io.IOException;
  * Note that you will need to choose the interface implementation 
  * that fits to the FactWriter implementation used to generate the serialised fact representation.
  * 
- * 
+ * @author Steffen Metzger
  * 
  */
-public interface FactReader extends Closeable{
+public interface FactReader extends Closeable, Iterator<Fact>, Iterable<Fact> {
   public Fact read() throws IOException;
-  @Override
-  public void close()throws IOException;
 }
