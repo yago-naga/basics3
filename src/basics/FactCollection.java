@@ -164,9 +164,11 @@ public class FactCollection extends AbstractSet<Fact> {
 	
 	/** Loads from N4 file */
 	public void load(N4Reader reader) throws IOException {
+		Announce.doing("Loading",reader);
 		for (Fact f : reader) {
 			add(f);
 		}
+		Announce.done();
 	}
 
 	@Override

@@ -38,6 +38,9 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 	/** Reads the file */
 	protected Reader reader;
 
+	/** Contains the name of this reader*/
+	protected String name;
+	
 	/** Maps custom prefixes */
 	protected Map<String, String> prefixes = new TreeMap<String, String>();
 
@@ -51,6 +54,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 	/** Creates a N4 reader */
 	public N4Reader(File f) throws IOException {
 		this(new InputStreamReader(new FileInputStream(f), "UTF-8"));
+		name=f.getName();
 	}
 
 	/** Creates a N4 reader */
@@ -61,6 +65,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 	/** Creates a N4 reader */
 	public N4Reader(URL url) throws IOException{	      	      
 	  this(new UTF8Reader(url.openStream()));      
+		name="N4Reader from Reader";
 	}
 
 
@@ -304,6 +309,11 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			}			
 		});
 	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 	/**
 	 * Test
 	 * 
@@ -329,6 +339,5 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			w.write(f);
 		}
 		w.close();
-
 	}
 }
