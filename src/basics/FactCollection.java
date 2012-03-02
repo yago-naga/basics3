@@ -115,7 +115,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Loads from N4 file */
-	public FactCollection(FactReader n4File) throws IOException {
+	public FactCollection(FactSource n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
 		load(n4File);
 	}
@@ -158,12 +158,12 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (!n4File.getName().contains("."))
 			n4File = FileSet.newExtension(n4File, ".ttl");
 		Announce.doing("Loading", n4File);
-		load(new N4Reader(n4File));
+		load(FactSource.from(n4File));
 		Announce.done();
 	}
 	
 	/** Loads from N4 file */
-	public void load(FactReader reader) throws IOException {
+	public void load(FactSource reader) throws IOException {
 		Announce.doing("Loading",reader);
 		for (Fact f : reader) {
 			add(f);

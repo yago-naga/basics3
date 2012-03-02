@@ -1,24 +1,23 @@
 package basics;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javatools.administrative.Announce;
-import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.FileLines;
 import javatools.parsers.Char;
-import javatools.util.FileUtils;
 
 /**
  * N4Reader - YAGO2S
  * 
  * Provides a reader for facts from an N4 document. This follows the Turtle
  * Specification http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It
- * (1) understands a first (optional) component in the p[receding comment (2)
+ * (1) understands a first (optional) component in the preceding comment (2)
  * and it does not support all Turtle features
  * 
  * Passes all tests from
@@ -28,13 +27,10 @@ import javatools.util.FileUtils;
  * @author Fabian M. Suchanek
  * 
  */
-public class N4Reader extends PeekIterator<Fact> implements FactReader {
+public class N4Reader implements Iterator<Fact>, Closeable {
 
 	/** Reads the file */
 	protected Reader reader;
-
-	/** Contains the name of this reader */
-	protected String name;
 
 	/** Maps custom prefixes */
 	protected Map<String, String> prefixes = new TreeMap<String, String>();
@@ -42,47 +38,19 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 	/** Custom base */
 	protected String base = null;
 
-	/**
-	 * Creates an N4 reader, only for use by derived classes as no reader is
-	 * defined by this constructor
-	 */
-	protected N4Reader() {
-	};
-
-	/** Creates a N4 reader */
-	public N4Reader(File f) throws IOException {
-		this(FileUtils.getBufferedUTF8Reader(f));
-		name = f.getName();
-	}
-
 	/** Creates a N4 reader */
 	public N4Reader(Reader r) throws IOException {
 		reader = r;
+		next();
 	}
-
-	/** Creates a N4 reader */
-	public N4Reader(URL url) throws IOException {
-		this(FileUtils.getBufferedUTF8Reader(url.openStream()));
-		name = "N4Reader from " + url;
-		;
-	}
-
 	/** Value for "Ignore, read new */
 	public static final int READNEW = -2;
 
 	/** Current character */
 	protected int c = READNEW;
 
-	/** returns element after element, null iff no element left */
-	public Fact read() {
-		if (hasNext())
-			return next();
-		else
-			return null;
-	}
-
 	/** returns the next item */
-	public String nextItem() throws IOException {
+	protected String nextItem() throws IOException {
 		if (c == READNEW)
 			c = FileLines.firstCharAfterSpace(reader);
 		switch (c) {
@@ -210,7 +178,31 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 		}
 	}
 
+	/** caches the next fact, initially a dummy fact; null for EOF */
+	protected Fact nextFact=new Fact("Elvis","rdf:type","theBest");
+
 	@Override
+	public Fact next() {
+		Fact toReturn = nextFact;
+		if (toReturn != null) {
+			try {
+				nextFact = internalNext();
+			} catch (Exception e) {
+				e.printStackTrace();
+				nextFact = null;
+			}
+			if (nextFact == null)
+				close();
+		}
+		return (toReturn);
+	}
+
+	@Override
+	public boolean hasNext() {
+		return nextFact != null;
+	}
+
+	/** returns the next fact */
 	protected Fact internalNext() throws Exception {
 		while (true) {
 			String item = nextItem();
@@ -295,11 +287,6 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	/**
 	 * Test
 	 * 
@@ -312,7 +299,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 				continue;
 			Announce.doing("Testing", in.getName());
 			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")), "Test run");
-			for (Fact f : new N4Reader(in)) {
+			for (Fact f : FactSource.from(in)) {
 				w.write(f);
 			}
 			w.close();
@@ -321,9 +308,14 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
 		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")), "Test run");
-		for (Fact f : new N4Reader(in)) {
+		for (Fact f : FactSource.from(in)) {
 			w.write(f);
 		}
 		w.close();
+	}
+
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException("remove() on N4Reader");
 	}
 }
