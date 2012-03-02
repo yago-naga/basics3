@@ -76,7 +76,6 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 	protected int c = READNEW;
 
 	/** returns element after element, null iff no element left */
-	@Override
 	public Fact read() {
 		if (hasNext())
 			return next();

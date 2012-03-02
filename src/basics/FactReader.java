@@ -14,6 +14,5 @@ import java.util.Iterator;
  * @author Steffen Metzger
  * 
  */
-public interface FactReader extends Closeable, Iterator<Fact>, Iterable<Fact> {
-  public Fact read() throws IOException;
+public interface FactReader extends Iterable<Fact> {
 }
