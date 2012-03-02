@@ -3,10 +3,11 @@ package basics;
 
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
+
+import javatools.util.FileUtils;
 
 /**
  * N4Writer - YAGO2s
@@ -49,12 +50,12 @@ public class N4Writer implements Closeable, FactWriter{
 	
   /** Starts a writer to this file*/
   public N4Writer(File f, String header, String base, Map<String,String> prefixes ) throws Exception {
-    this(new FileWriter(f), header, base, prefixes);    
+    this(FileUtils.getBufferedUTF8Writer(f), header, base, prefixes);    
   }
   
   /** Starts a writer to this file*/
   public N4Writer(File f, String header) throws Exception {
-    this(new FileWriter(f),header);
+    this(FileUtils.getBufferedUTF8Writer(f),header);
   }
   
   

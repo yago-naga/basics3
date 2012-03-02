@@ -1,9 +1,7 @@
 package basics;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Map;
@@ -12,8 +10,8 @@ import java.util.TreeMap;
 import javatools.administrative.Announce;
 import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.FileLines;
-import javatools.filehandlers.UTF8Reader;
 import javatools.parsers.Char;
+import javatools.util.FileUtils;
 
 /**
  * N4Reader - YAGO2S
@@ -53,7 +51,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 
 	/** Creates a N4 reader */
 	public N4Reader(File f) throws IOException {
-		this(new InputStreamReader(new FileInputStream(f), "UTF-8"));
+		this(FileUtils.getBufferedUTF8Reader(f));
 		name = f.getName();
 	}
 
@@ -64,7 +62,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader {
 
 	/** Creates a N4 reader */
 	public N4Reader(URL url) throws IOException {
-		this(new UTF8Reader(url.openStream()));
+		this(FileUtils.getBufferedUTF8Reader(url.openStream()));
 		name = "N4Reader from " + url;
 		;
 	}

@@ -1,8 +1,5 @@
 package basics;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * FactReader interface - YAGO2S
