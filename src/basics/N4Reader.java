@@ -15,8 +15,6 @@ import javatools.filehandlers.FileLines;
 import javatools.filehandlers.UTF8Reader;
 import javatools.parsers.Char;
 
-
-
 /**
  * N4Reader - YAGO2S
  * 
@@ -32,39 +30,43 @@ import javatools.parsers.Char;
  * @author Fabian M. Suchanek
  * 
  */
-public class N4Reader extends PeekIterator<Fact> implements FactReader{
+public class N4Reader extends PeekIterator<Fact> implements FactReader {
 
 	/** Reads the file */
 	protected Reader reader;
 
-	/** Contains the name of this reader*/
+	/** Contains the name of this reader */
 	protected String name;
-	
+
 	/** Maps custom prefixes */
 	protected Map<String, String> prefixes = new TreeMap<String, String>();
 
 	/** Custom base */
 	protected String base = null;
 
-	/** Creates an N4 reader, 
-	 * only for use by derived classes as no reader is defined by this constructor */
-	protected N4Reader() {};
-	
+	/**
+	 * Creates an N4 reader, only for use by derived classes as no reader is
+	 * defined by this constructor
+	 */
+	protected N4Reader() {
+	};
+
 	/** Creates a N4 reader */
 	public N4Reader(File f) throws IOException {
 		this(new InputStreamReader(new FileInputStream(f), "UTF-8"));
-		name=f.getName();
+		name = f.getName();
 	}
 
 	/** Creates a N4 reader */
 	public N4Reader(Reader r) throws IOException {
-	  reader = r;
+		reader = r;
 	}
 
 	/** Creates a N4 reader */
-	public N4Reader(URL url) throws IOException{	      	      
-	  this(new UTF8Reader(url.openStream()));      
-		name="N4Reader from "+url;;
+	public N4Reader(URL url) throws IOException {
+		this(new UTF8Reader(url.openStream()));
+		name = "N4Reader from " + url;
+		;
 	}
 
 	/** Value for "Ignore, read new */
@@ -75,13 +77,13 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 
 	/** returns element after element, null iff no element left */
 	@Override
-	public Fact read(){
-	  if(hasNext())
-	    return next();
-	  else 
-	    return null;
+	public Fact read() {
+		if (hasNext())
+			return next();
+		else
+			return null;
 	}
-	
+
 	/** returns the next item */
 	public String nextItem() throws IOException {
 		if (c == READNEW)
@@ -106,8 +108,9 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			return ("EOF");
 		case '<':
 			c = READNEW;
-			String uri=FileLines.readTo(reader, '>').toString();
-			if(base!=null && !uri.startsWith("http://")) uri=base+uri;
+			String uri = FileLines.readTo(reader, '>').toString();
+			if (base != null && !uri.startsWith("http://"))
+				uri = base + uri;
 			return (FactComponent.forUri(uri));
 		case '"':
 			String language = null;
@@ -221,14 +224,15 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 				String prefix = FileLines.readTo(reader, ':').toString().trim() + ':';
 				FileLines.scrollTo(reader, '<');
 				String dest = FileLines.readTo(reader, '>').toString().trim();
-				if(base!=null && !dest.startsWith("http://")) dest=base+dest;
+				if (base != null && !dest.startsWith("http://"))
+					dest = base + dest;
 				FileLines.scrollTo(reader, '.');
 				if (FactComponent.standardPrefixes.containsKey(prefix)) {
 					if (dest.equals(FactComponent.standardPrefixes.get(prefix)))
 						continue;
 					else
-						Announce.warning("Redefining standard prefix", prefix, "from", FactComponent.standardPrefixes
-								.get(prefix), "to", dest);
+						Announce.warning("Redefining standard prefix", prefix, "from",
+								FactComponent.standardPrefixes.get(prefix), "to", dest);
 				}
 				prefixes.put(prefix, dest);
 				continue;
@@ -238,8 +242,10 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			if (item.equalsIgnoreCase("@BASE")) {
 				FileLines.scrollTo(reader, '<');
 				String uri = FileLines.readTo(reader, '>').toString().trim();
-				if(uri.startsWith("http://")) base=uri;
-				else base=base+uri;
+				if (uri.startsWith("http://"))
+					base = uri;
+				else
+					base = base + uri;
 				FileLines.scrollTo(reader, '.');
 				continue;
 			}
@@ -291,27 +297,12 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			e.printStackTrace();
 		}
 	}
-	
 
-	/** returns only facts with a specific relation*/
-	public PeekIterator<Fact> factsWithRelation(final String relation) {
-		return(new PeekIterator<Fact>() {
-
-			@Override
-			protected Fact internalNext() throws Exception {
-				while(N4Reader.this.hasNext()) {
-					Fact next=N4Reader.this.next();
-					if(next.relation.equals(relation)) return(next);
-				}
-				return(null);
-			}			
-		});
-	}
-	
 	@Override
 	public String toString() {
 		return name;
 	}
+
 	/**
 	 * Test
 	 * 
@@ -323,7 +314,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
-			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")),"Test run");
+			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")), "Test run");
 			for (Fact f : new N4Reader(in)) {
 				w.write(f);
 			}
@@ -332,7 +323,7 @@ public class N4Reader extends PeekIterator<Fact> implements FactReader{
 		}
 
 		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
-		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")),"Test run");
+		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")), "Test run");
 		for (Fact f : new N4Reader(in)) {
 			w.write(f);
 		}

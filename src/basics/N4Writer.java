@@ -62,7 +62,7 @@ public class N4Writer implements Closeable, FactWriter{
 	/** Writes a fact*/
 	@Override
 	public synchronized void write(Fact f) throws IOException {
-		if(f.id!=null) writer.write("#@ "+f.id+"\n");
+		if(f.getId()!=null) writer.write("#@ "+f.getId()+"\n");
 		writer.write(f.arg1);
 		writer.write("\t");
 		writer.write(f.relation);

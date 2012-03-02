@@ -57,7 +57,7 @@ public class Translator {
 		} else {
 			writer.write(new Fact(FactComponent.makeId(), f.arg1, f.relation,f.arg2, f.arg2datatype));
 			for (String[] a : attached) {
-				writer.write(makeFact(null, f.id, a[1], a[2]));
+				writer.write(makeFact(null, f.getId(), a[1], a[2]));
 			}
 		}
 	}

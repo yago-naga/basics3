@@ -15,15 +15,15 @@ import javatools.parsers.Char;
  */
 public class Fact {
 	/** ID (or NULL)*/
-	public final String id;
+	private final String id;
 	/** Argument 1 */
-	public final String arg1;
+	protected final String arg1;
 	/** Relation */
-	public final String relation;
+	protected final String relation;
 	/** Argument 2 */
-	public final String arg2;
+	protected final String arg2;
     /** Datatype of arg2 (or null)*/
-	public final String arg2datatype;
+	protected final String arg2datatype;
 	
 	/** All fact components must be the output of a method of the class FactComponent!*/
 	public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
@@ -57,13 +57,13 @@ public class Fact {
 		this.arg1 = copy.arg1;
 		this.arg2 = copy.arg2;
 		this.relation = copy.relation;
-		this.id=copy.id;
+		this.id=copy.getId();
 		this.arg2datatype=copy.arg2datatype;
 	}
 
 	@Override
 	public int hashCode() {
-		if(id!=null) return(id.hashCode());
+		if(getId()!=null) return(getId().hashCode());
 		return(arg1.hashCode()^relation.hashCode()^arg2.hashCode());
 	}
 
@@ -72,12 +72,12 @@ public class Fact {
 		if(!(obj instanceof Fact)) return(false);
 		Fact f=(Fact)obj;
 		// I have an id
-		if(id!=null) {
-			if(f.id==null) return(false);
-			return(id.equals(f.id));
+		if(getId()!=null) {
+			if(f.getId()==null) return(false);
+			return(getId().equals(f.getId()));
 		}
 		// I don't have an id
-		if(f.id!=null) return(false);
+		if(f.getId()!=null) return(false);
  		return(D.equalPairs(arg1,f.arg1,relation,f.relation,arg2,f.arg2));
 	}
 
@@ -95,10 +95,24 @@ public class Fact {
 	public String getArg(int a) {
 		return (a == 1 ? arg1 : arg2+(arg2datatype==null?"":"^^"+arg2datatype));
 	}
-	
+
+	/** returns the relation*/
+	public String getRelation() {
+		return (relation);
+	}
+
+	/** returns the datatype of the second argument*/
+	public String getdataType() {
+		return (arg2datatype);
+	}
+
 	@Override
 	public String toString() {		
-		return id+" "+arg1+" "+relation+" "+arg2+(arg2datatype==null?"":"^^"+arg2datatype);
+		return (getId()==null?"":getId()+" ")+arg1+" "+relation+" "+arg2+(arg2datatype==null?"":"^^"+arg2datatype);
+	}
+
+	public String getId() {
+		return id;
 	}
 
 }
