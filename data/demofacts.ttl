@@ -13,6 +13,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<Ulm>	rdf:type	<wordnet_city_108524735> .
 <Nobel_Prize_in_Physics>	rdf:type	<wordnet_award_106696483> .
 <Woodstock_Festival>	<startedOnDate>	"1969-08-15"^^xsd:date .
 <Woodstock_Festival>	<endedOnDate>	"1969-08-17"^^xsd:date .
