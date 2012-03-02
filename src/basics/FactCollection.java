@@ -276,4 +276,11 @@ public class FactCollection extends AbstractSet<Fact> {
 		}
 	}
 
+	/** Adds the superclasses of this class*/
+	public Set<String> superClasses(String sub) {
+		Set<String> set=new TreeSet<>();
+		superClasses(sub, set);
+		return(set);
+	}
+
 }
