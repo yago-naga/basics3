@@ -111,13 +111,19 @@ public class FactComponent {
 	public static String forWordnetEntity(String word, String id) {
 		return (forYagoEntity("wordnet_" + word.replace(' ', '_') + "_" + id));
 	}
-	
+
+	/** Creates a fact component for a Wikipedia category */
+	public static String forWikiCategory(String word) {
+		return (forYagoEntity("wikicategory_" + word.replace(' ', '_')));
+	}
+
 	/** Translates anything into a FactComponent */
 	public static String forAny(String s) {
 		if (s == null || s.length() == 0)
 			return (null);
 		if (s.startsWith("\"")) {
-			return (forString(Char.cutLast(s.substring(1)), null, null));
+			if(s.contains("\"^^")) return(s);
+			return (forString(stripQuotes(s.substring(1)), null, null));
 		}
 		if (s.startsWith("http://")) {
 			return (forUri(s));

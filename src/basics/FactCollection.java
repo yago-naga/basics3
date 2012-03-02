@@ -267,5 +267,13 @@ public class FactCollection extends AbstractSet<Fact> {
 		}
 		return(false);
 	}
-	
+
+	/** Adds the superclasses of this class*/
+	public void superClasses(String sub, Set<String> set) {
+		set.add(sub);
+		for(String s : getArg2s(sub,RDFS.subclassOf)) {
+			superClasses(s, set);
+		}
+	}
+
 }
