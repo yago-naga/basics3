@@ -2,10 +2,7 @@ package basics;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javatools.administrative.Announce;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
 import javatools.parsers.DateParser;

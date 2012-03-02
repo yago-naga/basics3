@@ -1,11 +1,6 @@
 package basics;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javatools.administrative.D;
-import javatools.filehandlers.FileSet;
 
 /**
  * Represents a theme
