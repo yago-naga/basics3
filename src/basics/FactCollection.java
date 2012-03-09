@@ -38,11 +38,11 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	public synchronized boolean add(Fact fact) {
 		if (facts.contains(fact)) {
-			Announce.warning("Duplicate fact not added:", fact);
+			Announce.debug("Duplicate fact not added:", fact);
 			return (false);
 		}
 		if (fact.arg1.equals(fact.arg2)) {
-			Announce.warning("Identical arguments not added", fact);
+			Announce.debug("Identical arguments not added", fact);
 			return (false);
 		}
 		facts.add(fact);
