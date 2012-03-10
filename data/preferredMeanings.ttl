@@ -14,6 +14,11 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+# Avoid that these countries get kicked out because they have a corresponding wordnet word
+<Turkey>	<isPreferredMeaningOf>	"Turkey" .
+<Brazil>	<isPreferredMeaningOf>	"Brazil" .
+<China>	<isPreferredMeaningOf>	"China" .
+
 <wordnet_state_108654360>	<isPreferredMeaningOf>	"state" .
 
 <wordnet_episode_106396330>	<isPreferredMeaningOf>	"episode" .
