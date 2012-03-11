@@ -50,6 +50,18 @@ public class FactCollection extends AbstractSet<Fact> {
 			index.put(fact.arg1, Collections.synchronizedMap(new TreeMap<String, List<Fact>>()));
 		if (!index.get(fact.arg1).containsKey(fact.relation))
 			index.get(fact.arg1).put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
+		for(Fact other : index.get(fact.arg1).get(fact.relation)) {
+			if(!other.getArg(2).equals(fact.getArg(2))) continue;
+			if(other.getId()!=null && fact.getId()==null) {
+				Announce.debug("Fact without id not added:", fact,"because of",other);
+				return (false);				
+			}
+			if(other.getId()==null && fact.getId()!=null) {
+				Announce.debug("Removed", other,"because of newly added",fact);
+				remove(other);
+				break;
+			}
+		}
 		index.get(fact.arg1).get(fact.relation).add(fact);
 		if (!relindex.containsKey(fact.relation))
 			relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));

@@ -13,17 +13,18 @@ public class Theme implements Comparable<Theme>{
 	/** Name of the theme*/
 	public final String name;
 
+	/** Description of the theme*/
+	public final String description;
+
 	/** Counts the themes*/
 	protected static int ids=0;
 	
 	/** (dynamic) Id of this theme*/
 	protected final int id=ids++;
-
-	/** Theme of entire YAGO*/
-	public static final Theme ALL=new Theme("ALL");
 	
-	public Theme(String name) {
+	public Theme(String name, String description) {
 		this.name=name;	
+		this.description=description;
 	}
 	
 	/** Returns the file name of this theme in the given folder*/
