@@ -38,7 +38,7 @@ public class Fact {
 	/** All fact components must be the output of a method of the class FactComponent!*/
 	public Fact(String id, String arg1, String relation, String arg2withDataType) {
 		super();
-		String[] a2=arg2withDataType.split("^^");
+		String[] a2=FactComponent.literalAndDataType(arg2withDataType);
 		this.arg1 = arg1.intern();
 		this.arg2 = a2[0].intern();
 		this.relation = relation.intern();
@@ -102,10 +102,10 @@ public class Fact {
 	}
 
 	/** returns the datatype of the second argument*/
-	public String getdataType() {
+	public String getDataType() {
 		return (arg2datatype);
 	}
-
+	
 	@Override
 	public String toString() {		
 		return (getId()==null?"":getId()+" ")+arg1+" "+relation+" "+arg2+(arg2datatype==null?"":"^^"+arg2datatype);
@@ -113,6 +113,10 @@ public class Fact {
 
 	public String getId() {
 		return id;
+	}
+
+	public String toTsvLine() {
+		return((id==null?"":id)+"\t"+arg1+"\t"+getRelation()+"\t"+arg2+"\t"+arg2datatype+"\n");
 	}
 
 }

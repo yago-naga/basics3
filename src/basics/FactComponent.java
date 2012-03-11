@@ -178,6 +178,15 @@ public class FactComponent {
 		return (result);
 	}
 
+	/** removes brackets */
+	public static String stripBrackets(String result) {
+		if (result.startsWith("<"))
+			result = result.substring(1);
+		if (result.endsWith(">"))
+			result = Char.cutLast(result);
+		return (result);
+	}
+
 	/** Returns a Java string for a YAGO string */
 	public static String asJavaString(String string) {
 		int pos = string.indexOf("\"^^");
@@ -209,4 +218,15 @@ public class FactComponent {
 	public static boolean isLiteral(String entity) {
 		return (entity.startsWith("\""));
 	}
+
+	/** TRUE for urls */
+	public static boolean isUri(String entity) {
+		return (entity.startsWith("<"));
+	}
+
+	/** Splits a literal into literal (with quotes) and datatype*/
+	public static String[] literalAndDataType(String arg2withDataType) {		
+		return arg2withDataType.split("\\^\\^");
+	}
+	
 }
