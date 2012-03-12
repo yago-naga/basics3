@@ -189,6 +189,7 @@ public class FactComponent {
 
 	/** Returns a Java string for a YAGO string */
 	public static String asJavaString(String string) {
+		if(string==null) return(null);
 		int pos = string.indexOf("\"^^");
 		if (pos != -1)
 			string = string.substring(0, pos + 1);
