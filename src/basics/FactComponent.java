@@ -116,6 +116,11 @@ public class FactComponent {
 	public static String forWikiCategory(String word) {
 		return (forYagoEntity("wikicategory_" + word.replace(' ', '_')));
 	}
+	
+	 /** Creates a fact component for a GeoNames class */
+  public static String forGeoNamesClass(String word) {
+    return (forYagoEntity("geoclass_" + word.replace(' ', '_')));
+  }
 
 	/** Translates anything into a FactComponent */
 	public static String forAny(String s) {
