@@ -27,9 +27,6 @@ public class FactComponent {
 			"http://www.w3.org/2001/XMLSchema#", "owl:", "http://www.w3.org/2002/07/owl#", "skos:",
 			"http://www.w3.org/2004/02/skos/core#", "dbp:", "http://dbpedia.org/ontology/");
 
-	/** Some id counter for blank nodes */
-	public static int ids = 0;
-
 	/** Creates a fact component for a URI */
 	public static String forUri(String s) {
 		if (s.startsWith(YAGONAMESPACE)) {
@@ -230,4 +227,15 @@ public class FactComponent {
 		return arg2withDataType.split("\\^\\^");
 	}
 
+	/** TRUE if the first thing is more specific than the second*/
+	public static boolean isMoreSpecific(String first, String second) {
+		if(isLiteral(first)) {
+			if(!isLiteral(second)) return(false);
+			second=asJavaString(second);
+			first=asJavaString(first);
+			if(DateParser.isDate(first) && DateParser.isDate(second) && DateParser.includes(second, first)) return(true);
+			return(false);
+		}
+		return(false);
+	}
 }

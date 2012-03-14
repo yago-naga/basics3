@@ -41,6 +41,10 @@ public class FactCollection extends AbstractSet<Fact> {
 	protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new TreeMap<String, List<Fact>>());
 
 	public synchronized boolean add(Fact fact) {
+		if(fact.getArg(1)==null || fact.getArg(2)==null) {
+			Announce.debug("Null fact not added:", fact);
+			return (false);			
+		}
 		if (facts.contains(fact)) {
 			Announce.debug("Duplicate fact not added:", fact);
 			return (false);
@@ -55,6 +59,15 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (!index.get(fact.arg1).containsKey(fact.relation))
 			index.get(fact.arg1).put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
 		for(Fact other : index.get(fact.arg1).get(fact.relation)) {
+			if(FactComponent.isMoreSpecific(fact.getArg(2), other.getArg(2))) {
+				Announce.debug("Removed", other,"because of newly added",fact);
+				remove(other);
+				break;				
+			}
+			if(FactComponent.isMoreSpecific(other.getArg(2), fact.getArg(2))) {
+				Announce.debug("Fact without id not added:", fact,"because of",other);
+				return (false);				
+			}
 			if(!other.getArg(2).equals(fact.getArg(2))) continue;
 			if(other.getId()!=null && fact.getId()==null) {
 				Announce.debug("Fact without id not added:", fact,"because of",other);
