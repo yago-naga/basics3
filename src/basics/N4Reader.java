@@ -43,6 +43,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		reader = r;
 		next();
 	}
+
+	/** Counter for blank nodes*/
+	protected int blankCounter=0;
+	
 	/** Value for "Ignore, read new */
 	public static final int READNEW = -2;
 
@@ -110,7 +114,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 				Announce.warning("Properties of blank node ignored", blank);
 			}
 			c = READNEW;
-			return (FactComponent.makeId());
+			return (FactComponent.forYagoEntity("blank"+(blankCounter++)));
 		case '(':
 			c = READNEW;
 			String list = FileLines.readTo(reader, ')').toString().trim();

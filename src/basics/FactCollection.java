@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javatools.administrative.Announce;
+import javatools.administrative.D;
 import javatools.filehandlers.FileSet;
 
 /**
@@ -202,8 +203,10 @@ public class FactCollection extends AbstractSet<Fact> {
 		boolean matches = true;
 		next: for (Fact fact : facts) {
 			for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
-				if (other.arg2.equals(fact.arg2))
+				if (other.arg2.equals(fact.arg2)) {
+					if(!D.equal(fact.getId(),other.getId())) Announce.message("Different ids:",fact,other);
 					continue next;
+				}
 			}
 			Announce.message("Not found:", fact);
 			matches = false;

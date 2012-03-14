@@ -30,11 +30,6 @@ public class FactComponent {
 	/** Some id counter for blank nodes */
 	public static int ids = 0;
 
-	/** Creates a new unique YAGO id */
-	public static String makeId() {
-		return (forQname("y:", "id_" + NumberFormatter.timeStamp() + "_" + (ids++)));
-	}
-
 	/** Creates a fact component for a URI */
 	public static String forUri(String s) {
 		if (s.startsWith(YAGONAMESPACE)) {
@@ -234,5 +229,5 @@ public class FactComponent {
 	public static String[] literalAndDataType(String arg2withDataType) {		
 		return arg2withDataType.split("\\^\\^");
 	}
-	
+
 }

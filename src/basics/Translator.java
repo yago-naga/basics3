@@ -48,6 +48,9 @@ public class Translator {
 				FactComponent.forAny(arg2)));
 	}
 
+	/** id counter*/
+	public static int idCounter=0;
+	
 	/** Writes a fact */
 	public static void writeFact(N4Writer writer, Fact f, List<String[]> attached) throws IOException {
 		if (f == null)
@@ -55,7 +58,7 @@ public class Translator {
 		if (attached.isEmpty()) {
 			writer.write(f);
 		} else {
-			writer.write(new Fact(FactComponent.makeId(), f.arg1, f.relation,f.arg2, f.arg2datatype));
+			writer.write(new Fact(FactComponent.forYagoEntity("id"+(idCounter++)), f.arg1, f.relation,f.arg2, f.arg2datatype));
 			for (String[] a : attached) {
 				writer.write(makeFact(null, f.getId(), a[1], a[2]));
 			}
