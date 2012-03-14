@@ -212,7 +212,7 @@ public class FactCollection extends AbstractSet<Fact> {
 					continue next;
 				}
 			}
-			Announce.message("Not found in", this.name(),":",fact);
+			Announce.message("Not found in", goldStandard.name(),":",fact);
 			matches = false;
 		}
 		return (matches);
