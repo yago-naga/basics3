@@ -130,12 +130,13 @@ public class Fact {
 	 * billion
 	 */
 	public String makeId() {
-		id = "y";
+		id = "id_";
 		id += Integer.toString(Math.abs(arg1.hashCode()), Character.MAX_RADIX);
 		String rel = FactComponent.stripBrackets(relation);
-		id += rel.substring(0, 1) + Integer.toString(rel.length(), Character.MAX_RADIX)
-				+ rel.substring(rel.length() - 1);
+		id += "_"+rel.substring(0, 1) + Integer.toString(rel.length(), Character.MAX_RADIX)
+				+ rel.substring(rel.length() - 1)+"_";
 		id += Integer.toString(Math.abs(FactComponent.stripQuotes(arg2).hashCode()), Character.MAX_RADIX);
+		id=FactComponent.forYagoEntity(id);
 		return (id);
 	}
 

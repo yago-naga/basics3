@@ -29,6 +29,9 @@ import javatools.filehandlers.FileSet;
  */
 public class FactCollection extends AbstractSet<Fact> {
 
+	/** Holds a name*/
+	protected final String name;
+	
 	/** Holds the facts */
 	protected Set<Fact> facts;
 	/** Maps first arg to relation to facts */
@@ -124,21 +127,25 @@ public class FactCollection extends AbstractSet<Fact> {
 	/** Loads from N4 file */
 	public FactCollection(File n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
+		name=n4File.toString();
 		load(n4File);
 	}
 
 	/** Loads from N4 file */
 	public FactCollection(FactSource n4File) throws IOException {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
+		name=n4File.name();
 		load(n4File);
 	}
 
 	public FactCollection() {
 		facts = Collections.synchronizedSet(new HashSet<Fact>());
+		name="anonymous FactCollection";
 	}
 
 	public FactCollection(int capacity) {
 		facts = Collections.synchronizedSet(new HashSet<Fact>(capacity));
+		name="anonymous FactCollection";
 	}
 
 	/** Add facts */
@@ -170,9 +177,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	public void load(File n4File) throws IOException {
 		if (!n4File.getName().contains("."))
 			n4File = FileSet.newExtension(n4File, ".ttl");
-		Announce.doing("Loading", n4File);
 		load(FactSource.from(n4File));
-		Announce.done();
 	}
 	
 	/** Loads from N4 file */
@@ -199,7 +204,6 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Checks if all of my facts are in the other set, prints differences */
 	public boolean checkContainedIn(FactCollection goldStandard) {
-		Announce.doing("Checking containment");
 		boolean matches = true;
 		next: for (Fact fact : facts) {
 			for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
@@ -208,18 +212,20 @@ public class FactCollection extends AbstractSet<Fact> {
 					continue next;
 				}
 			}
-			Announce.message("Not found:", fact);
+			Announce.message("Not found in", this.name(),":",fact);
 			matches = false;
 		}
-		Announce.done();
 		return (matches);
+	}
+
+	/** returns the name*/
+	public String name() {
+		return name;
 	}
 
 	/** Checks for differences, returns TRUE if equal, prints differences */
 	public boolean checkEqual(FactCollection goldStandard) {
-		Announce.doing("Comparing fact collections");
 		boolean b = checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
-		Announce.done();
 		return (b);
 	}
 

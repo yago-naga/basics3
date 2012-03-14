@@ -19,6 +19,9 @@ import javatools.util.FileUtils;
  */
 public abstract class FactSource implements Iterable<Fact> {
 	
+	/** Name of this source*/
+	protected String name;
+	
 	/** returns a fact source from a file*/
 	public static FactSource from(File f) {
 		return(new FileFactSource(f));
@@ -40,6 +43,10 @@ public abstract class FactSource implements Iterable<Fact> {
 		}
 	}
 
+	public String name() {
+		return name;
+	}
+	
 	/** Fact source from file*/
 	protected static class FileFactSource extends FactSource {
 		File file;
@@ -57,6 +64,7 @@ public abstract class FactSource implements Iterable<Fact> {
 		public FileFactSource(File file) {
 			super();
 			this.file = file;
+			this.name=file.toString();
 		}
 		
 		@Override
@@ -83,6 +91,7 @@ public abstract class FactSource implements Iterable<Fact> {
 		public UrlFactSource(URL file) {
 			super();
 			this.file = file;
+			this.name=file.toString();
 		}
 
 		@Override
