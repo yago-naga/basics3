@@ -317,4 +317,24 @@ public class FactCollection extends AbstractSet<Fact> {
 		return(set);
 	}
 
+	/**
+	 * Creates a map for quickly getting arg1 for a given arg2.
+	 * Notice that this might overwrite arg1s that occur multiple
+	 * times, make sure you know that they are unique.
+	 * 
+	 * This is useful for all the YAGO -> Other_KB_ID mappings
+	 * 
+	 * @param relation relation for which to generate the reverse map
+	 * @return reverse map
+	 */
+  public Map<String, String> getReverseMap(String relation) {
+    Map<String, String> reverseMap = new HashMap<>();
+    
+    for (Fact f : get(relation)) {
+      reverseMap.put(f.getArg(2), f.getArg(1));
+    }
+    
+    return reverseMap;
+  }
+
 }
