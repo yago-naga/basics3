@@ -53,7 +53,6 @@ public class FactCollection extends AbstractSet<Fact> {
 			Announce.debug("Identical arguments not added", fact);
 			return (false);
 		}
-		facts.add(fact);
 		if (!index.containsKey(fact.arg1))
 			index.put(fact.arg1, Collections.synchronizedMap(new TreeMap<String, List<Fact>>()));
 		if (!index.get(fact.arg1).containsKey(fact.relation))
@@ -83,6 +82,7 @@ public class FactCollection extends AbstractSet<Fact> {
 		if (!relindex.containsKey(fact.relation))
 			relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
 		relindex.get(fact.relation).add(fact);
+		facts.add(fact);
 		return (true);
 	}
 
