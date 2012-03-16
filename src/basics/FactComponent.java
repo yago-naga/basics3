@@ -233,6 +233,7 @@ public class FactComponent {
 
 	/** TRUE if the first thing is more specific than the second*/
 	public static boolean isMoreSpecific(String first, String second) {
+		if(first.equals(second)) return(false);
 		if(isLiteral(first)) {
 			if(!isLiteral(second)) return(false);
 			second=asJavaString(second);

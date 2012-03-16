@@ -65,7 +65,7 @@ public class FactCollection extends AbstractSet<Fact> {
 				break;				
 			}
 			if(FactComponent.isMoreSpecific(other.getArg(2), fact.getArg(2))) {
-				Announce.debug("Fact without id not added:", fact,"because of",other);
+				Announce.debug("More general fact not added:", fact,"because of",other);
 				return (false);				
 			}
 			if(!other.getArg(2).equals(fact.getArg(2))) continue;
