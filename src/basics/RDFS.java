@@ -16,4 +16,5 @@ public class RDFS {
 	public static final String domain = "rdfs:domain";
 	public static final String range = "rdfs:range";
 	public static final String label = "rdfs:label";
+	public static final String subpropertyOf = "rdfs:subPropertyOf";
 }
