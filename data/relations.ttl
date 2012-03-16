@@ -32,10 +32,8 @@ rdfs:subClassOf	rdfs:domain	rdf:Class .
 rdfs:subClassOf	rdfs:range	rdf:Class .
 rdfs:subClassOf	rdf:type	rdf:Property .
 rdfs:subClassOf	rdf:type	<yagoTransitiveRelation> .
-rdfs:domain	rdfs:domain	rdf:Property .
 rdfs:domain	rdfs:range	rdf:Class .
 rdfs:domain	rdf:type	<yagoFunction> .
-rdfs:range	rdfs:domain	rdf:Property .
 rdfs:range	rdfs:range	rdf:Class .
 rdfs:range	rdf:type	<yagoFunction> .
  rdfs:subPropertyOf	rdfs:domain	rdf:Property .
@@ -122,7 +120,6 @@ skos:prefLabel	rdfs:domain	rdf:Resource .
 skos:prefLabel	rdfs:range	xsd:string .
 skos:prefLabel	rdf:type	<yagoFunction> .
 skos:prefLabel	rdf:type	<permanentRelationToSubject> .
-<hasSynsetId>	rdf:type	<yagoFunction> .
 <hasSynsetId>	rdfs:domain	rdf:Resource .
 <hasSynsetId>	rdfs:range	<yagoIdentifier> .
 <hasSynsetId>	rdf:type	<yagoFunction> .

@@ -17,7 +17,6 @@
 <Nobel_Prize_in_Physics>	rdf:type	<wordnet_award_106696483> .
 <Woodstock_Festival>	<startedOnDate>	"1969-08-15"^^xsd:date .
 <Woodstock_Festival>	<endedOnDate>	"1969-08-17"^^xsd:date .
-<Richard_Rashid>	rdfs:labelOf	"Rick" .
 <Paul_McCartney>	<wasBornIn>	<Liverpool> .
 <Paul_McCartney>	<wasBornOnDate>	"1942-06-18"^^xsd:date .
 <Linda_McCartney>	<wasBornIn>	<New_York_City> .
@@ -36,7 +35,6 @@
 <Nancy_Shevell>	<wasBornOnDate>	"1960-11-##"^^xsd:date .
 #@ <demoId2>
 <Paul_McCartney>	<isMarriedTo>	<Nancy_Shevell> .
-<demoId2>	<occursSince>	"2011-10-09"^^xsd:date .
 <demoId2>	<occursSince>	"2011-10-09"^^xsd:date .
 <John_Lennon>	<wasBornIn>	<Liverpool> .
 <John_Lennon>	<wasBornOnDate>	"1940-10-09"^^xsd:date .
@@ -78,7 +76,6 @@
 <Barbara_Bach>	<wasBornOnDate>	"1947-08-27"^^xsd:date .
 #@ <demoId8>
 <Ringo_Starr>	<isMarriedTo>	<Barbara_Bach> .
-<demoId8>	<occursSince>	"1981-04-27"^^xsd:date .
 <demoId8>	<occursSince>	"1981-04-27"^^xsd:date .
 <Paul_McCartney>	rdf:type	<wikicategory_The_Beatles_members> .
 <John_Lennon>	rdf:type	<wikicategory_The_Beatles_members> .

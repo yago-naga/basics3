@@ -18,18 +18,18 @@
 <hardId9>	<_hasComment>	"Additional YAGO class" .
 <yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity" .
 <yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity" .
-<yagoLegalActorGeo>	rdfs:labelOf	"yagoLegalActorGeo" .
+<yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo" .
 #@ <hardId10>
 <yagoLegalActor>	rdfs:subClassOf	<yagoLegalActorGeo> .
 <hardId10>	<_hasComment>	"Additional YAGO class" .
 <yagoLegalActor>	skos:prefLabel	"legal actor" .
 <yagoLegalActor>	<hasGloss>	"legal actor" .
-<yagoLegalActor>	rdfs:labelOf	"yagoLegalActor" .
+<yagoLegalActor>	rdfs:label	"yagoLegalActor" .
 <wordnet_person_100007846>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
 #@ <hardId11>
-<yagoGeoEntity>	rdfs:labelOf	"yagoGeoEntity" .
+<yagoGeoEntity>	rdfs:label	"yagoGeoEntity" .
 <hardId11>	<_hasComment>	"Additional YAGO class for individuals with geographical coordinates" .
 <yagoGeoEntity>	skos:prefLabel	"geographical entity" .
 <yagoGeoEntity>	<hasGloss>	"geographical entity" .
@@ -44,7 +44,7 @@
 <wordnet_way_104564698>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109334396>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
-<yagoPermanentlyLocatedEntity>	rdfs:labelOf	"yagoPermanentlyLocatedEntity" .
+<yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity" .
 #@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	rdf:Resource .
 <hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere" .
@@ -52,9 +52,9 @@
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <yagoGeoEntity>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <male>	rdf:type	<wordnet_sex_105006898> .
-<male>	rdfs:labelOf	"male" .
+<male>	rdfs:label	"male" .
 <female>	rdf:type	<wordnet_sex_105006898> .
-<female>	rdfs:labelOf	"female" .
+<female>	rdfs:label	"female" .
 <Earth>	rdf:type	<yagoGeoEntity> .
 <Africa>	rdf:type	<yagoGeoEntity> .
 <Africa>	<isLocatedIn>	<Earth> .
@@ -70,11 +70,11 @@
 <Oceania>	<isLocatedIn>	<Earth> .
 <South_America>	rdf:type	<yagoGeoEntity> .
 <South_America>	<isLocatedIn>	<Earth> .
-<European_Union>	rdfs:labelOf	"EU" .
-<European_Union>	rdfs:labelOf	"EC" .
-<United_States>	rdfs:labelOf	"US" .
-<United_Nations>	rdfs:labelOf	"UN" .
-<United_Kingdom>	rdfs:labelOf	"UK" .
-<Great_Britain>	rdfs:labelOf	"GB" .
-<Richard_Rashid>	rdfs:labelOf	"Rick" .
-<Frédéric_Joliot-Curie>	rdfs:labelOf	"Frederic" .
+<European_Union>	rdfs:label	"EU" .
+<European_Union>	rdfs:label	"EC" .
+<United_States>	rdfs:label	"US" .
+<United_Nations>	rdfs:label	"UN" .
+<United_Kingdom>	rdfs:label	"UK" .
+<Great_Britain>	rdfs:label	"GB" .
+<Richard_Rashid>	rdfs:label	"Rick" .
+<Frédéric_Joliot-Curie>	rdfs:label	"Frederic" .

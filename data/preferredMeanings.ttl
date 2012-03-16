@@ -19,6 +19,9 @@
 <Brazil>	<isPreferredMeaningOf>	"Brazil" .
 <China>	<isPreferredMeaningOf>	"China" .
 
+<wordnet_organization_108008335>	<isPreferredMeaningOf>	"organisation" .
+<wordnet_organization_108008335>	<isPreferredMeaningOf>	"organization" .
+
 <wordnet_state_108654360>	<isPreferredMeaningOf>	"state" .
 
 <wordnet_episode_106396330>	<isPreferredMeaningOf>	"episode" .
