@@ -119,6 +119,12 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasSynsetId>	rdfs:domain	rdf:Resource .
 <hasSynsetId>	rdfs:range	<yagoIdentifier> .
 <hasSynsetId>	rdf:type	<yagoFunction> .
+<hasGeonamesClassId>	rdfs:domain	rdf:Resource .
+<hasGeonamesClassId>	rdfs:range	yagoIdentifier .
+<hasGeonamesClassId>	rdf:type	<yagoFunction> .
+<hasGeonamesEntityId>	rdfs:domain	rdf:Resource .
+<hasGeonamesEntityId>	rdfs:range	yagoIdentifier .
+<hasGeonamesEntityId>	rdf:type	<yagoFunction> .
 <hasLanguageCode>	rdf:type	rdf:Property .
 <hasLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
 <hasLanguagecode>	rdfs:range	xsd:string .
@@ -509,7 +515,8 @@ skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
 <isDisjointFrom>	<hasGloss>	"$1 has no overlap with $2" .
 <isGreaterThan>	<hasGloss>	"$1 > $2" .
 <isSmallerThan>	<hasGloss>	"$1 < $2" .
-<hasGeonamesId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
+<hasGeonamesClassId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
+<hasGeonamesEntityId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasSynsetId>	<hasGloss>	"$1 has the WordNet identifier $2" .
 <holdsPoliticalPosition>	rdfs:domain	<wordnet_person_100007846> .
 <holdsPoliticalPosition>	rdfs:range	<wordnet_person_100007846> .
