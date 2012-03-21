@@ -130,22 +130,27 @@ public class Fact {
 	 * billion
 	 */
 	public String makeId() {
-		id = "id_";
-		id += Integer.toString(Math.abs(arg1.hashCode()), Character.MAX_RADIX);
-		String rel = FactComponent.stripBrackets(relation);
-		id += "_"+rel.substring(0, 1) + Integer.toString(rel.length(), Character.MAX_RADIX)
-				+ rel.substring(rel.length() - 1)+"_";
-		id += Integer.toString(Math.abs(FactComponent.stripQuotes(arg2).hashCode()), Character.MAX_RADIX);
+		id="id_";
+		id+=FactComponent.hashEntity(arg1);
+		id+="_"+FactComponent.hashRelation(relation);
+		id+="_"+FactComponent.hashLiteralOrEntity(arg2);
 		id=FactComponent.forYagoEntity(id);
 		return (id);
 	}
 
+	/** returns the id*/
 	public String getId() {
 		return id;
 	}
 
+	/** returns a TSV line*/
 	public String toTsvLine() {
 		return ((id == null ? "" : id) + "\t" + arg1 + "\t" + getRelation() + "\t" + arg2 + "\t" + arg2datatype + "\n");
 	}
 
+	/** Creates a meta fact for this fact (generates an id if necessary)*/
+	public Fact metaFact(String relation, String arg2withdatatype) {
+		if(getId()==null) makeId();
+		return(new Fact(getId(),relation,arg2withdatatype));
+	}
 }

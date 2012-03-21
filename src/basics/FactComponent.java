@@ -243,4 +243,32 @@ public class FactComponent {
 		}
 		return(false);
 	}
+
+	/** Returns a hash for a Java String*/
+	public static String hash(String string) {
+		int hash=string.hashCode();
+		return(Long.toString((long)hash-(long)Integer.MIN_VALUE, Character.MAX_RADIX));
+	}
+	
+	/** Returns a hash for an entity*/
+	public static String hashEntity(String entity) {
+		return(hash(stripBrackets(entity)));
+	}
+	
+	/** Returns a hash for a literal*/
+	public static String hashLiteral(String literal) {
+		return(hash(asJavaString(literal)));
+	}
+
+	/** Returns a hash for a literal*/
+	public static String hashLiteralOrEntity(String s) {
+		return(isLiteral(s)?hashLiteral(s):hashEntity(s));
+	}
+
+	/** Returns a hash for a literal*/
+	public static String hashRelation(String relation) {
+		String hash=hashEntity(relation);
+		return(hash.substring(0,Math.min(3,hash.length())));
+	}
+
 }
