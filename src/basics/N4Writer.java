@@ -1,7 +1,6 @@
 package basics;
 
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -20,7 +19,7 @@ import javatools.util.FileUtils;
  * @author Fabian Suchanek
  * 
  */
-public class N4Writer implements Closeable, FactWriter{
+public class N4Writer extends FactWriter{
 	/** Writes the file */
 	protected Writer writer;
 

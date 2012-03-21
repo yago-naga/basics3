@@ -15,7 +15,7 @@ import javatools.util.FileUtils;
  * @author Fabian M. Suchanek
  *
  */
-public class TsvWriter implements FactWriter {
+public class TsvWriter extends FactWriter {
 
 	protected Writer out;
 	

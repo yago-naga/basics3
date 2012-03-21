@@ -28,6 +28,7 @@ public class FactComponent {
 
 	/** Creates a fact component for a URI */
 	public static String forUri(String s) {
+		if(s.startsWith("<")) return(s);
 		if (s.startsWith(YAGONAMESPACE)) {
 			return ('<' + s.substring(YAGONAMESPACE.length()) + '>');
 		}
@@ -269,6 +270,11 @@ public class FactComponent {
 	public static String hashRelation(String relation) {
 		String hash=hashEntity(relation);
 		return(hash.substring(0,Math.min(3,hash.length())));
+	}
+
+    /** TRUE if the argument is a fact id*/
+	public static boolean isFactId(String arg) {
+		return arg.startsWith("<id_");
 	}
 
 }

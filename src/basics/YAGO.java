@@ -21,4 +21,6 @@ public class YAGO {
 	public static final String artifact="<wordnet_artifact_100021939>";
 	public static final String physicalEntity="<wordnet_physical_entity_100001930>";
 	public static final String abstraction="<wordnet_abstraction_100002137>";
+	public static final String extractionSource="<extractionSource>";
+	public static final String extractionTechnique="<extractionTechnique>";
 }

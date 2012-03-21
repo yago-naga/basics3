@@ -13,6 +13,6 @@ import java.io.IOException;
  * @author Steffen Metzger
  * 
  */
-public interface FactWriter extends Closeable{
-  public void write(Fact f) throws IOException;
+public abstract class FactWriter implements Closeable{
+  public abstract void write(Fact f) throws IOException; 
 }
