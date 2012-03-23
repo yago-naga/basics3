@@ -119,6 +119,11 @@ public class FactComponent {
     return (forYagoEntity("geoclass_" + word.replace(' ', '_')));
   }
 
+  /** returns a YAGO entity name for this theme*/
+  public static String forTheme(Theme t) {
+    return(FactComponent.forYagoEntity("yagoTheme_"+t.name));
+  }
+
 	/** Translates anything into a FactComponent */
 	public static String forAny(String s) {
 		if (s == null || s.length() == 0)
