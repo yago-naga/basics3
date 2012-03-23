@@ -120,10 +120,10 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasSynsetId>	rdfs:range	<yagoIdentifier> .
 <hasSynsetId>	rdf:type	<yagoFunction> .
 <hasGeonamesClassId>	rdfs:domain	rdf:Resource .
-<hasGeonamesClassId>	rdfs:range	yagoIdentifier .
+<hasGeonamesClassId>	rdfs:range	<yagoIdentifier> .
 <hasGeonamesClassId>	rdf:type	<yagoFunction> .
 <hasGeonamesEntityId>	rdfs:domain	rdf:Resource .
-<hasGeonamesEntityId>	rdfs:range	yagoIdentifier .
+<hasGeonamesEntityId>	rdfs:range	<yagoIdentifier> .
 <hasGeonamesEntityId>	rdf:type	<yagoFunction> .
 <hasLanguageCode>	rdf:type	rdf:Property .
 <hasLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
