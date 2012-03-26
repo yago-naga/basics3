@@ -82,7 +82,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 				uri = base + uri;
 			return (FactComponent.forUri(uri));
 		case '"':
-			String language = "";
+			String language = null;
 			String datatype = null;
 			String string = FileLines.readTo(reader, '"').toString();
 			while (string.endsWith("\\") && !string.endsWith("\\\\"))
@@ -90,6 +90,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			c = reader.read();
 			switch (c) {
 			case '@':
+			  language="";
 				while (Character.isLetter(c = reader.read()))
 					language += (char)c;
 				c=READNEW;
