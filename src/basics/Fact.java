@@ -145,7 +145,7 @@ public class Fact {
 
 	/** returns a TSV line*/
 	public String toTsvLine() {
-		return ((id == null ? "" : id) + "\t" + arg1 + "\t" + getRelation() + "\t" + arg2 + "\t" + arg2datatype + "\n");
+		return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2)+ "\n");
 	}
 
 	/** Creates a meta fact for this fact (generates an id if necessary)*/
