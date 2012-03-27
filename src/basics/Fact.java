@@ -95,7 +95,7 @@ public class Fact {
 
 	/** Returns arg n as a Java string */
 	public String getArgJavaString(int a) {
-		return (Char.decodeBackslash(FactComponent.stripQuotes(a == 1 ? arg1 : arg2)));
+		return (FactComponent.asJavaString(a == 1 ? arg1 : arg2));
 	}
 
 	/** Returns arg n, strips quotes, compiles a case-insensitive pattern */

@@ -98,7 +98,8 @@ public class FactComponent {
 	     return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
 		if (datatype != null)
 			return ('"' + Char.encodeBackslash(string, turtleString) + "\"^^" + datatype);
-		return ('"' + Char.encodeBackslash(string, turtleString) + '"');
+		//return ('"' + Char.encodeBackslash(string, turtleString) + "\"@en");
+		return ('"' + Char.encodeBackslash(string, turtleString) + "\"");
 	}
 
 	/** Creates a fact component for a String. We check the syntax */
@@ -180,10 +181,14 @@ public class FactComponent {
 
 	/** removes quotes */
 	public static String stripQuotes(String result) {
-		if (result.startsWith("\""))
+		if (result.startsWith("\"")) {
+		  int at=result.lastIndexOf('@');
+		  if(at>0 && result.indexOf('\"',at)==-1) result=result.substring(0,at);
 			result = result.substring(1);
-		if (result.endsWith("\""))
+		}
+		if (result.endsWith("\"")) {
 			result = Char.cutLast(result);
+		}
 		return (result);
 	}
 
@@ -199,7 +204,7 @@ public class FactComponent {
 	/** Returns a Java string for a YAGO string */
 	public static String asJavaString(String string) {
 		if(string==null) return(null);
-		int pos = string.indexOf("\"^^");
+		int pos = string.lastIndexOf("\"^^");
 		if (pos != -1)
 			string = string.substring(0, pos + 1);
 		return (FactComponent.stripQuotes(Char.decodeBackslash(string)));
@@ -265,7 +270,8 @@ public class FactComponent {
 	
 	/** Returns a hash for a literal*/
 	public static String hashLiteral(String literal) {
-		return(hash(asJavaString(literal)));
+		//return(hash(literal.replaceAll("[@\"\\^]", "")));
+	  return(hash(asJavaString(literal)));
 	}
 
 	/** Returns a hash for a literal*/
