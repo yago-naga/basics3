@@ -108,6 +108,11 @@ rdfs:range	rdf:type	<yagoFunction> .
 <hasWikipediaUrl>	rdfs:domain	rdf:Resource .
 <hasWikipediaUrl>	rdfs:range	<yagoURL> .
 <hasWikipediaUrl>	rdf:type	<yagoFunction> .
+<extractionSource>	rdfs:domain	rdf:Statement.
+<extractionSource>	rdfs:range	<yagoURL> .
+<extractionTechnique>	rdfs:domain	rdf:Statement .
+<extractionTechnique>	rdfs:range	xsd:String .
+<hasWikipediaUrl>	rdf:type	<yagoFunction> .
 <isPreferredMeaningOf>	rdfs:domain	xsd:string .
 <isPreferredMeaningOf>	rdfs:range	rdf:Resource .
 <isPreferredMeaningOf>	rdf:type	<yagoFunction> .
