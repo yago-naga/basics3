@@ -283,7 +283,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	public boolean instanceOf(String instance, String clss) {	
 		Collection<String> classes;
 		if(FactComponent.isLiteral(instance)) {
-			classes=Arrays.asList(FactComponent.getDataType(instance));
+			classes=Arrays.asList(FactComponent.getDatatype(instance));
 		} else {
 			classes=getArg2s(instance,RDFS.type);
 		}

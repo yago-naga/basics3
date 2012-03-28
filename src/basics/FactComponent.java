@@ -45,21 +45,21 @@ public class FactComponent {
 
 	/** Creates a fact component for number*/
 	public static String forNumber(int i) {
-		return(forString(i+"",null,forQname("xsd:", "decimal")));
+		return(forStringWithDatatype(i+"",forQname("xsd:", "decimal")));
 	}
 	
 	 /** Creates a fact component for number*/
   public static String forNumber(float i) {
-    return(forString(i+"",null,forQname("xsd:", "decimal")));
+    return(forStringWithDatatype(i+"",forQname("xsd:", "decimal")));
   }
 	
 	/** Creates a fact component for number. We don't do any syntax checks here. */
 	public static String forNumber(String s) {
 		if (DateParser.isDate(s))
-			return (forString(s, null, forQname("xsd:", "date")));
+			return (forStringWithDatatype(s, forQname("xsd:", "date")));
 		if (s.indexOf('.') == -1 && s.indexOf("e") == -1 && s.indexOf("E") == -1)
-			return (forString(s, null, forQname("xsd:", "integer")));
-		return (forString(s, null, forQname("xsd:", "decimal")));
+			return (forStringWithDatatype(s, forQname("xsd:", "integer")));
+		return (forStringWithDatatype(s, forQname("xsd:", "decimal")));
 	}
 
 	/**
@@ -73,12 +73,12 @@ public class FactComponent {
 
 	/** Creates a fact component for a date. No checks done. */
 	public static String forDate(String date) {
-		return (forString(date, null, "xsd:date"));
+		return (forStringWithDatatype(date, "xsd:date"));
 	}
 
 	/** Creates a fact component for a year. No checks done. */
 	public static String forYear(String year) {
-		return (forString(year + "-00-00", null, "xsd:date"));
+		return (forStringWithDatatype(year + "-00-00","xsd:date"));
 	}
 
 	/** Creates a fact component for a YAGO entity */
@@ -92,19 +92,23 @@ public class FactComponent {
 		return (forUri(name));
 	}
 
-	/** Creates a fact component for a String. We check the syntax */
-	public static String forString(String string, String language, String datatype) {
-	  if (language != null) 
-	     return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
-		if (datatype != null)
-			return ('"' + Char.encodeBackslash(string, turtleString) + "\"^^" + datatype);
-		//return ('"' + Char.encodeBackslash(string, turtleString) + "\"@en");
-		return ('"' + Char.encodeBackslash(string, turtleString) + "\"");
-	}
+	 /** Creates a fact component for a String with language. We check the syntax */
+  public static String forStringWithLanguage(String string, String language) {
+    if (language != null) 
+      return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
+    return ('"' + Char.encodeBackslash(string, turtleString) + "\"");
+  }
+
+  /** Creates a fact component for a String with datatype. We check the syntax */
+ public static String forStringWithDatatype(String string, String datatype) {
+   if (datatype != null && !datatype.equals(YAGO.string))
+     return ('"' + Char.encodeBackslash(string, turtleString) + "\"^^" + datatype);
+   return (forStringWithLanguage(string, null));
+ }	
 
 	/** Creates a fact component for a String. We check the syntax */
 	public static String forString(String string) {
-		return (forString(string, null, null));
+		return (forStringWithLanguage(string, null));
 	}
 
 	/** Creates a fact component for a wordnet entity */
@@ -132,8 +136,9 @@ public class FactComponent {
 		if (s == null || s.length() == 0)
 			return (null);
 		if (s.startsWith("\"")) {
-			if(s.contains("\"^^")) return(s);
-			return (forString(stripQuotes(s.substring(1)), null, null));
+			String split[] =literalAndDatatypeAndLanguage(s);
+			if(split!=null && (split[1]!=null || split[2]!=null)) return(s);
+			return (forString(stripQuotes(s.substring(1))));
 		}
 		if (s.startsWith("http://")) {
 			return (forUri(s));
@@ -179,17 +184,33 @@ public class FactComponent {
 		}
 	};
 
-	/** removes quotes */
-	public static String stripQuotes(String result) {
-		if (result.startsWith("\"")) {
-		  int at=result.lastIndexOf('@');
-		  if(at>0 && result.indexOf('\"',at)==-1) result=result.substring(0,at);
-			result = result.substring(1);
-		}
-		if (result.endsWith("\"")) {
-			result = Char.cutLast(result);
-		}
-		return (result);
+	 /** returns the string part of a literal (with quotes)*/
+  public static String getString(String stringLiteral) {    
+    String[] split=literalAndDatatypeAndLanguage(stringLiteral);
+    if(split==null) return(null);
+    return (split[0]);
+  }
+
+  /** returns the datatype part of a literal*/
+ public static String getDatatype(String stringLiteral) {    
+   String[] split=literalAndDatatypeAndLanguage(stringLiteral);
+   if(split==null) return(null);
+   return (split[1]);
+ }
+
+ /** returns the language part of a literal*/
+public static String getLanguage(String stringLiteral) {    
+  String[] split=literalAndDatatypeAndLanguage(stringLiteral);
+  if(split==null) return(null);
+  return (split[2]);
+}
+
+	/** removes quotes before and after a string*/
+	public static String stripQuotes(String string) {
+	  if(string==null) return(null);
+	  if(string.startsWith("\"")) string=string.substring(1);
+	  if(string.endsWith("\"")) string=Char.cutLast(string);
+		return (string);
 	}
 
 	/** removes brackets */
@@ -202,32 +223,23 @@ public class FactComponent {
 	}
 
 	/** Returns a Java string for a YAGO string */
-	public static String asJavaString(String string) {
-		if(string==null) return(null);
-		int pos = string.lastIndexOf("\"^^");
-		if (pos != -1)
-			string = string.substring(0, pos + 1);
-		return (FactComponent.stripQuotes(Char.decodeBackslash(string)));
+	public static String asJavaString(String stringLiteral) {
+		return (Char.decodeBackslash(FactComponent.stripQuotes(getString(stringLiteral))));
 	}
 
-	/** Sets data type */
-	public static String setDataType(String string, String datatype) {
-		if (!isLiteral(string))
-			return (string);
-		int pos = string.indexOf("\"^^");
-		if (pos != -1)
-			string = string.substring(0, pos + 1);
-		return (FactComponent.forString(string, null, datatype));
+	/** Sets data type of a literal*/
+	public static String setDataType(String stringLiteral, String datatype) {
+	  String split[]=literalAndDatatypeAndLanguage(stringLiteral);
+	  if(split==null) return(null);
+	  return(FactComponent.forStringWithDatatype(stringLiteral, datatype));
 	}
 
-	/** Sets data type */
-	public static String getDataType(String string) {
-		if (!isLiteral(string))
-			return (null);
-		int pos = string.indexOf("\"^^");
-		if (pos != -1) return(YAGO.string);
-		return (string.substring(pos+3));
-	}
+	 /** Sets language of a literal */
+  public static String setLanguage(String stringLiteral, String language) {
+    String split[]=literalAndDatatypeAndLanguage(stringLiteral);
+    if(split==null) return(null);
+    return(FactComponent.forStringWithLanguage(stringLiteral, language));
+  }
 
 	/** TRUE for literals */
 	public static boolean isLiteral(String entity) {
@@ -239,9 +251,28 @@ public class FactComponent {
 		return (entity.startsWith("<"));
 	}
 
-	/** Splits a literal into literal (with quotes) and datatype*/
-	public static String[] literalAndDataType(String arg2withDataType) {		
-		return arg2withDataType.split("\\^\\^");
+	/** Splits a literal into literal (with quotes) and datatype, followed by the language. Non-existent components are NULL*/
+	public static String[] literalAndDatatypeAndLanguage(String s) {
+	  if (s==null || !s.startsWith("\""))  return(null);
+	  
+	  // Get the language tag
+	  int at=s.lastIndexOf('@');
+    if(at>0 && s.indexOf('\"',at)==-1) {
+      String language=s.substring(at+1);
+      String string=s.substring(0,at);
+      return(new String[]{string,null,language});
+    }
+		
+    // Get the data type
+    int dta=s.lastIndexOf("\"^^");
+    if(dta>0 && s.indexOf('\"',dta+1)==-1) {
+      String datatype=s.substring(dta+3);
+      String string=s.substring(0,dta+1);
+      return(new String[]{string,datatype,null});
+    }
+    
+    // Otherwise, return just the string
+    return(new String[]{s,null,null});
 	}
 
 	/** TRUE if the first thing is more specific than the second*/
@@ -270,7 +301,6 @@ public class FactComponent {
 	
 	/** Returns a hash for a literal*/
 	public static String hashLiteral(String literal) {
-		//return(hash(literal.replaceAll("[@\"\\^]", "")));
 	  return(hash(asJavaString(literal)));
 	}
 

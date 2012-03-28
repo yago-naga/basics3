@@ -109,7 +109,8 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			}
 			if (Character.isWhitespace(c))
 				c = READNEW;
-			return (FactComponent.forString(Char.decodeBackslash(string), language, datatype));
+			if(language==null) return(FactComponent.forStringWithDatatype(Char.decodeBackslash(string), datatype));
+			else return (FactComponent.forStringWithLanguage(Char.decodeBackslash(string), language));
 		case '[':
 			String blank = FileLines.readTo(reader, ']').toString().trim();
 			if (blank.length() != 0) {
@@ -163,9 +164,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			if (name.equals("a"))
 				return (FactComponent.forQname("rdf:", "type"));
 			if (name.equals("true"))
-				return (FactComponent.forString("true", null, FactComponent.forQname("xsd:", "boolean")));
+				return (FactComponent.forStringWithDatatype("true", FactComponent.forQname("xsd:", "boolean")));
 			if (name.equals("false"))
-				return (FactComponent.forString("false", null, FactComponent.forQname("xsd:", "boolean")));
+				return (FactComponent.forStringWithDatatype("false", FactComponent.forQname("xsd:", "boolean")));
 			// Prefixes
 			int colon = name.indexOf(':');
 			if (colon == -1) {
