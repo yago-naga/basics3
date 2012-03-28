@@ -91,7 +91,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			switch (c) {
 			case '@':
 			  language="";
-				while (Character.isLetter(c = reader.read()))
+				while (Character.isLetter(c = reader.read()) || c=='-')
 					language += (char)c;
 				c=READNEW;
 				break;

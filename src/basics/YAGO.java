@@ -23,4 +23,5 @@ public class YAGO {
 	public static final String abstraction="<wordnet_abstraction_100002137>";
 	public static final String extractionSource="<extractionSource>";
 	public static final String extractionTechnique="<extractionTechnique>";
+  public static final String languageString = "<yagoLanString>";
 }

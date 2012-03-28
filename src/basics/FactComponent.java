@@ -3,6 +3,7 @@ package basics;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javatools.administrative.D;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char;
 import javatools.parsers.DateParser;
@@ -231,14 +232,16 @@ public static String getLanguage(String stringLiteral) {
 	public static String setDataType(String stringLiteral, String datatype) {
 	  String split[]=literalAndDatatypeAndLanguage(stringLiteral);
 	  if(split==null) return(null);
-	  return(FactComponent.forStringWithDatatype(stringLiteral, datatype));
+	  if(D.equal(split[1],datatype)) return(stringLiteral);
+	  return(FactComponent.forStringWithDatatype(stripQuotes(split[0]), datatype));
 	}
 
 	 /** Sets language of a literal */
   public static String setLanguage(String stringLiteral, String language) {
     String split[]=literalAndDatatypeAndLanguage(stringLiteral);
     if(split==null) return(null);
-    return(FactComponent.forStringWithLanguage(stringLiteral, language));
+    if(D.equal(split[2],language)) return(stringLiteral);
+    return(FactComponent.forStringWithLanguage(stripQuotes(split[0]), language));
   }
 
 	/** TRUE for literals */

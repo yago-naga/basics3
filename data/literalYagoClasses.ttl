@@ -51,7 +51,7 @@ xsd:date	rdfs:subClassOf	<yagoLiteral> .
 <degrees>	rdfs:subClassOf	<yagoLiteral> .
 <yagoGeoCoordinatePair>	<_hasTypeCheckPattern>	"(-?\u005cd++(?:\u005c.[0-9]++)?(?:[Ee]\u005c-?[0-9]++)?)/(-?\u005cd++(?:\u005c.[0-9]++)?(?:[Ee]\u005c-?[0-9]++)?)" .
 <yagoGeoCoordinatePair>	rdfs:subClassOf	<yagoLiteral> .
-<yagoWord>	rdfs:subClassOf	xsd:string .
+<yagoLanString>	rdfs:subClassOf	xsd:string .
 <yagoWordInContext>	<_hasTypeCheckPattern>	"\u005c^.*" .
 <yagoWordInContext>	rdfs:subClassOf	<yagoIdentifier> .
 xsd:gYear	<_hasTypeCheckPattern>	"[0-9]{1,4}" .

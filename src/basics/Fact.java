@@ -52,7 +52,8 @@ public class Fact {
     this.arg1 = arg1.intern();
     String[] a2 = FactComponent.literalAndDatatypeAndLanguage(arg2withDataType);
     if (a2 != null) {
-      this.arg2 = a2[0].intern();
+      if(a2[2]==null) this.arg2 = a2[0].intern();
+      else this.arg2 = (a2[0]+'@'+a2[2]).intern();
       this.arg2datatype = a2[1] == null ? null : a2[1].intern();
     } else {
       this.arg2 = arg2withDataType;
