@@ -16,9 +16,9 @@
 #@ <hardId9>
 <yagoLegalActorGeo>	rdfs:subClassOf	rdf:Resource .
 <hardId9>	<_hasComment>	"Additional YAGO class" .
-<yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity" .
-<yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity" .
-<yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo" .
+<yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity"@en .
+<yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity"@en .
+<yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo"@en .
 #@ <hardId10>
 <yagoLegalActor>	rdfs:subClassOf	<yagoLegalActorGeo> .
 <hardId10>	<_hasComment>	"Additional YAGO class" .
@@ -29,10 +29,10 @@
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
 #@ <hardId11>
-<yagoGeoEntity>	rdfs:label	"yagoGeoEntity" .
+<yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@en .
 <hardId11>	<_hasComment>	"Additional YAGO class for individuals with geographical coordinates" .
-<yagoGeoEntity>	skos:prefLabel	"geographical entity" .
-<yagoGeoEntity>	<hasGloss>	"geographical entity" .
+<yagoGeoEntity>	skos:prefLabel	"geographical entity"@en .
+<yagoGeoEntity>	<hasGloss>	"geographical entity"@en .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_body_of_water_109225146>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_geological_formation_109287968>	rdfs:subClassOf	<yagoGeoEntity> .
@@ -44,17 +44,17 @@
 <wordnet_way_104564698>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109334396>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
-<yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity" .
+<yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@en .
 #@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	rdf:Resource .
-<hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere" .
+<hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere"@en .
 <wordnet_event_100029378>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <yagoGeoEntity>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <male>	rdf:type	<wordnet_sex_105006898> .
-<male>	rdfs:label	"male" .
+<male>	rdfs:label	"male"@en .
 <female>	rdf:type	<wordnet_sex_105006898> .
-<female>	rdfs:label	"female" .
+<female>	rdfs:label	"female"@en .
 <Earth>	rdf:type	<yagoGeoEntity> .
 <Africa>	rdf:type	<yagoGeoEntity> .
 <Africa>	<isLocatedIn>	<Earth> .
@@ -70,11 +70,11 @@
 <Oceania>	<isLocatedIn>	<Earth> .
 <South_America>	rdf:type	<yagoGeoEntity> .
 <South_America>	<isLocatedIn>	<Earth> .
-<European_Union>	rdfs:label	"EU" .
-<European_Union>	rdfs:label	"EC" .
-<United_States>	rdfs:label	"US" .
-<United_Nations>	rdfs:label	"UN" .
-<United_Kingdom>	rdfs:label	"UK" .
-<Great_Britain>	rdfs:label	"GB" .
-<Richard_Rashid>	rdfs:label	"Rick" .
-<Frédéric_Joliot-Curie>	rdfs:label	"Frederic" .
+<European_Union>	rdfs:label	"EU"@en .
+<European_Union>	rdfs:label	"EC"@en .
+<United_States>	rdfs:label	"US"@en .
+<United_Nations>	rdfs:label	"UN"@en .
+<United_Kingdom>	rdfs:label	"UK"@en .
+<Great_Britain>	rdfs:label	"GB"@en .
+<Richard_Rashid>	rdfs:label	"Rick"@en .
+<Frédéric_Joliot-Curie>	rdfs:label	"Frederic"@en .

@@ -216,6 +216,7 @@ public static String getLanguage(String stringLiteral) {
 
 	/** removes brackets */
 	public static String stripBrackets(String result) {
+	  if(result==null) return(null);
 		if (result.startsWith("<"))
 			result = result.substring(1);
 		if (result.endsWith(">"))
