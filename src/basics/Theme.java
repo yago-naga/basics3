@@ -1,6 +1,10 @@
 package basics;
 
 import java.io.File;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javatools.filehandlers.FileSet;
 
 /**
  * Represents a theme
@@ -22,9 +26,18 @@ public class Theme implements Comparable<Theme>{
 	/** (dynamic) Id of this theme*/
 	protected final int id=ids++;
 	
+	/** maps the names to themes*/
+	protected static Map<String,Theme> name2theme=new TreeMap<>();
+	
 	public Theme(String name, String description) {
 		this.name=name;	
 		this.description=description;
+		name2theme.put(this.name,this);
+	}
+	
+	/** Returns the theme for a file; works only if the theme has been created before!*/
+	public static Theme forFile(File f) {
+	  return(name2theme.get(FileSet.newExtension(f.getName(), "")));
 	}
 	
 	/** Returns the file name of this theme in the given folder*/
