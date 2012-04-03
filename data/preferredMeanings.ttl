@@ -19,6 +19,20 @@
 <Brazil>	<isPreferredMeaningOf>	"Brazil"@en .
 <China>	<isPreferredMeaningOf>	"China"@en .
 
+#@ <id_company>
+<wordnet_company_108058098>	<isPreferredMeaningOf>	"medium"@en .
+<id_company> <_hasComment> "To deal with media companies" .
+#@ <id_chain>
+<wordnet_company_108058098>	<isPreferredMeaningOf>	"chain"@en .
+<id_chain> <_hasComment> "To deal with chains of companies" .
+#@ <id_reclabel>
+<wordnet_company_108058098>	<isPreferredMeaningOf>	"record label"@en .
+<id_chain> <_hasComment> "To deal with record label companies" .
+<wordnet_calamity_107314838>	<isPreferredMeaningOf>	"disaster"@en .
+<wordnet_fellow_110083526>	<isPreferredMeaningOf>	"fellow"@en .
+<wordnet_regent_110516117>	<isPreferredMeaningOf>	"regent"@en .
+<wordnet_pirate_110435367>	<isPreferredMeaningOf>	"pirate"@en .
+<wordnet_university_108286569>	<isPreferredMeaningOf>	"university"@en .
 <wordnet_organization_108008335>	<isPreferredMeaningOf>	"organisation"@en .
 <wordnet_organization_108008335>	<isPreferredMeaningOf>	"organization"@en .
 

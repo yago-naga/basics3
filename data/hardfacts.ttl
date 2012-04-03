@@ -58,7 +58,7 @@
 <Earth>	rdf:type	<yagoGeoEntity> .
 <Africa>	rdf:type	<yagoGeoEntity> .
 <Africa>	<isLocatedIn>	<Earth> .
-<Antartica>	rdf:type	<yagoGeoEntity> .
+<Antartica>	rdf:type	<yagoGeoEntity> .	
 <Antartica>	<isLocatedIn>	<Earth> .
 <Asia>	rdf:type	<yagoGeoEntity> .
 <Asia>	<isLocatedIn>	<Earth> .
@@ -78,3 +78,4 @@
 <Great_Britain>	rdfs:label	"GB"@en .
 <Richard_Rashid>	rdfs:label	"Rick"@en .
 <Frédéric_Joliot-Curie>	rdfs:label	"Frederic"@en .
+<wordnet_lock_103683079>	rdfs:label	"lock flight"@en .	
