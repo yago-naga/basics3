@@ -56,8 +56,7 @@ public abstract class FactSource implements Iterable<Fact> {
 			try {
 				return factReader(FileUtils.getBufferedUTF8Reader(file), FileSet.extension(file));
 			} catch (Exception e) {
-				e.printStackTrace();
-				return (null);
+				throw new RuntimeException(e);
 			}
 		}
 
