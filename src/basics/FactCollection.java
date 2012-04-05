@@ -36,9 +36,9 @@ public class FactCollection extends AbstractSet<Fact> {
 	protected Set<Fact> facts;
 	/** Maps first arg to relation to facts */
 	protected Map<String, Map<String, List<Fact>>> index = Collections
-			.synchronizedMap(new TreeMap<String, Map<String, List<Fact>>>());
+			.synchronizedMap(new HashMap<String, Map<String, List<Fact>>>());
 	/** Maps relation to facts */
-	protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new TreeMap<String, List<Fact>>());
+	protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new HashMap<String, List<Fact>>());
 
 	public synchronized boolean add(Fact fact) {
 		if(fact.getArg(1)==null || fact.getArg(2)==null) {
