@@ -138,8 +138,8 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasGloss>	rdfs:domain	rdf:Resource .
 <hasGloss>	rdfs:range	<yagoLanString> .
 <hasGloss>	rdf:type	<yagoFunction> .
-rdfs:label	rdfs:domain	<yagoLanString> .
-rdfs:label	rdfs:range	rdf:Resource .
+rdfs:label	rdfs:range	<yagoLanString> .
+rdfs:label	rdfs:domain	rdf:Resource .
 rdfs:label	rdf:type	rdf:Property .
 rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGender>	rdfs:domain	<wordnet_person_100007846> .
