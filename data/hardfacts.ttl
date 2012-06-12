@@ -79,3 +79,23 @@
 <Richard_Rashid>	rdfs:label	"Rick"@en .
 <Frédéric_Joliot-Curie>	rdfs:label	"Frederic"@en .
 <wordnet_lock_103683079>	rdfs:label	"lock flight"@en .	
+
+# Bugfixes suggested by Hannah Bast's team
+#@ <hbfix1>
+<wordnet_musician_110340312>	rdfs:subClassOf	<wordnet_musician_110339966> .
+<hbfix1>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. This makes all musicians artists."@en .
+#@ <hbfix2>
+<wordnet_city_108540903>	rdfs:subClassOf		<wordnet_city_108524735> .
+<hbfix2>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+#@ <hbfix3>
+<wordnet_cabbage_107713895> 	rdfs:subClassOf		<wordnet_cabbage_111875691> .
+<hbfix3>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+#@ <hbfix4>
+<wordnet_vegetable_112212361> 	rdfs:subClassOf		<wordnet_plant_100017222> .
+<hbfix4>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+#@ <hbfix5>
+<wordnet_vegetable_107707451> 	rdfs:subClassOf		<wordnet_plant_100017222> .
+<hbfix5>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+
+# Bug fixes from Svitlana
+<wordnet_emulator_0> 	rdfs:subClassOf		<wordnet_software_106566077> .

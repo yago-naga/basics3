@@ -160,3 +160,10 @@
 
 <wordnet_depository_financial_institution_108420278>	<isPreferredMeaningOf>	"bank"@en .
 
+<wordnet_musician_110339966>	<isPreferredMeaningOf>	"musician"@en .
+<wordnet_city_108524735>	<isPreferredMeaningOf>	"city"@en .
+<wordnet_climber_109929298>	<isPreferredMeaningOf>	"climber"@en .
+<wordnet_cabbage_111875691>	<isPreferredMeaningOf>	"cabbage"@en .
+<wordnet_emulator_0>	<isPreferredMeaningOf>	"emulator"@en .
+<wordnet_server_104175147>	<isPreferredMeaningOf>	"server"@en .
+<wordnet_plant_100017222>	<isPreferredMeaningOf>	"plant"@en .
