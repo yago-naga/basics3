@@ -24,4 +24,5 @@ public class YAGO {
 	public static final String extractionSource="<extractionSource>";
 	public static final String extractionTechnique="<extractionTechnique>";
   public static final String languageString = "<yagoLanString>";
+  public static final String hasConfidence = "<hasConfidence>";
 }

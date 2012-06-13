@@ -86,7 +86,7 @@ public class Translator {
 
 	/** Translates all files */
 	public static void main(String[] args) throws Exception {
-		D.p(identifierMap.values());
+		/*
 		
 		if (D.readBoolean("Are you sure you want to overwrite the new manual hard facts?")) {
 			for (File f : new File("/Users/Fabian/Fabian/Work/EclipseProjects/yago2/data").listFiles()) {
@@ -95,6 +95,6 @@ public class Translator {
 				translate(f, new File("/Users/Fabian/Fabian/Work/EclipseProjects/yago2s/data/"
 						+ f.getName().replace("tsv", "ttl")));
 			}
-		}
+		}*/
 	}
 }

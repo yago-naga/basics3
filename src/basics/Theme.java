@@ -1,6 +1,7 @@
 package basics;
 
 import java.io.File;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -14,6 +15,12 @@ import javatools.filehandlers.FileSet;
  */
 public class Theme implements Comparable<Theme>{
 
+  /** Types of Theme */
+  public enum ThemeGroup {TAXONOMY, CORE, GEONAMES, META, MULTILINGUAL, LINK, OTHER, INTERNAL}
+  
+  /** Types of my theme*/
+  public final ThemeGroup themeGroup;
+  
 	/** Name of the theme*/
 	public final String name;
 
@@ -30,9 +37,14 @@ public class Theme implements Comparable<Theme>{
 	protected static Map<String,Theme> name2theme=new TreeMap<>();
 	
 	public Theme(String name, String description) {
+	  this(name, description,name.startsWith("yago")?ThemeGroup.OTHER:ThemeGroup.INTERNAL);
+	}
+	
+	public Theme(String name, String description, ThemeGroup group) {
 		this.name=name;	
 		this.description=description;
 		name2theme.put(this.name,this);
+		themeGroup=group;
 	}
 	
 	/** Returns the theme for a file; works only if the theme has been created before!*/
@@ -43,6 +55,11 @@ public class Theme implements Comparable<Theme>{
 	/** Returns the file name of this theme in the given folder*/
 	public File file(File folder) {
 		return(new File(folder,name+".ttl"));
+	}
+	
+	/** TRUE for export-ready themes*/
+	public boolean isFinal() {
+	  return(name.startsWith("yago"));
 	}
 	
 	@Override
@@ -61,5 +78,14 @@ public class Theme implements Comparable<Theme>{
 	@Override
 	public int hashCode() {	
 		return id;
+	}
+	
+	/** returns the theme group with that name*/
+	public static ThemeGroup themeGroupFor(String name) {
+	  try {
+	    return(ThemeGroup.valueOf(name));
+	  } catch(Exception whocares) {
+	    return(null);
+	  }
 	}
 }
