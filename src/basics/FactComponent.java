@@ -313,4 +313,9 @@ public class FactComponent {
     return arg.startsWith("<id_");
   }
 
+  /** Makes a Wikipedia URL for an entity*/
+  public static String wikipediaURL(String entity) {
+    entity=stripBrackets(entity);
+    return("<http://en.wikipedia.org/wiki/"+entity+">");
+  }
 }
