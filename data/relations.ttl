@@ -15,11 +15,11 @@
 
 rdf:Class	rdf:type	rdf:Resource .
 rdf:Statement	rdf:type	rdf:Resource .
+rdf:Property	rdf:type	rdf:Resource .
 <yagoExtendedRelation>	rdfs:subClassOf	rdf:Property .
 <yagoFunctionInTime>	rdfs:subClassOf	rdf:Property .
-<yagoFunction>	rdfs:subPropertyOf	<yagoFunctionInTime> .
+<yagoFunction>	rdfs:subClassOf	<yagoFunctionInTime> .
 <yagoInverseFunction>	rdfs:subClassOf	rdf:Property .
-rdf:Property	rdf:type	rdf:Resource .
 <yagoSymmetricRelation>	rdfs:subClassOf	rdf:Property .
 <yagoTransitiveRelation>	rdfs:subClassOf	rdf:Property .
 rdfs:domain	rdfs:domain	rdf:Property .

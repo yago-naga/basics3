@@ -16,7 +16,7 @@ import javatools.filehandlers.FileSet;
 public class Theme implements Comparable<Theme>{
 
   /** Types of Theme */
-  public enum ThemeGroup {TAXONOMY, CORE, GEONAMES, META, MULTILINGUAL, LINK, OTHER, INTERNAL}
+  public enum ThemeGroup {TAXONOMY, SIMPLETAX, CORE, GEONAMES, META, MULTILINGUAL, LINK, OTHER, INTERNAL}
   
   /** Types of my theme*/
   public final ThemeGroup themeGroup;

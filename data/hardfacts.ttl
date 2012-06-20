@@ -14,7 +14,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 #@ <hardId9>
-<yagoLegalActorGeo>	rdfs:subClassOf	rdf:Resource .
+<yagoLegalActorGeo>	rdfs:subClassOf	owl:Thing .
 <hardId9>	<_hasComment>	"Additional YAGO class" .
 <yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity"@en .
 <yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity"@en .
@@ -46,7 +46,7 @@
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
 <yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@en .
 #@ <hardId12>
-<yagoPermanentlyLocatedEntity>	rdfs:subClassOf	rdf:Resource .
+<yagoPermanentlyLocatedEntity>	rdfs:subClassOf	owl:Thing .
 <hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere"@en .
 <wordnet_event_100029378>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .

@@ -17,7 +17,7 @@ public class YAGO {
 	public static final String entity = "owl:Thing";//FactComponent.forWordnetEntity("entity", "100001740");
 	public static final String person="<wordnet_person_100007846>";
 	public static final String organization="<wordnet_organization_108008335>";
-	public static final String location="<wordnet_location_100027167>";
+	public static final String location="<yagoGeoEntity>";
 	public static final String artifact="<wordnet_artifact_100021939>";
 	public static final String physicalEntity="<wordnet_physical_entity_100001930>";
 	public static final String abstraction="<wordnet_abstraction_100002137>";
@@ -25,4 +25,5 @@ public class YAGO {
 	public static final String extractionTechnique="<extractionTechnique>";
   public static final String languageString = "<yagoLanString>";
   public static final String hasConfidence = "<hasConfidence>";
+  public static final String building = "<wordnet_building_102913152>";
 }
