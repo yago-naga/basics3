@@ -45,7 +45,7 @@ public class FactComponent {
 
   /** Creates a fact component for number*/
   public static String forNumber(int i) {
-    return (forStringWithDatatype(i + "", forQname("xsd:", "decimal")));
+    return (forStringWithDatatype(i + "", forQname("xsd:", "integer")));
   }
 
   /** Creates a fact component for number*/
@@ -85,7 +85,7 @@ public class FactComponent {
 
   /** Creates a fact component for a Wikipedia title */
   public static String forWikipediaTitle(String name) {
-    name = name.trim().replace(' ', '_');
+    name = Char.decodeAmpersand(name).trim().replace(' ', '_');
     return (forUri(name));
   }
 
