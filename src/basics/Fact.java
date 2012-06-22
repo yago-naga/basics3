@@ -3,7 +3,6 @@ package basics;
 import java.util.regex.Pattern;
 
 import javatools.administrative.D;
-import javatools.parsers.Char;
 
 /**
  * Class Fact Represents a fact - YAGO2S
