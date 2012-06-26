@@ -96,12 +96,6 @@ rdfs:range	rdf:type	<yagoFunction> .
 <extractedOn>	rdfs:domain	rdf:Statement .
 <extractedOn>	rdfs:range	xsd:date .
 <extractedOn>	rdf:type	<yagoFunction> .
-<wasFoundIn>	rdfs:domain	rdf:Statement .
-<wasFoundIn>	rdfs:range	<yagoIdentifier> .
-<wasFoundIn>	rdf:type	rdf:Property .
-<using>	rdfs:domain	rdf:Statement .
-<using>	rdfs:range	<wordnet_program_106568978> .
-<using>	rdf:type	<yagoFunction> .
 <hasWikipediaUrl>	rdfs:domain	owl:Thing .
 <hasWikipediaUrl>	rdfs:range	<yagoURL> .
 <hasWikipediaUrl>	rdf:type	<yagoFunction> .
