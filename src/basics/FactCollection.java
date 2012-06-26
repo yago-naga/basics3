@@ -29,311 +29,319 @@ import javatools.filehandlers.FileSet;
  */
 public class FactCollection extends AbstractSet<Fact> {
 
-	/** Holds a name*/
-	protected final String name;
-	
-	/** Holds the facts */
-	protected Set<Fact> facts;
-	/** Maps first arg to relation to facts */
-	protected Map<String, Map<String, List<Fact>>> index = Collections
-			.synchronizedMap(new HashMap<String, Map<String, List<Fact>>>());
-	/** Maps relation to facts */
-	protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new HashMap<String, List<Fact>>());
+  /** Holds a name*/
+  protected final String name;
 
-	public synchronized boolean add(Fact fact) {
-		if(fact.getArg(1)==null || fact.getArg(2)==null) {
-			Announce.debug("Null fact not added:", fact);
-			return (false);			
-		}
-		if (facts.contains(fact)) {
-			Announce.debug("Duplicate fact not added:", fact);
-			return (false);
-		}
-		if (fact.arg1.equals(fact.arg2)) {
-			Announce.debug("Identical arguments not added", fact);
-			return (false);
-		}
-		if (!index.containsKey(fact.arg1))
-			index.put(fact.arg1, Collections.synchronizedMap(new TreeMap<String, List<Fact>>()));
-		if (!index.get(fact.arg1).containsKey(fact.relation))
-			index.get(fact.arg1).put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
-		for(Fact other : index.get(fact.arg1).get(fact.relation)) {
-			if(FactComponent.isMoreSpecific(fact.getArg(2), other.getArg(2))) {
-				Announce.debug("Removed", other,"because of newly added",fact);
-				remove(other);
-				break;				
-			}
-			if(FactComponent.isMoreSpecific(other.getArg(2), fact.getArg(2))) {
-				Announce.debug("More general fact not added:", fact,"because of",other);
-				return (false);				
-			}
-			if(!other.getArg(2).equals(fact.getArg(2))) continue;
-			if(other.getId()!=null && fact.getId()==null) {
-				Announce.debug("Fact without id not added:", fact,"because of",other);
-				return (false);				
-			}
-			if(other.getId()==null && fact.getId()!=null) {
-				Announce.debug("Removed", other,"because of newly added",fact);
-				remove(other);
-				break;
-			}
-		}
-		index.get(fact.arg1).get(fact.relation).add(fact);
-		if (!relindex.containsKey(fact.relation))
-			relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
-		relindex.get(fact.relation).add(fact);
-		facts.add(fact);
-		return (true);
-	}
+  /** Holds the facts */
+  protected Set<Fact> facts;
 
-	/** Empty list */
-	protected static final List<Fact> EMPTY = new ArrayList<Fact>(0);
+  /** Maps first arg to relation to facts */
+  protected Map<String, Map<String, List<Fact>>> index = Collections.synchronizedMap(new HashMap<String, Map<String, List<Fact>>>());
 
-	/** Returns facts with matching first arg and relation */
-	public List<Fact> get(String arg1, String relation) {
-		if (!index.containsKey(arg1))
-			return (EMPTY);
-		if (!index.get(arg1).containsKey(relation))
-			return (EMPTY);
-		return (index.get(arg1).get(relation));
-	}
+  /** Maps relation to facts */
+  protected Map<String, List<Fact>> relindex = Collections.synchronizedMap(new HashMap<String, List<Fact>>());
 
-	/** Returns the first arg2 (or null) */
-	public String getArg2(String arg1, String relation) {
-		List<Fact> res = get(arg1, relation);
-		if (res == null || res.isEmpty())
-			return (null);
-		return (res.get(0).arg2);
-	}
+  /** Adds a fact, adds a source fact and a technique fact*/
+  public synchronized boolean add(Fact fact, String source, String technique) {
+    Fact sourceFact=fact.metaFact(YAGO.extractionSource,FactComponent.forUri(source));
+    Fact techniqueFact=sourceFact.metaFact(YAGO.extractionTechnique, FactComponent.forString(technique));
+    return(add(fact) && add(sourceFact) && add(techniqueFact));
+  }
+  
+  public synchronized boolean add(Fact fact) {
+    if (fact.getArg(1) == null || fact.getArg(2) == null) {
+      Announce.debug("Null fact not added:", fact);
+      return (false);
+    }
+    if (facts.contains(fact)) {
+      Announce.debug("Duplicate fact not added:", fact);
+      return (false);
+    }
+    if (fact.arg1.equals(fact.arg2)) {
+      Announce.debug("Identical arguments not added", fact);
+      return (false);
+    }
+    if (!index.containsKey(fact.arg1)) index.put(fact.arg1, Collections.synchronizedMap(new TreeMap<String, List<Fact>>()));
+    if (!index.get(fact.arg1).containsKey(fact.relation)) index.get(fact.arg1).put(fact.relation,
+        Collections.synchronizedList(new ArrayList<Fact>(1)));
+    for (Fact other : index.get(fact.arg1).get(fact.relation)) {
+      if (FactComponent.isMoreSpecific(fact.getArg(2), other.getArg(2))) {
+        Announce.debug("Removed", other, "because of newly added", fact);
+        remove(other);
+        break;
+      }
+      if (FactComponent.isMoreSpecific(other.getArg(2), fact.getArg(2))) {
+        Announce.debug("More general fact not added:", fact, "because of", other);
+        return (false);
+      }
+      if (!other.getArg(2).equals(fact.getArg(2))) continue;
+      if (other.getId() != null && fact.getId() == null) {
+        Announce.debug("Fact without id not added:", fact, "because of", other);
+        return (false);
+      }
+      if (other.getId() == null && fact.getId() != null) {
+        Announce.debug("Removed", other, "because of newly added", fact);
+        remove(other);
+        break;
+      }
+    }
+    index.get(fact.arg1).get(fact.relation).add(fact);
+    if (!relindex.containsKey(fact.relation)) relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
+    relindex.get(fact.relation).add(fact);
+    facts.add(fact);
+    return (true);
+  }
 
-	/** Returns the arg2s */
-	public Set<String> getArg2s(String arg1, String relation) {
-		Set<String> result=new TreeSet<>();
-		for(Fact f : get(arg1, relation)) {
-			result.add(f.getArg(2));
-		}
-		return (result);
-	}
+  /** Empty list */
+  protected static final List<Fact> EMPTY = new ArrayList<Fact>(0);
 
-	/** Returns facts with matching relation */
-	public List<Fact> get(String relation) {
-		if (!relindex.containsKey(relation))
-			return (EMPTY);
-		return (relindex.get(relation));
-	}
+  /** Returns facts with matching first arg and relation */
+  public List<Fact> get(String arg1, String relation) {
+    if (!index.containsKey(arg1)) return (EMPTY);
+    if (!index.get(arg1).containsKey(relation)) return (EMPTY);
+    return (index.get(arg1).get(relation));
+  }
 
-	/**
-	 * Returns facts with matching relation and second argument. This is very
-	 * slow.
-	 */
-	public List<Fact> getBySecondArgSlow(String relation, String arg2) {
-		if (!relindex.containsKey(relation))
-			return (EMPTY);
-		List<Fact> result = new ArrayList<Fact>();
-		for (Fact f : relindex.get(relation)) {
-			if (f.arg2.equals(arg2))
-				result.add(f);
-		}
-		return (result);
-	}
+  /** Returns facts with matching first arg */
+  public List<Fact> getFactsWithSubject(String arg1) {
+    List<Fact> result = new ArrayList<>();
+    for (Collection<Fact> facts : index.get(arg1).values()) {
+      result.addAll(facts);
+    }
+    return (result);
+  }
 
-	/** Loads from N4 file */
-	public FactCollection(File n4File) throws IOException {
-		facts = Collections.synchronizedSet(new HashSet<Fact>());
-		name=n4File.toString();
-		load(n4File);
-	}
+  /** Returns the first arg2 (or null) */
+  public String getArg2(String arg1, String relation) {
+    List<Fact> res = get(arg1, relation);
+    if (res == null || res.isEmpty()) return (null);
+    return (res.get(0).arg2);
+  }
 
-	/** Loads from N4 file */
-	public FactCollection(FactSource n4File) throws IOException {
-		facts = Collections.synchronizedSet(new HashSet<Fact>());
-		name=n4File.name();
-		load(n4File);
-	}
+  /** Returns the arg2s */
+  public Set<String> getArg2s(String arg1, String relation) {
+    Set<String> result = new TreeSet<>();
+    for (Fact f : get(arg1, relation)) {
+      result.add(f.getArg(2));
+    }
+    return (result);
+  }
 
-	public FactCollection() {
-		facts = Collections.synchronizedSet(new HashSet<Fact>());
-		name="anonymous FactCollection";
-	}
+  /** Returns facts with matching relation */
+  public List<Fact> get(String relation) {
+    if (!relindex.containsKey(relation)) return (EMPTY);
+    return (relindex.get(relation));
+  }
 
-	public FactCollection(int capacity) {
-		facts = Collections.synchronizedSet(new HashSet<Fact>(capacity));
-		name="anonymous FactCollection";
-	}
+  /**
+   * Returns facts with matching relation and second argument. This is very
+   * slow.
+   */
+  public List<Fact> getBySecondArgSlow(String relation, String arg2) {
+    if (!relindex.containsKey(relation)) return (EMPTY);
+    List<Fact> result = new ArrayList<Fact>();
+    for (Fact f : relindex.get(relation)) {
+      if (f.arg2.equals(arg2)) result.add(f);
+    }
+    return (result);
+  }
 
-	/** Add facts */
-	public synchronized boolean add(Iterable<Fact> facts) {
-		boolean change = false;
-		for (Fact f : facts)
-			change |= add(f);
-		return (change);
-	}
+  /** Loads from N4 file */
+  public FactCollection(File n4File) throws IOException {
+    facts = Collections.synchronizedSet(new HashSet<Fact>());
+    name = n4File.toString();
+    load(n4File);
+  }
 
-	/** Removes a fact */
-	public synchronized boolean remove(Object f) {
-		if (!facts.remove(f))
-			return (false);
-		Fact fact = (Fact) f;
-		index.get(fact.arg1).get(fact.relation).remove(fact);
-		relindex.get(fact.relation).remove(fact);
-		return (true);
-	}
+  /** Loads from N4 file */
+  public FactCollection(FactSource n4File) throws IOException {
+    facts = Collections.synchronizedSet(new HashSet<Fact>());
+    name = n4File.name();
+    load(n4File);
+  }
 
-	/** Removes all facts */
-	public void clear() {
-		facts.clear();
-		index.clear();
-		relindex.clear();
-	}
+  public FactCollection() {
+    facts = Collections.synchronizedSet(new HashSet<Fact>());
+    name = "anonymous FactCollection";
+  }
 
-	/** Loads from N4 file */
-	public void load(File n4File) throws IOException {
-		if (!n4File.getName().contains("."))
-			n4File = FileSet.newExtension(n4File, ".ttl");
-		load(FactSource.from(n4File));
-	}
-	
-	/** Loads from N4 file */
-	public void load(FactSource reader) throws IOException {
-		Announce.doing("Loading",reader);
-		for (Fact f : reader) {
-			add(f);
-		}
-		Announce.done();
-	}
+  public FactCollection(int capacity) {
+    facts = Collections.synchronizedSet(new HashSet<Fact>(capacity));
+    name = "anonymous FactCollection";
+  }
 
-	@Override
-	public Iterator<Fact> iterator() {
-		return facts.iterator();
-	}
+  /** Add facts */
+  public synchronized boolean add(Iterable<Fact> facts) {
+    boolean change = false;
+    for (Fact f : facts)
+      change |= add(f);
+    return (change);
+  }
 
-	public int size() {
-		return facts.size();
-	}
+  /** Removes a fact */
+  public synchronized boolean remove(Object f) {
+    if (!facts.remove(f)) return (false);
+    Fact fact = (Fact) f;
+    index.get(fact.arg1).get(fact.relation).remove(fact);
+    relindex.get(fact.relation).remove(fact);
+    if (fact.getId() != null) {
+      List<Fact> metaFacts = getFactsWithSubject(fact.getId());
+      for (Fact m : metaFacts) {
+        remove(m);
+      }
+    }
+    return (true);
+  }
 
-	public String toString() {
-		return facts.toString();
-	}
+  /** Removes all facts */
+  public void clear() {
+    facts.clear();
+    index.clear();
+    relindex.clear();
+  }
 
-	/** Checks if all of my facts are in the other set, prints differences */
-	public boolean checkContainedIn(FactCollection goldStandard) {
-		boolean matches = true;
-		next: for (Fact fact : facts) {
-			for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
-				if (other.arg2.equals(fact.arg2)) {
-					if(!D.equal(fact.getId(),other.getId())) Announce.message("Different ids:",fact,other);
-					continue next;
-				}
-			}
-			Announce.message("Not found in", goldStandard.name(),":",fact);
-			matches = false;
-		}
-		return (matches);
-	}
+  /** Loads from N4 file */
+  public void load(File n4File) throws IOException {
+    if (!n4File.getName().contains(".")) n4File = FileSet.newExtension(n4File, ".ttl");
+    load(FactSource.from(n4File));
+  }
 
-	/** returns the name*/
-	public String name() {
-		return name;
-	}
+  /** Loads from N4 file */
+  public void load(FactSource reader) throws IOException {
+    Announce.doing("Loading", reader);
+    for (Fact f : reader) {
+      add(f);
+    }
+    Announce.done();
+  }
 
-	/** Checks for differences, returns TRUE if equal, prints differences */
-	public boolean checkEqual(FactCollection goldStandard) {
-		boolean b = checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
-		return (b);
-	}
+  @Override
+  public Iterator<Fact> iterator() {
+    return facts.iterator();
+  }
 
-	/** TRUE if this collection contains this fact with any id */
-	public boolean contains(String arg1, String rel, String arg2) {
-		Map<String, List<Fact>> map = index.get(arg1);
-		if (map == null)
-			return (false);
-		List<Fact> facts = map.get(rel);
-		if (facts == null)
-			return (false);
-		for (Fact f : facts) {
-			if (f.getArg(2).equals(arg2))
-				return (true);
-		}
-		return (false);
-	}
+  public int size() {
+    return facts.size();
+  }
 
-	/** Returns a map for a relation */
-	public Map<String, String> asStringMap(String relation) {
-		Map<String, String> objects = new HashMap<String, String>();
-		for (Fact fact : get(relation)) {
-			objects.put(fact.getArgJavaString(1), fact.getArgJavaString(2));
-		}
-		if (objects.isEmpty())
-			Announce.warning("No instances of", relation, "found");
-		return (objects);
-	}
+  public String toString() {
+    return facts.toString();
+  }
 
-	/** Returns a set of strings for a type */
-	public Set<String> asStringSet(String type) {
-		Set<String> result = new TreeSet<String>();
-		for (Fact fact : getBySecondArgSlow("rdf:type", type)) {
-			result.add(fact.getArgJavaString(1));
-		}
-		if(result.isEmpty()) Announce.warning("No instances of",type,"found");
-		return (result);
-	}
+  /** Checks if all of my facts are in the other set, prints differences */
+  public boolean checkContainedIn(FactCollection goldStandard) {
+    boolean matches = true;
+    next: for (Fact fact : facts) {
+      for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
+        if (other.arg2.equals(fact.arg2)) {
+          if (!D.equal(fact.getId(), other.getId())) Announce.message("Different ids:", fact, other);
+          continue next;
+        }
+      }
+      Announce.message("Not found in", goldStandard.name(), ":", fact);
+      matches = false;
+    }
+    return (matches);
+  }
 
-	
-	/** TRUE if the object is an instance of the class */
-	public boolean instanceOf(String instance, String clss) {	
-		Collection<String> classes;
-		if(FactComponent.isLiteral(instance)) {
-			classes=Arrays.asList(FactComponent.getDatatype(instance));
-		} else {
-			classes=getArg2s(instance,RDFS.type);
-		}
-		for(String c : classes) {
-			if(isSubClassOf(c,clss)) return(true);
-		}
-		return(false);
-	}
+  /** returns the name*/
+  public String name() {
+    return name;
+  }
 
-	/** TRUE if the first class is equal to or a subclass of the second*/
-	public boolean isSubClassOf(String sub, String supr) {
-		if(sub.equals(supr)) return(true);
-		for(String s : getArg2s(sub,RDFS.subclassOf)) {
-			if(isSubClassOf(s, supr)) return(true);
-		}
-		return(false);
-	}
+  /** Checks for differences, returns TRUE if equal, prints differences */
+  public boolean checkEqual(FactCollection goldStandard) {
+    boolean b = checkContainedIn(goldStandard) & goldStandard.checkContainedIn(this);
+    return (b);
+  }
 
-	/** Adds the superclasses of this class*/
-	public void superClasses(String sub, Set<String> set) {
-		set.add(sub);
-		for(String s : getArg2s(sub,RDFS.subclassOf)) {
-			superClasses(s, set);
-		}
-	}
+  /** TRUE if this collection contains this fact with any id */
+  public boolean contains(String arg1, String rel, String arg2) {
+    Map<String, List<Fact>> map = index.get(arg1);
+    if (map == null) return (false);
+    List<Fact> facts = map.get(rel);
+    if (facts == null) return (false);
+    for (Fact f : facts) {
+      if (f.getArg(2).equals(arg2)) return (true);
+    }
+    return (false);
+  }
 
-	/** Adds the superclasses of this class*/
-	public Set<String> superClasses(String sub) {
-		Set<String> set=new TreeSet<>();
-		superClasses(sub, set);
-		return(set);
-	}
+  /** Returns a map for a relation */
+  public Map<String, String> asStringMap(String relation) {
+    Map<String, String> objects = new HashMap<String, String>();
+    for (Fact fact : get(relation)) {
+      objects.put(fact.getArgJavaString(1), fact.getArgJavaString(2));
+    }
+    if (objects.isEmpty()) Announce.warning("No instances of", relation, "found");
+    return (objects);
+  }
 
-	/**
-	 * Creates a map for quickly getting arg1 for a given arg2.
-	 * Notice that this might overwrite arg1s that occur multiple
-	 * times, make sure you know that they are unique.
-	 * 
-	 * This is useful for all the YAGO -> Other_KB_ID mappings
-	 * 
-	 * @param relation relation for which to generate the reverse map
-	 * @return reverse map
-	 */
+  /** Returns a set of strings for a type */
+  public Set<String> asStringSet(String type) {
+    Set<String> result = new TreeSet<String>();
+    for (Fact fact : getBySecondArgSlow("rdf:type", type)) {
+      result.add(fact.getArgJavaString(1));
+    }
+    if (result.isEmpty()) Announce.warning("No instances of", type, "found");
+    return (result);
+  }
+
+  /** TRUE if the object is an instance of the class */
+  public boolean instanceOf(String instance, String clss) {
+    Collection<String> classes;
+    if (FactComponent.isLiteral(instance)) {
+      classes = Arrays.asList(FactComponent.getDatatype(instance));
+    } else {
+      classes = getArg2s(instance, RDFS.type);
+    }
+    for (String c : classes) {
+      if (isSubClassOf(c, clss)) return (true);
+    }
+    return (false);
+  }
+
+  /** TRUE if the first class is equal to or a subclass of the second*/
+  public boolean isSubClassOf(String sub, String supr) {
+    if (sub.equals(supr)) return (true);
+    for (String s : getArg2s(sub, RDFS.subclassOf)) {
+      if (isSubClassOf(s, supr)) return (true);
+    }
+    return (false);
+  }
+
+  /** Adds the superclasses of this class*/
+  public void superClasses(String sub, Set<String> set) {
+    set.add(sub);
+    for (String s : getArg2s(sub, RDFS.subclassOf)) {
+      superClasses(s, set);
+    }
+  }
+
+  /** Adds the superclasses of this class*/
+  public Set<String> superClasses(String sub) {
+    Set<String> set = new TreeSet<>();
+    superClasses(sub, set);
+    return (set);
+  }
+
+  /**
+   * Creates a map for quickly getting arg1 for a given arg2.
+   * Notice that this might overwrite arg1s that occur multiple
+   * times, make sure you know that they are unique.
+   * 
+   * This is useful for all the YAGO -> Other_KB_ID mappings
+   * 
+   * @param relation relation for which to generate the reverse map
+   * @return reverse map
+   */
   public Map<String, String> getReverseMap(String relation) {
     Map<String, String> reverseMap = new HashMap<>();
-    
+
     for (Fact f : get(relation)) {
       reverseMap.put(f.getArg(2), f.getArg(1));
     }
-    
+
     return reverseMap;
   }
 
