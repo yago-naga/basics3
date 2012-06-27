@@ -26,4 +26,5 @@ public class YAGO {
   public static final String languageString = "<yagoLanString>";
   public static final String hasConfidence = "<hasConfidence>";
   public static final String building = "<wordnet_building_102913152>";
+  public static final String hasGloss = "<hasGloss>";
 }

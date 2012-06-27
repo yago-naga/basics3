@@ -9,8 +9,8 @@ package basics;
  */
 public class RDFS {
 
-	public static final String clss="rdf:Class";
-	public static final String resource="rdf:Resource";
+	public static final String clss="rdfs:Class";
+	public static final String resource="rdfs:Resource";
 	public static final String type="rdf:type";
 	public static final String subclassOf="rdfs:subClassOf";
 	public static final String domain = "rdfs:domain";

@@ -13,33 +13,36 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-rdf:Class	rdf:type	rdf:Resource .
-rdf:Statement	rdf:type	rdf:Resource .
-rdf:Property	rdf:type	rdf:Resource .
+rdfs:Class	rdf:type	rdfs:Resource .
+rdf:Statement	rdf:type	rdfs:Resource .
+rdf:Property	rdf:type	rdfs:Resource .
 <yagoExtendedRelation>	rdfs:subClassOf	rdf:Property .
 <yagoFunctionInTime>	rdfs:subClassOf	rdf:Property .
 <yagoFunction>	rdfs:subClassOf	<yagoFunctionInTime> .
-<yagoInverseFunction>	rdfs:subClassOf	rdf:Property .
 <yagoSymmetricRelation>	rdfs:subClassOf	rdf:Property .
 <yagoTransitiveRelation>	rdfs:subClassOf	rdf:Property .
+<yagoInternalRelation>	rdfs:subClassOf	rdf:Property .
 rdfs:domain	rdfs:domain	rdf:Property .
 rdfs:range	rdfs:domain	rdf:Property .
-rdf:type	rdfs:domain	rdf:Resource .
-rdf:type	rdfs:range	rdf:Class .
+rdf:type	rdfs:domain	rdfs:Resource .
+rdf:type	rdfs:range	rdfs:Class .
 rdf:type	rdf:type	rdf:Property .
 rdf:type	rdf:type	<permanentRelationToSubject> .
-rdfs:subClassOf	rdfs:domain	rdf:Class .
-rdfs:subClassOf	rdfs:range	rdf:Class .
+rdfs:subClassOf	rdfs:domain	rdfs:Class .
+rdfs:subClassOf	rdfs:range	rdfs:Class .
 rdfs:subClassOf	rdf:type	rdf:Property .
 rdfs:subClassOf	rdf:type	<yagoTransitiveRelation> .
-rdfs:domain	rdfs:range	rdf:Class .
+rdfs:domain	rdfs:range	rdfs:Class .
 rdfs:domain	rdf:type	<yagoFunction> .
-rdfs:range	rdfs:range	rdf:Class .
+rdfs:range	rdfs:range	rdfs:Class .
 rdfs:range	rdf:type	<yagoFunction> .
  rdfs:subPropertyOf	rdfs:domain	rdf:Property .
  rdfs:subPropertyOf	rdfs:range	rdf:Property .
  rdfs:subPropertyOf	rdf:type	rdf:Property .
  rdfs:subPropertyOf	rdf:type	<yagoTransitiveRelation> .
+ <_hasTypeCheckPattern>	rdf:type	<yagoInternalRelation> .
+ <_hasTypeCheckPattern>	rdfs:domain	rdfs:class .
+ <_hasTypeCheckPattern>	rdfs:range	xsd:string .
 <hasConfidence>	rdfs:domain	rdf:Property .
 <hasConfidence>	rdfs:range	xsd:decimal .
 <hasConfidence>	rdf:type	rdf:Property .
@@ -215,7 +218,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <livesIn>	rdfs:range	<wordnet_location_100027167> .
 <livesIn>	rdf:type	rdf:Property .
 <hasMusicalRole>	rdfs:domain	<wordnet_person_100007846> .
-<hasMusicalRole>	rdfs:range	rdf:Class .
+<hasMusicalRole>	rdfs:range	rdfs:Class .
 <hasMusicalRole>	rdf:type	rdf:Property .
 <participatedIn>	rdfs:domain	<yagoLegalActorGeo> .
 <participatedIn>	rdfs:range	owl:Thing .
@@ -233,7 +236,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <worksAt>	rdf:type	<relationLocatedByObject> .
 <owns>	rdfs:domain	<yagoLegalActorGeo> .
 <owns>	rdfs:range	owl:Thing .
-<owns>	rdf:type	<yagoInverseFunction> .
 <hasLatitude>	rdfs:domain	<yagoGeoEntity> .
 <hasLatitude>	rdfs:range	<degrees> .
 <hasLatitude>	rdf:type	<yagoFunction> .
@@ -250,7 +252,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <dealsWith>	rdfs:range	<wordnet_location_100027167> .
 <dealsWith>	rdf:type	rdf:Property .
 <exports>	rdfs:domain	<wordnet_location_100027167> .
-<exports>	rdfs:range	rdf:Class .
+<exports>	rdfs:range	rdfs:Class .
 <exports>	rdf:type	rdf:Property .
 <hasArea>	rdfs:domain	<wordnet_location_100027167> .
 <hasArea>	rdfs:range	<m^2> .
@@ -313,7 +315,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasWebsite>	rdfs:range	<yagoURL> .
 <hasWebsite>	rdf:type	rdf:Property .
 <imports>	rdfs:domain	<wordnet_location_100027167> .
-<imports>	rdfs:range	rdf:Class .
+<imports>	rdfs:range	rdfs:Class .
 <imports>	rdf:type	rdf:Property .
 <hasNeighbor>	rdfs:domain	<yagoGeoEntity> .
 <hasNeighbor>	rdfs:range	<yagoGeoEntity> .
