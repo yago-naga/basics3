@@ -42,9 +42,6 @@
 <hasWikipediaAbstract>	rdfs:domain	rdf:Resource .
 <hasWikipediaAbstract>	rdfs:range	xsd:string .
 <hasWikipediaAbstract>	rdf:type	<yagoExtendedRelation> .
-<hasWikipediaArticleText>	rdfs:domain	rdf:Resource .
-<hasWikipediaArticleText>	rdfs:range	xsd:string .
-<hasWikipediaArticleText>	rdf:type	<yagoExtendedRelation> .
 <hasNumberOfWikipediaLinks>	rdfs:domain	rdf:Resource .
 <hasNumberOfWikipediaLinks>	rdfs:range	xsd:decimal .
 <hasNumberOfWikipediaLinks>	rdf:type	<yagoExtendedRelation> .
@@ -56,7 +53,6 @@
 <hasTitleText>	rdfs:range	xsd:string .
 <hasTitleText>	rdf:type	<yagoExtendedRelation> .
 <hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
-<hasInternalWikipediaLinkTo>	<hasGloss>	"$1 has internal link target $2 in Wikipedia" .
 <hasExternalWikipediaLinkTo>	<hasGloss>	"$1 has external link target $2 in Wikipedia" .
 <hasAnchorText>	<hasGloss>	"Link $1 has anchor text $2" .
 <hasContextPrecedingAnchor>	<hasGloss>	"Link $1 has context $2 preceding the anchor" .
@@ -65,7 +61,6 @@
 <hasWikipediaCategory>	<hasGloss>	"$1 has Wikipedia category $2" .
 <hasWikipediaArticleLength>	<hasGloss>	"$1 has a Wikipedia article with length $2" .
 <hasWikipediaAbstract>	<hasGloss>	"$1 has $2 as Wikipedia abstract text" .
-<hasWikipediaArticleText>	<hasGloss>	"$1 has $2 as Wikipedia article" .
 <hasNumberOfWikipediaLinks>	<hasGloss>	"$1 has $2 links in its Wikipedia article" .
 <hasCitationTitle>	<hasGloss>	"$1 has a citation with the title '$2'" .
 <hasTitleText>	<hasGloss>	"$1 has a title '$2'" .
