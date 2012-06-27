@@ -36,7 +36,7 @@ xsd:integer	rdfs:subClassOf	xsd:decimal .
 <yagoMonetaryValue>	rdfs:subClassOf	<yagoQuantity> .
 <dollar>	rdfs:subClassOf	<yagoMonetaryValue> .
 <euro>	rdfs:subClassOf	<yagoMonetaryValue> .
-xsd:nonNegativeInteger	<_hasTypeCheckPattern>	"(\u005c+?[0-9]++)" .
+xsd:nonNegativeInteger	<_hasTypeCheckPattern>	"([0-9]+)" .
 xsd:nonNegativeInteger	rdfs:subClassOf	xsd:integer .
 xsd:decimal	rdfs:subClassOf	<yagoLiteral> .
 <%>	rdfs:subClassOf	xsd:decimal .

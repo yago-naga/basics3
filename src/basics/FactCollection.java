@@ -234,7 +234,7 @@ public class FactCollection extends AbstractSet<Fact> {
     next: for (Fact fact : facts) {
       for (Fact other : goldStandard.get(fact.arg1, fact.relation)) {
         if (other.arg2.equals(fact.arg2)) {
-          if (!D.equal(fact.getId(), other.getId())) Announce.message("Different ids:", fact, other);
+          //if (!D.equal(fact.getId(), other.getId())) Announce.message("Different ids:", fact, other);
           continue next;
         }
       }

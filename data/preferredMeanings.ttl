@@ -21,13 +21,13 @@
 
 #@ <id_company>
 <wordnet_company_108058098>	<isPreferredMeaningOf>	"medium"@en .
-<id_company> <_hasComment> "To deal with media companies" .
+<id_company> rdfs:comment "To deal with media companies" .
 #@ <id_chain>
 <wordnet_company_108058098>	<isPreferredMeaningOf>	"chain"@en .
-<id_chain> <_hasComment> "To deal with chains of companies" .
+<id_chain> rdfs:comment "To deal with chains of companies" .
 #@ <id_reclabel>
 <wordnet_company_108058098>	<isPreferredMeaningOf>	"record label"@en .
-<id_chain> <_hasComment> "To deal with record label companies" .
+<id_chain> rdfs:comment "To deal with record label companies" .
 <wordnet_calamity_107314838>	<isPreferredMeaningOf>	"disaster"@en .
 <wordnet_fellow_110083526>	<isPreferredMeaningOf>	"fellow"@en .
 <wordnet_regent_110516117>	<isPreferredMeaningOf>	"regent"@en .

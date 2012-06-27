@@ -15,13 +15,13 @@
 
 #@ <hardId9>
 <yagoLegalActorGeo>	rdfs:subClassOf	owl:Thing .
-<hardId9>	<_hasComment>	"Additional YAGO class" .
+<hardId9>	rdfs:comment	"Additional YAGO class" .
 <yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity"@en .
 <yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity"@en .
 <yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo"@en .
 #@ <hardId10>
 <yagoLegalActor>	rdfs:subClassOf	<yagoLegalActorGeo> .
-<hardId10>	<_hasComment>	"Additional YAGO class" .
+<hardId10>	rdfs:comment	"Additional YAGO class" .
 <yagoLegalActor>	skos:prefLabel	"legal actor" .
 <yagoLegalActor>	<hasGloss>	"legal actor" .
 <yagoLegalActor>	rdfs:label	"yagoLegalActor" .
@@ -30,7 +30,7 @@
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
 #@ <hardId11>
 <yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@en .
-<hardId11>	<_hasComment>	"Additional YAGO class for individuals with geographical coordinates" .
+<hardId11>	rdfs:comment	"Additional YAGO class for individuals with geographical coordinates" .
 <yagoGeoEntity>	skos:prefLabel	"geographical entity"@en .
 <yagoGeoEntity>	<hasGloss>	"geographical entity"@en .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoGeoEntity> .
@@ -47,7 +47,7 @@
 <yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@en .
 #@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	owl:Thing .
-<hardId12>	<_hasComment>	"Additional YAGO class for entities that can be permanently located somewhere"@en .
+<hardId12>	rdfs:comment	"Additional YAGO class for entities that can be permanently located somewhere"@en .
 <wordnet_event_100029378>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <yagoGeoEntity>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
@@ -83,19 +83,19 @@
 # Bugfixes suggested by Hannah Bast's team
 #@ <hbfix1>
 <wordnet_musician_110340312>	rdfs:subClassOf	<wordnet_musician_110339966> .
-<hbfix1>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. This makes all musicians artists."@en .
+<hbfix1>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. This makes all musicians artists."@en .
 #@ <hbfix2>
 <wordnet_city_108540903>	rdfs:subClassOf		<wordnet_city_108524735> .
-<hbfix2>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix2>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
 #@ <hbfix3>
 <wordnet_cabbage_107713895> 	rdfs:subClassOf		<wordnet_cabbage_111875691> .
-<hbfix3>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix3>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
 #@ <hbfix4>
 <wordnet_vegetable_112212361> 	rdfs:subClassOf		<wordnet_plant_100017222> .
-<hbfix4>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix4>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
 #@ <hbfix5>
 <wordnet_vegetable_107707451> 	rdfs:subClassOf		<wordnet_plant_100017222> .
-<hbfix5>	<_hasComment>	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix5>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
 
 # Bug fixes from Svitlana
 <wordnet_emulator_0> 	rdfs:subClassOf		<wordnet_software_106566077> .

@@ -28,6 +28,9 @@ xsd:nonNegativeInteger	rdfs:subClassOf	rdfs:Literal .
 <yagoSymmetricRelation>	rdfs:subClassOf	rdf:Property .
 <yagoTransitiveRelation>	rdfs:subClassOf	rdf:Property .
 <yagoInternalRelation>	rdfs:subClassOf	rdf:Property .
+rdfs:comment	rdfs:domain	rdfs:Resource .
+rdfs:comment	rdfs:range	xsd:string .
+rdfs:comment	rdf:type	rdf:Property .
 rdfs:domain	rdfs:domain	rdf:Property .
 rdfs:range	rdfs:domain	rdf:Property .
 rdf:type	rdfs:domain	rdfs:Resource .
@@ -67,21 +70,27 @@ rdfs:range	rdf:type	<yagoFunction> .
 <subjectStartRelation>	rdfs:domain	owl:Thing .
 <subjectStartRelation>	rdfs:range	owl:Thing .
 <subjectStartRelation>	rdfs:subClassOf	rdf:Property .
+<subjectStartRelation>	rdf:type	rdf:Property .
 <subjectEndRelation>	rdfs:domain	owl:Thing .
 <subjectEndRelation>	rdfs:range	owl:Thing .
 <subjectEndRelation>	rdfs:subClassOf	rdf:Property .
+<subjectEndRelation>	rdf:type	rdf:Property .
 <objectStartRelation>	rdfs:domain	owl:Thing .
 <objectStartRelation>	rdfs:range	owl:Thing .
 <objectStartRelation>	rdfs:subClassOf	rdf:Property .
+<objectStartRelation>	rdf:type	rdf:Property .
 <objectEndRelation>	rdfs:domain	owl:Thing .
 <objectEndRelation>	rdfs:range	owl:Thing .
 <objectEndRelation>	rdfs:subClassOf	rdf:Property .
+<objectEndRelation>	rdf:type	rdf:Property .
 <permanentRelationToSubject>	rdfs:domain	owl:Thing .
 <permanentRelationToSubject>	rdfs:range	owl:Thing .
 <permanentRelationToSubject>	rdfs:subClassOf	rdf:Property .
+<permanentRelationToSubject>	rdf:type	rdf:Property .
 <permanentRelationToObject>	rdfs:domain	owl:Thing .
 <permanentRelationToObject>	rdfs:range	owl:Thing .
 <permanentRelationToObject>	rdfs:subClassOf	rdf:Property .
+<permanentRelationToObject>	rdf:type	rdf:Property .
 <isLocatedIn>	rdfs:domain	<yagoPermanentlyLocatedEntity> .
 <isLocatedIn>	rdfs:range	<yagoGeoEntity> .
 <isLocatedIn>	rdf:type	<yagoFunction> .
@@ -99,6 +108,7 @@ rdfs:range	rdf:type	<yagoFunction> .
 <relationLocatedByObject>	rdfs:domain	owl:Thing .
 <relationLocatedByObject>	rdfs:range	owl:Thing .
 <relationLocatedByObject>	rdfs:subClassOf	rdf:Property .
+<relationLocatedByObject>	rdf:type	rdf:Property .
 <hasContext>	rdfs:domain	owl:Thing .
 <hasContext>	rdfs:range	xsd:string .
 <hasContext>	rdf:type	rdf:Property .
@@ -107,7 +117,9 @@ rdfs:range	rdf:type	<yagoFunction> .
 <hasWikipediaUrl>	rdf:type	<yagoFunction> .
 <extractionSource>	rdfs:domain	rdf:Statement.
 <extractionSource>	rdfs:range	<yagoURL> .
+<extractionSource>	rdf:type	rdfs:Property .
 <extractionTechnique>	rdfs:domain	rdf:Statement .
+<extractionTechnique>	rdf:type	rdfs:Property .
 <extractionTechnique>	rdfs:range	xsd:string .
 <isPreferredMeaningOf>	rdfs:domain	<yagoLanString> .
 <isPreferredMeaningOf>	rdfs:range	owl:Thing .
@@ -129,6 +141,9 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasThreeLetterLanguageCode>	rdf:type	rdf:Property .
 <hasThreeLetterLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
 <hasThreeLetterLanguageCode>	rdfs:range	xsd:string .
+<hasLanguageCode>	rdf:type	rdf:Property .
+<hasLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
+<hasLanguageCode>	rdfs:range	xsd:string .
 <hasGloss>	rdfs:domain	owl:Thing .
 <hasGloss>	rdfs:range	<yagoLanString> .
 <hasGloss>	rdf:type	<yagoFunction> .
@@ -175,9 +190,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <wroteMusicFor>	rdfs:domain	<wordnet_person_100007846> .
 <wroteMusicFor>	rdfs:range	<wordnet_movie_106613686> .
 <wroteMusicFor>	rdf:type	rdf:Property .
-<discovered>	rdfs:domain	<wordnet_person_100007846> .
-<discovered>	rdfs:range	owl:Thing .
-<discovered>	 rdfs:subPropertyOf	rdf:Property .
 <hasFamilyName>	rdfs:range	xsd:string .
 <hasFamilyName>	rdfs:domain	<wordnet_person_100007846> .
 <hasFamilyName>	rdf:type	<yagoFunction> .
@@ -242,6 +254,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <worksAt>	rdf:type	<relationLocatedByObject> .
 <owns>	rdfs:domain	<yagoLegalActorGeo> .
 <owns>	rdfs:range	owl:Thing .
+<owns>	rdf:type	rdf:Property .
 <hasLatitude>	rdfs:domain	<yagoGeoEntity> .
 <hasLatitude>	rdfs:range	<degrees> .
 <hasLatitude>	rdf:type	<yagoFunction> .
@@ -298,7 +311,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGDP>	rdf:type	<yagoFunctionInTime> .
 <hasNumberOfPeople>	rdfs:domain	<yagoLegalActorGeo> .
 <hasNumberOfPeople>	rdfs:range	xsd:nonNegativeInteger .
-<hasNumberOfPeople>	rdf:type	<yagoFunction> .
+<hasNumberOfPeople>	rdf:type	<yagoFunctionInTime> .
 <hasOfficialLanguage>	rdfs:domain	<wordnet_location_100027167> .
 <hasOfficialLanguage>	rdfs:range	<wordnet_language_106282651> .
 <hasOfficialLanguage>	rdf:type	rdf:Property .
@@ -393,7 +406,7 @@ rdfs:label	<hasGloss>	"By '$1', someone could mean $2" .
 rdf:type	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
 #@ <id13>
 <type_star>	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
-<id13>	<_hasComment>	"Deductive closure of type" .
+<id13>	rdfs:comment	"Deductive closure of type" .
 rdfs:subClassOf	<hasGloss>	"If something is in the group of $1, then it is also in the group of $2" .
 rdfs:domain	<hasGloss>	"The domain of $1 is the group of $2" .
 rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
@@ -470,8 +483,8 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasGloss>	<hasGloss>	"$1 is described by $2" .
 <hasICD10>	<hasGloss>	"$1 has the ICD10 identifier $2" .
 <hasImport>	<hasGloss>	"$1 imports goods with total value of $2" .
-<hasLanguageCode>	<hasGloss>	"$1 has the language code $2" .
 <hasThreeLetterLanguageCode>	<hasGloss>	"$1 has the 3-letter language code $2" .
+<hasLanguageCode>	<hasGloss>	"$1 has the 2-letter language code $2" .
 <hasLatitude>	<hasGloss>	"$1 is at latitude $2 (Negative latitude means 'South')" .
 <hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'East')" .
 <hasGeoCoordinates>	<hasGloss>	"$1 has the geographical location specified by coordinates $2" .
@@ -528,3 +541,10 @@ skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
 <edited>	<hasGloss>	"$1 edited $2" .
 <owns>	<hasGloss>	"$1 (partly) owns or owned $2" .
 <wroteMusicFor>	<hasGloss>	"$1 wrote music for $2" .
+<_hasTypeCheckPattern>	<hasGloss>	"Relation $1 is type-checked by pattern $2" .
+<_timeToLocation>	<hasGloss>	"Relation $1 expressed the time of the location expressed by $2" .
+<extractionTechnique>	<hasGloss>	"Fact $1 was extracted by technique $2" .
+<extractionSource>	<hasGloss>	"Fact $1 was extracted from $2" .
+<hasConfidence>	<hasGloss>	"Relation $1 has a confidence of $2 in YAGO" .
+<hasGeonamesId>	<hasGloss>	"$1 has id $2 in Geonames" .
+rdfs:comment	<hasGloss>	"$1 has comment $2" .
