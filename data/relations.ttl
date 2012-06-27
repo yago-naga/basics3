@@ -93,9 +93,6 @@ rdfs:range	rdf:type	<yagoFunction> .
 <hasContext>	rdfs:domain	owl:Thing .
 <hasContext>	rdfs:range	xsd:string .
 <hasContext>	rdf:type	rdf:Property .
-<extractedOn>	rdfs:domain	rdf:Statement .
-<extractedOn>	rdfs:range	xsd:date .
-<extractedOn>	rdf:type	<yagoFunction> .
 <hasWikipediaUrl>	rdfs:domain	owl:Thing .
 <hasWikipediaUrl>	rdfs:range	<yagoURL> .
 <hasWikipediaUrl>	rdf:type	<yagoFunction> .
@@ -120,15 +117,9 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasGeonamesEntityId>	rdfs:domain	owl:Thing .
 <hasGeonamesEntityId>	rdfs:range	<yagoIdentifier> .
 <hasGeonamesEntityId>	rdf:type	<yagoFunction> .
-<hasLanguageCode>	rdf:type	rdf:Property .
-<hasLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
-<hasLanguagecode>	rdfs:range	xsd:string .
 <hasThreeLetterLanguageCode>	rdf:type	rdf:Property .
 <hasThreeLetterLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
 <hasThreeLetterLanguageCode>	rdfs:range	xsd:string .
-<isPartOf>	rdfs:domain	rdf:Class .
-<isPartOf>	rdfs:range	rdf:Class .
-<isPartOf>	rdf:type	rdf:Property .
 <hasGloss>	rdfs:domain	owl:Thing .
 <hasGloss>	rdfs:range	<yagoLanString> .
 <hasGloss>	rdf:type	<yagoFunction> .
@@ -275,7 +266,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasEconomicGrowth>	rdf:type	<yagoFunction> .
 <hasExpenses>	rdfs:domain	<yagoLegalActorGeo> .
 <hasExpenses>	rdfs:range	<yagoMonetaryValue> .
-<hasExpenses>	rdf:type	<yagoFunction> .
+<hasExpenses>	rdf:type	<yagoFunctionInTime> .
 <hasExport>	rdfs:domain	<wordnet_location_100027167> .
 <hasExport>	rdfs:range	<yagoMonetaryValue> .
 <hasExport>	rdf:type	<yagoFunction> .
@@ -284,19 +275,19 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGini>	rdf:type	<yagoFunction> .
 <hasHDI>	rdfs:domain	<wordnet_location_100027167> .
 <hasHDI>	rdfs:range	xsd:decimal .
-<hasHDI>	rdf:type	<yagoFunction> .
+<hasHDI>	rdf:type	<yagoFunctionInTime> .
 <hasImport>	rdfs:domain	<wordnet_location_100027167> .
 <hasImport>	rdfs:range	<yagoMonetaryValue> .
 <hasImport>	rdf:type	<yagoFunction> .
 <hasInflation>	rdfs:domain	<wordnet_location_100027167> .
 <hasInflation>	rdfs:range	<%> .
-<hasInflation>	rdf:type	<yagoFunction> .
+<hasInflation>	rdf:type	<yagoFunctionInTime> .
 <hasMotto>	rdfs:domain	<yagoLegalActorGeo> .
 <hasMotto>	rdfs:range	<yagoLanString> .
 <hasMotto>	rdf:type	rdf:Property .
 <hasGDP>	rdfs:domain	<wordnet_location_100027167> .
 <hasGDP>	rdfs:range	<yagoMonetaryValue> .
-<hasGDP>	rdf:type	<yagoFunction> .
+<hasGDP>	rdf:type	<yagoFunctionInTime> .
 <hasNumberOfPeople>	rdfs:domain	<yagoLegalActorGeo> .
 <hasNumberOfPeople>	rdfs:range	xsd:nonNegativeInteger .
 <hasNumberOfPeople>	rdf:type	<yagoFunction> .
@@ -305,10 +296,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasOfficialLanguage>	rdf:type	rdf:Property .
 <hasPopulationDensity>	rdfs:domain	<wordnet_location_100027167> .
 <hasPopulationDensity>	rdfs:range	</km^2> .
-<hasPopulationDensity>	rdf:type	<yagoFunction> .
-<hasPopulation>	rdfs:domain	<wordnet_location_100027167> .
-<hasPopulation>	rdfs:range	xsd:integer .
-<hasPopulation>	rdf:type	<yagoFunction> .
+<hasPopulationDensity>	rdf:type	<yagoFunctionInTime> .
 <hasPoverty>	rdfs:domain	<wordnet_location_100027167> .
 <hasPoverty>	rdfs:range	<%> .
 <hasPoverty>	rdf:type	<yagoFunction> .
@@ -317,7 +305,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasTLD>	rdf:type	<yagoFunction> .
 <hasUnemployment>	rdfs:domain	<wordnet_location_100027167> .
 <hasUnemployment>	rdfs:range	<%> .
-<hasUnemployment>	rdf:type	<yagoFunction> .
+<hasUnemployment>	rdf:type	<yagoFunctionInTime> .
 <hasUTCOffset>	rdfs:domain	<wordnet_location_100027167> .
 <hasUTCOffset>	rdfs:range	xsd:integer .
 <hasUTCOffset>	rdf:type	<yagoFunction> .
@@ -350,10 +338,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasLength>	rdfs:domain	<yagoGeoEntity> .
 <hasLength>	rdfs:range	<m> .
 <hasLength>	rdf:type	<yagoFunction> .
-<hasImdb>	rdfs:domain	<wordnet_movie_106613686> .
-<hasImdb>	rdfs:range	<yagoIdentifier> .
-<hasImdb>	rdf:type	<yagoFunction> .
-<hasImdb>	rdf:type	<permanentRelationToSubject> .
 <hasISBN>	rdfs:domain	owl:Thing .
 <hasISBN>	rdfs:range	<yagoISBN> .
 <hasISBN>	rdf:type	<yagoFunction> .
@@ -374,9 +358,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasICD10>	rdfs:range	<yagoIdentifier> .
 <hasICD10>	rdf:type	<yagoFunction> .
 <hasICD10>	rdf:type	<permanentRelationToSubject> .
-<hasGenre>	rdf:type	rdf:Property .
-<hasGenre>	rdfs:domain	owl:Thing .
-<hasGenre>	rdfs:range	<wordnet_genre_105845332> .
 <happenedIn>	rdfs:domain	<wordnet_event_100029378> .
 <happenedIn>	rdfs:range	<yagoGeoEntity> .
 <happenedIn>	rdf:type	<relationLocatedByObject> .
@@ -415,9 +396,6 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <isLocatedIn>	<hasGloss>	"$1 is located in $2" .
 <isPoliticianOf>	<hasGloss>	"$1 is or was a politican of $2\u0022" .
 <isCitizenOf>	<hasGloss>	"$1 is or was a citizen of $2" .
-<isPartOf>	<hasGloss>	"$1 is part of $2" .
-<wasFoundIn>	<hasGloss>	"This fact was found in $2" .
-<using>	<hasGloss>	"This fact was found using $2" .
 <_witness>	<hasGloss>	"This fact was found in the following context: $2" .
 <extractedOn>	<hasGloss>	"extracted at the time $2" .
 <inLanguage>	<hasGloss>	"in $2" .
@@ -429,7 +407,6 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <diedIn>	<hasGloss>	"$1 died in $2" .
 <isLeaderOf>	<hasGloss>	"$1 is or was a leading person of $2" .
 <hasArea>	<hasGloss>	"$1 has an area of $2" .
-<hasPopulation>	<hasGloss>	"$1 has or had a population of $2" .
 <hasPopulationDensity>	<hasGloss>	"$1 has or had a population density of $2" .
 <hasUTCOffset>	<hasGloss>	"$1 is in the time zone UTC+$2 or UTC$2" .
 <hasWebsite>	<hasGloss>	"$1 has the website $2" .
