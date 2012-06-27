@@ -13,9 +13,9 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<isWikipediaRedirectTo>	rdfs:domain	xsd:string .
-<isWikipediaRedirectTo>	rdfs:range	rdf:Resource .
-<isWikipediaRedirectTo>	rdf:type	<yagoExtendedRelation> .
+<_isWikipediaRedirectTo>	rdfs:domain	xsd:string .
+<_isWikipediaRedirectTo>	rdfs:range	rdf:Resource .
+<_isWikipediaRedirectTo>	rdf:type	<yagoInternalRelation> .
 <hasExternalWikipediaLinkTo>	rdfs:domain	rdf:Resource .
 <hasExternalWikipediaLinkTo>	rdfs:range	rdf:Resource .
 <hasExternalWikipediaLinkTo>	rdf:type	<yagoExtendedRelation> .
