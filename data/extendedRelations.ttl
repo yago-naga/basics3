@@ -13,9 +13,6 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<_isWikipediaRedirectTo>	rdfs:domain	xsd:string .
-<_isWikipediaRedirectTo>	rdfs:range	rdf:Resource .
-<_isWikipediaRedirectTo>	rdf:type	<yagoInternalRelation> .
 <hasExternalWikipediaLinkTo>	rdfs:domain	rdf:Resource .
 <hasExternalWikipediaLinkTo>	rdfs:range	rdf:Resource .
 <hasExternalWikipediaLinkTo>	rdf:type	<yagoExtendedRelation> .
@@ -53,6 +50,7 @@
 <hasTitleText>	rdfs:range	xsd:string .
 <hasTitleText>	rdf:type	<yagoExtendedRelation> .
 <hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
+<hasInternalWikipediaLinkTo>	<hasGloss>	"$1 has internal link target $2 in Wikipedia" .
 <hasExternalWikipediaLinkTo>	<hasGloss>	"$1 has external link target $2 in Wikipedia" .
 <hasAnchorText>	<hasGloss>	"Link $1 has anchor text $2" .
 <hasContextPrecedingAnchor>	<hasGloss>	"Link $1 has context $2 preceding the anchor" .
