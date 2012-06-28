@@ -283,7 +283,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasCurrency>	rdfs:range	owl:Thing .
 <hasCurrency>	rdf:type	<yagoFunction> .
 <hasEconomicGrowth>	rdfs:domain	<wordnet_location_100027167> .
-<hasEconomicGrowth>	rdfs:range	<yagoProportion> .
+<hasEconomicGrowth>	rdfs:range	<%> .
 <hasEconomicGrowth>	rdf:type	<yagoFunction> .
 <hasExpenses>	rdfs:domain	<yagoLegalActorGeo> .
 <hasExpenses>	rdfs:range	<yagoMonetaryValue> .
@@ -366,9 +366,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasPages>	rdfs:domain	owl:Thing .
 <hasPages>	rdfs:range	xsd:nonNegativeInteger .
 <hasPages>	rdf:type	<yagoFunction> .
-<hasProduct>	rdfs:domain	<yagoLegalActorGeo> .
-<hasProduct>	rdfs:range	owl:Thing .
-<hasProduct>	rdf:type	rdf:Property .
 <hasRevenue>	rdfs:domain	<yagoLegalActorGeo> .
 <hasRevenue>	rdfs:range	<yagoMonetaryValue> .
 <hasRevenue>	rdf:type	<yagoFunction> .

@@ -55,4 +55,5 @@ xsd:date	rdfs:subClassOf	<yagoLiteral> .
 <yagoWordInContext>	<_hasTypeCheckPattern>	"\u005c^.*" .
 <yagoWordInContext>	rdfs:subClassOf	<yagoIdentifier> .
 xsd:gYear	<_hasTypeCheckPattern>	"[0-9]{1,4}" .
+<%>	<_hasTypeCheckPattern>	"[0-9]{1,2}(\\.[0-9]{1,2})" .
 xsd:gYear	rdfs:subClassOf	xsd:integer .
