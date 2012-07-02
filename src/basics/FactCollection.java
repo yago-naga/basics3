@@ -105,6 +105,7 @@ public class FactCollection extends AbstractSet<Fact> {
   /** Returns facts with matching first arg */
   public List<Fact> getFactsWithSubject(String arg1) {
     List<Fact> result = new ArrayList<>();
+    if(!index.containsKey(arg1)) return(result);
     for (Collection<Fact> facts : index.get(arg1).values()) {
       result.addAll(facts);
     }
