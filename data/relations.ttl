@@ -61,6 +61,9 @@ rdfs:range	rdf:type	<yagoFunction> .
 <occursUntil>	rdfs:domain	rdf:Statement .
 <occursUntil>	rdfs:range	xsd:date .
 <occursUntil>	rdf:type	<yagoFunction> .
+<linksTo>	rdfs:domain	owl:Thing .
+<linksTo>	rdfs:range	owl:Thing .
+<linksTo>	rdf:type	rdf:Property .
 <startsExistingOnDate>	rdfs:domain	owl:Thing .
 <startsExistingOnDate>	rdfs:range	xsd:date .
 <startsExistingOnDate>	rdf:type	<yagoFunction> .
