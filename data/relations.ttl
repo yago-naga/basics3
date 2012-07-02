@@ -112,6 +112,9 @@ rdfs:range	rdf:type	<yagoFunction> .
 <hasContext>	rdfs:domain	owl:Thing .
 <hasContext>	rdfs:range	xsd:string .
 <hasContext>	rdf:type	rdf:Property .
+<hasImdb>	rdfs:domain	<wordnet_movie_106613686> .
+<hasImdb>	rdfs:range	<yagoIdentifier> .
+<hasImdb>	rdf:type	<yagoFunction> .
 <hasWikipediaUrl>	rdfs:domain	owl:Thing .
 <hasWikipediaUrl>	rdfs:range	<yagoURL> .
 <hasWikipediaUrl>	rdf:type	<yagoFunction> .
@@ -401,9 +404,6 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGeonamesId>	rdf:type	<permanentRelationToSubject> .
 rdfs:label	<hasGloss>	"By '$1', someone could mean $2" .
 rdf:type	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
-#@ <id13>
-<type_star>	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
-<id13>	rdfs:comment	"Deductive closure of type" .
 rdfs:subClassOf	<hasGloss>	"If something is in the group of $1, then it is also in the group of $2" .
 rdfs:domain	<hasGloss>	"The domain of $1 is the group of $2" .
 rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
@@ -414,11 +414,6 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <isLocatedIn>	<hasGloss>	"$1 is located in $2" .
 <isPoliticianOf>	<hasGloss>	"$1 is or was a politican of $2\u0022" .
 <isCitizenOf>	<hasGloss>	"$1 is or was a citizen of $2" .
-<_witness>	<hasGloss>	"This fact was found in the following context: $2" .
-<extractedOn>	<hasGloss>	"extracted at the time $2" .
-<inLanguage>	<hasGloss>	"in $2" .
-<isCalled>	<hasGloss>	"$1 is called $2" .
-<discovered>	<hasGloss>	"$1 discovered, invented or first described $2" .
 <wasBornOnDate>	<hasGloss>	"$1 was born $2" .
 <wasBornIn>	<hasGloss>	"$1 was born in $2" .
 <diedOnDate>	<hasGloss>	"$1 died $2" .
@@ -472,8 +467,6 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <happenedIn>	<hasGloss>	"$1 happened in or near $2" .
 <participatedIn>	<hasGloss>	"$1 participated in $2" .
 <hasMusicalRole>	<hasGloss>	"$1 has or had the following musical role: $2" .
-<hasProduct>	<hasGloss>	"$1 develops or developed or sells $2" .
-<couldBeBirthYearForDeathYear>	<hasGloss>	"$1 $2" .
 <hasEconomicGrowth>	<hasGloss>	"$1 has or had an economic growth of $2" .
 <hasExpenses>	<hasGloss>	"$1 has or had expenses of $2" .
 <hasExport>	<hasGloss>	"$1 exports goods with total value of $2" .
@@ -488,16 +481,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasPoverty>	<hasGloss>	"$1 has or had a poverty of $2" .
 <isPreferredMeaningOf>	<hasGloss>	"$1 means $2" .
 skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
-<hasSameYearAs>	<hasGloss>	"The date $1 has the same year as the date $2" .
-<hasValue>	<hasGloss>	"$1 has a value of $2" .
 <hasWikipediaUrl>	<hasGloss>	"$1 has the Wikipedia URL $2" .
-<inUnit>	<hasGloss>	"in $2" .
-<isAfter>	<hasGloss>	"$1 is later than $2" .
-<isBefore>	<hasGloss>	"$1 is earlier than $2" .
-<isDifferentFrom>	<hasGloss>	"$1 is different from $2" .
-<isDisjointFrom>	<hasGloss>	"$1 has no overlap with $2" .
-<isGreaterThan>	<hasGloss>	"$1 > $2" .
-<isSmallerThan>	<hasGloss>	"$1 < $2" .
 <hasGeonamesClassId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasGeonamesEntityId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasSynsetId>	<hasGloss>	"$1 has the WordNet identifier $2" .
@@ -513,7 +497,6 @@ skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
 <playsFor>	rdfs:domain	<wordnet_person_100007846> .
 <playsFor>	rdfs:range	<wordnet_organization_108008335> .
 <playsFor>	rdf:type	rdf:Property .
-<hasGenre>	<hasGloss>	"$1 has genre $2" .
 <holdsPoliticalPosition>	<hasGloss>	"$1 holds or held the political office $2" .
 <hasSuccessor>	<hasGloss>	"$2 was successor of $1" .
 <hasPredecessor>	<hasGloss>	"$2 was predecessor of $1" .

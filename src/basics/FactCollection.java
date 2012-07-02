@@ -162,8 +162,12 @@ public class FactCollection extends AbstractSet<Fact> {
   }
 
   public FactCollection() {
+    this("anonymous FactCollection");
+  }
+
+  public FactCollection(String name) {
     facts = Collections.synchronizedSet(new HashSet<Fact>());
-    name = "anonymous FactCollection";
+    this.name = name;
   }
 
   public FactCollection(int capacity) {
