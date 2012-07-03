@@ -531,3 +531,4 @@ skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
 <hasConfidence>	<hasGloss>	"Relation $1 has a confidence of $2 in YAGO" .
 <hasGeonamesId>	<hasGloss>	"$1 has id $2 in Geonames" .
 rdfs:comment	<hasGloss>	"$1 has comment $2" .
+<linksTo> <hasGloss> "The Wikipedia article about $1 links to the Wikipedia article about $2" . 
