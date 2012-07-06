@@ -29,6 +29,9 @@ public class Fact {
   /** Datatype of arg2 (or null) */
   protected final String arg2datatype;
 
+  /** Hash code*/
+  protected final int hashCode;
+  
   /**
    * All fact components must be the output of a method of the class
    * FactComponent!
@@ -40,6 +43,7 @@ public class Fact {
     this.relation = relation.intern();
     this.id = id == null ? null : id.intern();
     this.arg2datatype = arg2datatype == null ? null : arg2datatype.intern();
+    this.hashCode=arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
   /**
@@ -60,6 +64,7 @@ public class Fact {
     }
     this.relation = relation.intern();
     this.id = id == null ? null : id.intern();
+    this.hashCode=arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
   /**
@@ -77,12 +82,12 @@ public class Fact {
     this.relation = copy.relation;
     this.id = copy.getId();
     this.arg2datatype = copy.arg2datatype;
+    this.hashCode=copy.hashCode;
   }
 
   @Override
   public int hashCode() {
-    if (getId() != null) return (getId().hashCode());
-    return (arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode());
+    return (hashCode);
   }
 
   @Override

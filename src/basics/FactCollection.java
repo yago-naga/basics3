@@ -48,7 +48,7 @@ public class FactCollection extends AbstractSet<Fact> {
     return(add(fact) && add(sourceFact) && add(techniqueFact));
   }
   
-  public synchronized boolean add(Fact fact) {
+  public synchronized boolean add(final Fact fact) {
     if (fact.getArg(1) == null || fact.getArg(2) == null) {
       Announce.debug("Null fact not added:", fact);
       return (false);
@@ -61,10 +61,11 @@ public class FactCollection extends AbstractSet<Fact> {
       Announce.debug("Identical arguments not added", fact);
       return (false);
     }
-    if (!index.containsKey(fact.arg1)) index.put(fact.arg1, Collections.synchronizedMap(new TreeMap<String, List<Fact>>()));
-    if (!index.get(fact.arg1).containsKey(fact.relation)) index.get(fact.arg1).put(fact.relation,
+    Map<String,List<Fact>>  map=index.get(fact.arg1);
+    if (map==null) index.put(fact.arg1, map=Collections.synchronizedMap(new HashMap<String, List<Fact>>()));
+    if (!map.containsKey(fact.relation)) map.put(fact.relation,
         Collections.synchronizedList(new ArrayList<Fact>(1)));
-    for (Fact other : index.get(fact.arg1).get(fact.relation)) {
+    for (Fact other : map.get(fact.relation)) {
       if (FactComponent.isMoreSpecific(fact.getArg(2), other.getArg(2))) {
         Announce.debug("Removed", other, "because of newly added", fact);
         remove(other);
@@ -85,7 +86,7 @@ public class FactCollection extends AbstractSet<Fact> {
         break;
       }
     }
-    index.get(fact.arg1).get(fact.relation).add(fact);
+    map.get(fact.relation).add(fact);
     if (!relindex.containsKey(fact.relation)) relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
     relindex.get(fact.relation).add(fact);
     facts.add(fact);

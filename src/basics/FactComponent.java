@@ -322,7 +322,7 @@ public class FactComponent {
   /** Parses out the Wordnet name*/
   public static String wordnetWord(String wordnetEntity) {
     if(!wordnetEntity.startsWith("<wordnet_") || wordnetEntity.length()<8+9) return(null);
-    wordnetEntity=wordnetEntity.substring("<wordnet_".length(),wordnetEntity.length()-9);
+    wordnetEntity=wordnetEntity.substring("<wordnet_".length(),wordnetEntity.length()-11);
     return(wordnetEntity);
   }
 }
