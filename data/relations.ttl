@@ -135,7 +135,7 @@ skos:prefLabel	rdfs:domain	owl:Thing .
 skos:prefLabel	rdfs:range	<yagoLanString> .
 skos:prefLabel	rdf:type	<yagoFunction> .
 skos:prefLabel	rdf:type	<permanentRelationToSubject> .
-<hasSynsetId>	rdfs:domain	owl:Thing .
+<hasSynsetId>	rdfs:domain	rdfs:Class .
 <hasSynsetId>	rdfs:range	<yagoIdentifier> .
 <hasSynsetId>	rdf:type	<yagoFunction> .
 <hasGeonamesClassId>	rdfs:domain	owl:Thing .
