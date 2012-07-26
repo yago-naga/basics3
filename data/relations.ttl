@@ -333,9 +333,9 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasUnemployment>	rdfs:domain	<wordnet_location_100027167> .
 <hasUnemployment>	rdfs:range	<%> .
 <hasUnemployment>	rdf:type	<yagoFunctionInTime> .
-<hasUTCOffset>	rdfs:domain	<wordnet_location_100027167> .
-<hasUTCOffset>	rdfs:range	xsd:integer .
-<hasUTCOffset>	rdf:type	<yagoFunction> .
+#<hasUTCOffset>	rdfs:domain	<wordnet_location_100027167> .
+#<hasUTCOffset>	rdfs:range	xsd:integer .
+#<hasUTCOffset>	rdf:type	<yagoFunction> .
 <hasWebsite>	rdfs:domain	<yagoLegalActorGeo> .
 <hasWebsite>	rdfs:range	<yagoURL> .
 <hasWebsite>	rdf:type	rdf:Property .
@@ -405,9 +405,9 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGeonamesId>	rdfs:range	<geonamesId> .
 <hasGeonamesId>	rdf:type	<yagoFunction> .
 <hasGeonamesId>	rdf:type	<permanentRelationToSubject> .
-rdfs:label	<hasGloss>	"By '$1', someone could mean $2" .
+rdfs:label	<hasGloss>	"By '$2', someone could mean $1" .
 rdf:type	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
-rdfs:subClassOf	<hasGloss>	"If something is in the group of $1, then it is also in the group of $2" .
+rdfs:subClassOf	<hasGloss>	"If something is in the group of $1, then it is also in the group of $2 (even if fictional)" .
 rdfs:domain	<hasGloss>	"The domain of $1 is the group of $2" .
 rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
  rdfs:subPropertyOf	<hasGloss>	"$1 is a subproperty of $2" .
@@ -424,7 +424,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <isLeaderOf>	<hasGloss>	"$1 is or was a leading person of $2" .
 <hasArea>	<hasGloss>	"$1 has an area of $2" .
 <hasPopulationDensity>	<hasGloss>	"$1 has or had a population density of $2" .
-<hasUTCOffset>	<hasGloss>	"$1 is in the time zone UTC+$2 or UTC$2" .
+#<hasUTCOffset>	<hasGloss>	"$1 is in the time zone UTC+$2 or UTC+$2:30" .
 <hasWebsite>	<hasGloss>	"$1 has the website $2" .
 <isMarriedTo>	<hasGloss>	"$1 is or was married to $2" .
 <isAffiliatedTo>	<hasGloss>	"$1 is or was affiliated to $2" .
@@ -450,7 +450,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasHeight>	<hasGloss>	"$1 is or was $2 in height" .
 <hasLength>	<hasGloss>	"$1 is or was $2 in length" .
 <hasWeight>	<hasGloss>	"$1 has or had a weight of $2" .
-<created>	<hasGloss>	"$1 created, invented, founded or wrote $2" .
+<created>	<hasGloss>	"$1 contributed to the creation or invention of $2" .
 <isKnownFor>	<hasGloss>	"$1 is known for $2" .
 <wasCreatedOnDate>	<hasGloss>	"$1 was created/invented/founded/established $2" .
 <wasDestroyedOnDate>	<hasGloss>	"$1 was destroyed/abolished/abandoned/disestablished $2" .
@@ -482,8 +482,8 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'East')" .
 <hasGeoCoordinates>	<hasGloss>	"$1 has the geographical location specified by coordinates $2" .
 <hasPoverty>	<hasGloss>	"$1 has or had a poverty of $2" .
-<isPreferredMeaningOf>	<hasGloss>	"$1 means $2" .
-skos:prefLabel	<hasGloss>	"$2 is usually called $1" .
+<isPreferredMeaningOf>	<hasGloss>	"$1 has as preferred meaning $2" .
+skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasWikipediaUrl>	<hasGloss>	"$1 has the Wikipedia URL $2" .
 <hasGeonamesClassId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasGeonamesEntityId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
