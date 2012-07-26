@@ -413,7 +413,7 @@ public class FactDatabase {
   /** test*/
   public static void main(String[] args) throws Exception {
     FactDatabase d = new FactDatabase();
-    d.load(new File("/local/suchanek/yago2s/yagoTaxonomy.tsv"), new File("/local/suchanek/yago2s/yagoFacts.ttl"));
+    d.load(new File("/local/suchanek/yago2s/yagoTransitiveType.tsv"), new File("/local/suchanek/yago2s/yagoFacts.ttl"));
 
     // Zero variables
     D.p("Contains Angela Merkel as person:",d.contains("<Angela_Merkel>","rdf:type","<wordnet_person_100007846>"));
