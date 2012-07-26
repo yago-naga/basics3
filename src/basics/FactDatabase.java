@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 
 import javatools.administrative.Announce;
 import javatools.administrative.D;
+import javatools.datatypes.ByteString;
+import javatools.datatypes.IntHashMap;
 import javatools.filehandlers.FileLines;
 import javatools.parsers.Char;
 import javatools.parsers.NumberFormatter;
@@ -32,54 +34,54 @@ import javatools.parsers.NumberFormatter;
 public class FactDatabase {
 
 	/** Index */
-	protected final Map<String, Map<String, Set<String>>> subject2predicate2object = new IdentityHashMap<String, Map<String, Set<String>>>();
+	protected final Map<ByteString, Map<ByteString, Set<ByteString>>> subject2predicate2object = new IdentityHashMap<ByteString, Map<ByteString, Set<ByteString>>>();
 
 	/** Index */
-	protected final Map<String, Map<String, Set<String>>> predicate2object2subject = new IdentityHashMap<String, Map<String, Set<String>>>();
+	protected final Map<ByteString, Map<ByteString, Set<ByteString>>> predicate2object2subject = new IdentityHashMap<ByteString, Map<ByteString, Set<ByteString>>>();
 
 	/** Index */
-	protected final Map<String, Map<String, Set<String>>> object2subject2predicate = new IdentityHashMap<String, Map<String, Set<String>>>();
+	protected final Map<ByteString, Map<ByteString, Set<ByteString>>> object2subject2predicate = new IdentityHashMap<ByteString, Map<ByteString, Set<ByteString>>>();
 
 	/** Index */
-	protected final Map<String, Map<String, Integer>> predicate2subject2objectSize = new IdentityHashMap<String, Map<String, Integer>>();
+	protected final Map<ByteString, IntHashMap<ByteString>> predicate2subject2objectSize = new IdentityHashMap<ByteString, IntHashMap<ByteString>>();
 
 	/** Index */
-	protected final Map<String, Map<String, Integer>> object2predicate2subjectSize = new IdentityHashMap<String, Map<String, Integer>>();
+	protected final Map<ByteString, IntHashMap<ByteString>> object2predicate2subjectSize = new IdentityHashMap<ByteString, IntHashMap<ByteString>>();
 
 	/** Index */
-	protected final Map<String, Map<String, Integer>> subject2object2predicateSize = new IdentityHashMap<String, Map<String, Integer>>();
+	protected final Map<ByteString, IntHashMap<ByteString>> subject2object2predicateSize = new IdentityHashMap<ByteString, IntHashMap<ByteString>>();
 
 	/** Number of facts per subject */
-	protected final Map<String, Integer> subjectSize = new IdentityHashMap<String, Integer>();
+	protected final IntHashMap<ByteString> subjectSize = new IntHashMap<ByteString>();
 
 	/** Number of facts per object */
-	protected final Map<String, Integer> objectSize = new IdentityHashMap<String, Integer>();
+	protected final IntHashMap<ByteString> objectSize = new IntHashMap<ByteString>();
 
 	/** Number of facts per relation */
-	protected final Map<String, Integer> predicateSize = new IdentityHashMap<String, Integer>();
+	protected final IntHashMap<ByteString> predicateSize = new IntHashMap<ByteString>();
 
 	/** Number of facts */
 	protected int size;
 
 	/** Adds a fact */
-	protected boolean add(String subject, String relation, String object, Map<String, Map<String, Set<String>>> map) {
+	protected boolean add(ByteString subject, ByteString relation, ByteString object, Map<ByteString, Map<ByteString, Set<ByteString>>> map) {
 		synchronized (map) {
-			Map<String, Set<String>> relation2object = map.get(subject);
+			Map<ByteString, Set<ByteString>> relation2object = map.get(subject);
 			if (relation2object == null)
-				map.put(subject, relation2object = new IdentityHashMap<String, Set<String>>());
-			Set<String> objects = relation2object.get(relation);
+				map.put(subject, relation2object = new IdentityHashMap<ByteString, Set<ByteString>>());
+			Set<ByteString> objects = relation2object.get(relation);
 			if (objects == null)
-				relation2object.put(relation, objects = new HashSet<String>());
+				relation2object.put(relation, objects = new HashSet<ByteString>());
 			return (objects.add(object));
 		}
 	}
 
 	/** Increases the size */
-	protected void increaseSize(String subject, String relation, Map<String, Map<String, Integer>> map) {
+	protected void increaseSize(ByteString subject, ByteString relation, Map<ByteString, IntHashMap<ByteString>> map) {
 		synchronized (map) {
-			Map<String, Integer> relation2object = map.get(subject);
+			IntHashMap<ByteString> relation2object = map.get(subject);
 			if (relation2object == null)
-				map.put(subject, relation2object = new IdentityHashMap<String, Integer>());
+				map.put(subject, relation2object = new IntHashMap<ByteString>());
 			Integer objects = relation2object.get(relation);
 			if (objects == null)
 				relation2object.put(relation, new Integer(1));
@@ -89,17 +91,19 @@ public class FactDatabase {
 	}
 
 	/** Adds a fact */
-	public boolean add(String subject, String predicate, String object) {
-		subject = subject.trim().intern();
-		predicate = predicate.trim().intern();
-		object = object.trim().intern();
+	public boolean add(String... fact) {
+		return(add(compress(fact[0]),compress(fact[1]),compress(fact[2])));
+	}
+	
+	/** Adds a fact */
+	public boolean add(ByteString subject, ByteString predicate, ByteString object) {
 		if (!add(subject, predicate, object, subject2predicate2object))
 			return (false);
 		add(predicate, object, subject, predicate2object2subject);
 		add(object, subject, predicate, object2subject2predicate);
-		D.addKeyValue(subjectSize, subject, 1);
-		D.addKeyValue(predicateSize, predicate, 1);
-		D.addKeyValue(objectSize, object, 1);
+		subjectSize.increase(subject);
+		predicateSize.increase(predicate);
+		objectSize.increase(object);
 		increaseSize(predicate, subject, predicate2subject2objectSize);
 		increaseSize(object, predicate, object2predicate2subjectSize);
 		increaseSize(subject, object, subject2object2predicateSize);
@@ -112,9 +116,9 @@ public class FactDatabase {
 		return (size);
 	}
 
-	/** TRUE if the string is a SPARQL variable */
-	public static boolean isVariable(String s) {
-		return (s.startsWith("?"));
+	/** TRUE if the ByteString is a SPARQL variable */
+	public static boolean isVariable(ByteString s) {
+		return (s.length()>0 && s.charAt(0)=='?');
 	}
 
 	/** Loads a file or all files in the folder */
@@ -164,6 +168,7 @@ public class FactDatabase {
 	public void load(List<File> files) throws IOException {
 		int size = size();
 		long time = System.currentTimeMillis();
+		long memory=Runtime.getRuntime().freeMemory();
 		Announce.doing("Loading files");
 		final int[] running = new int[1];
 		for (final File file : files) {
@@ -197,15 +202,15 @@ public class FactDatabase {
 			e.printStackTrace();
 		}
 		Announce.done("Loaded " + (size() - size) + " facts in "
-				+ NumberFormatter.formatMS(System.currentTimeMillis() - time));
+				+ NumberFormatter.formatMS(System.currentTimeMillis() - time)+ " using "+((memory-Runtime.getRuntime().freeMemory())/1000000)+" MB");
 	}
 
 	/** Returns the result of the map for key1 and key2 */
-	protected Set<String> get(Map<String, Map<String, Set<String>>> map, String key1, String key2) {
-		Map<String, Set<String>> m = map.get(key1.intern());
+	protected Set<ByteString> get(Map<ByteString, Map<ByteString, Set<ByteString>>> map, ByteString key1, ByteString key2) {
+		Map<ByteString, Set<ByteString>> m = map.get(key1);
 		if (m == null)
 			return (Collections.emptySet());
-		Set<String> r = m.get(key2.intern());
+		Set<ByteString> r = m.get(key2);
 		if (r == null)
 			return (Collections.emptySet());
 		return (r);
@@ -215,7 +220,15 @@ public class FactDatabase {
 	 * Returns the results of the triple pattern query, if it contains exactly 1
 	 * variable
 	 */
-	public Set<String> resultsOneVariable(String... triple) {
+	public Set<ByteString> resultsOneVariable(String... triple) {
+		return(resultsOneVariable(triple(triple)));
+	}
+	
+	/**
+	 * Returns the results of the triple pattern query, if it contains exactly 1
+	 * variable
+	 */
+	public Set<ByteString> resultsOneVariable(ByteString... triple) {
 		if (numVariables(triple) != 1)
 			throw new IllegalArgumentException("Triple should contain exactly one variable: " + Arrays.toString(triple));
 		if (isVariable(triple[0]))
@@ -227,12 +240,17 @@ public class FactDatabase {
 
 	/** TRUE if the database contains this fact (no variables) */
 	public boolean contains(String... fact) {
-		return (resultsOneVariable(fact[0], fact[1], "?x").contains(fact[2]));
+		return(contains(triple(fact)));
+	}
+	
+	/** TRUE if the database contains this fact (no variables) */
+	public boolean contains(ByteString... fact) {
+		return (resultsOneVariable(fact[0], fact[1], new ByteString("?x")).contains(fact[2]));
 	}
 
 	/** Returns map results for key */
-	protected Map<String, Set<String>> get(Map<String, Map<String, Set<String>>> map, String key1) {
-		Map<String, Set<String>> m = map.get(key1.intern());
+	protected Map<ByteString, Set<ByteString>> get(Map<ByteString, Map<ByteString, Set<ByteString>>> map, ByteString key1) {
+		Map<ByteString, Set<ByteString>> m = map.get(key1);
 		if (m == null)
 			return (Collections.emptyMap());
 		else
@@ -243,7 +261,15 @@ public class FactDatabase {
 	 * Returns the results of a triple query pattern with two variables as a map
 	 * of first value to set of second values
 	 */
-	public Map<String, Set<String>> resultsTwoVariables(String... triple) {
+	public Map<ByteString, Set<ByteString>> resultsTwoVariables(String... triple) {
+		return(resultsTwoVariables(triple(triple)));
+	}
+	
+	/**
+	 * Returns the results of a triple query pattern with two variables as a map
+	 * of first value to set of second values
+	 */
+	public Map<ByteString, Set<ByteString>> resultsTwoVariables(ByteString... triple) {
 		if (numVariables(triple) != 2)
 			throw new InvalidParameterException("Triple must contain 2 variables: " + Arrays.toString(triple));
 		if (!isVariable(triple[0]))
@@ -254,28 +280,28 @@ public class FactDatabase {
 	}
 
 	/** Returns number of results of the triple pattern query with 1 variable */
-	protected int countOneVariable(String... triple) {
+	protected int countOneVariable(ByteString... triple) {
 		return (resultsOneVariable(triple).size());
 	}
 
 	/** Returns number of results of the triple pattern query with 2 variables */
-	protected int countTwoVariables(String... triple) {
+	protected int countTwoVariables(ByteString... triple) {
 		// Safety check
 		// if(numVariables(triple)!=2) throw new
 		// InvalidParameterException("Triple must contain exactly 2 variables: "+Arrays.toString(triple));
 		if (!isVariable(triple[0]))
-			return (D.getOr(subjectSize, triple[0], 0));
+			return (subjectSize.get(triple[0], 0));
 		if (!isVariable(triple[1])) {
 			// To be correct, we should guard against the same variable...
 			// if(triple[0].equals(triple[2])) throw new
 			// UnsupportedOperationException("Reflexive triple pattern");
-			return (D.getOr(predicateSize, triple[1], 0));
+			return (predicateSize.get(triple[1], 0));
 		}
-		return (D.getOr(objectSize, triple[2], 0));
+		return (objectSize.get(triple[2], 0));
 	}
 
 	/** Returns number of variable occurrences in a triple */
-	public static int numVariables(String... fact) {
+	public static int numVariables(ByteString... fact) {
 		int counter = 0;
 		for (int i = 0; i < fact.length; i++)
 			if (isVariable(fact[i]))
@@ -285,8 +311,11 @@ public class FactDatabase {
 
 	/** returns number of instances of this triple */
 	public int count(String... triple) {
-		for (int i = 0; i < triple.length; i++)
-			triple[i] = triple[i].intern();
+		return(count(triple(triple)));
+	}
+	
+	/** returns number of instances of this triple */
+	public int count(ByteString... triple) {
 		switch (numVariables(triple)) {
 		case 0:
 			return (contains(triple) ? 1 : 0);
@@ -301,7 +330,7 @@ public class FactDatabase {
 	}
 
 	/** Returns the first variable of the pattern */
-	public static String firstVariable(String... fact) {
+	public static ByteString firstVariable(ByteString... fact) {
 		for (int i = 0; i < fact.length; i++)
 			if (isVariable(fact[i]))
 				return (fact[i]);
@@ -309,14 +338,14 @@ public class FactDatabase {
 	}
 
 	/** TRUE if the query result exists */
-	public boolean exists(List<String[]> triples) {
+	public boolean exists(List<ByteString[]> triples) {
 		if (triples.isEmpty())
 			return (false);
 		if (triples.size() == 1)
 			return (count(triples.get(0)) != 0);
-		String[] best = null;
+		ByteString[] best = null;
 		int count = Integer.MAX_VALUE;
-		for (String[] triple : triples) {
+		for (ByteString[] triple : triples) {
 			int myCount = count(triple);
 			if (myCount > count)
 				continue;
@@ -327,28 +356,28 @@ public class FactDatabase {
 		case 0:
 			if (!contains(best))
 				return (false);
-			List<String[]> newList = new ArrayList<String[]>(triples);
+			List<ByteString[]> newList = new ArrayList<ByteString[]>(triples);
 			newList.remove(best);
 			return (exists(newList));
 		case 1:
-			String variable = firstVariable(best);
-			List<String[]> newList2 = new ArrayList<String[]>(triples);
+			ByteString variable = firstVariable(best);
+			List<ByteString[]> newList2 = new ArrayList<ByteString[]>(triples);
 			newList2.remove(best);
-			for (String inst : resultsOneVariable(best)) {
+			for (ByteString inst : resultsOneVariable(best)) {
 				if (exists(instantiate(newList2, variable, inst)))
 					return (true);
 			}
 			return (false);
 		case 2:
-			List<String[]> newList3 = new ArrayList<String[]>(triples);
+			List<ByteString[]> newList3 = new ArrayList<ByteString[]>(triples);
 			newList3.remove(best);
-			String variable1 = firstVariable(best);
-			Map<String, Set<String>> instantiations = resultsTwoVariables(best);
-			for (String val1 : instantiations.keySet()) {
-				String[] best1 = instantiate(best, variable1, val1);
-				String variable2 = firstVariable(best1);
-				List<String[]> newList4 = instantiate(newList3, variable1, val1);
-				for (String val2 : instantiations.get(val1)) {
+			ByteString variable1 = firstVariable(best);
+			Map<ByteString, Set<ByteString>> instantiations = resultsTwoVariables(best);
+			for (ByteString val1 : instantiations.keySet()) {
+				ByteString[] best1 = instantiate(best, variable1, val1);
+				ByteString variable2 = firstVariable(best1);
+				List<ByteString[]> newList4 = instantiate(newList3, variable1, val1);
+				for (ByteString val2 : instantiations.get(val1)) {
 					if (exists(instantiate(newList4, variable2, val2)))
 						return (true);
 				}
@@ -364,7 +393,7 @@ public class FactDatabase {
 	 * Counts the number of instances of the projection triple that exist in
 	 * joins with the other triples
 	 */
-	public int countProjection(String[] projectionTriple, List<String[]> otherTriples) {
+	public int countProjection(ByteString[] projectionTriple, List<ByteString[]> otherTriples) {
 		if (otherTriples.isEmpty())
 			return (count(projectionTriple));
 		switch (numVariables(projectionTriple)) {
@@ -372,21 +401,21 @@ public class FactDatabase {
 			return (count(projectionTriple));
 		case 1:
 			int counter = 0;
-			String variable = firstVariable(projectionTriple);
-			for (String inst : resultsOneVariable(projectionTriple)) {
+			ByteString variable = firstVariable(projectionTriple);
+			for (ByteString inst : resultsOneVariable(projectionTriple)) {
 				if (exists(instantiate(otherTriples, variable, inst)))
 					counter++;
 			}
 			return (counter);
 		case 2:
 			counter = 0;
-			String variable1 = firstVariable(projectionTriple);
-			Map<String, Set<String>> instantiations = resultsTwoVariables(projectionTriple);
-			for (String val1 : instantiations.keySet()) {
-				String[] projectionTriple2 = instantiate(projectionTriple, variable1, val1);
-				String variable2 = firstVariable(projectionTriple2);
-				List<String[]> otherTriples2 = instantiate(otherTriples, variable1, val1);
-				for (String val2 : instantiations.get(val1)) {
+			ByteString variable1 = firstVariable(projectionTriple);
+			Map<ByteString, Set<ByteString>> instantiations = resultsTwoVariables(projectionTriple);
+			for (ByteString val1 : instantiations.keySet()) {
+				ByteString[] projectionTriple2 = instantiate(projectionTriple, variable1, val1);
+				ByteString variable2 = firstVariable(projectionTriple2);
+				List<ByteString[]> otherTriples2 = instantiate(otherTriples, variable1, val1);
+				for (ByteString val2 : instantiations.get(val1)) {
 					if (exists(instantiate(otherTriples2, variable2, val2)))
 						counter++;
 				}
@@ -399,8 +428,8 @@ public class FactDatabase {
 	}
 
 	/** Instantiates a triple */
-	protected String[] instantiate(String[] triple, String variable, String inst) {
-		String[] newT = triple;
+	protected ByteString[] instantiate(ByteString[] triple, ByteString variable, ByteString inst) {
+		ByteString[] newT = triple;
 		for (int i = 0; i < triple.length; i++) {
 			if (triple[i].equals(variable)) {
 				if (newT == triple)
@@ -412,9 +441,9 @@ public class FactDatabase {
 	}
 
 	/** Instantiates a list of triples */
-	protected List<String[]> instantiate(List<String[]> triples, String variable, String inst) {
-		List<String[]> result = new ArrayList<String[]>();
-		for (String[] triple : triples) {
+	protected List<ByteString[]> instantiate(List<ByteString[]> triples, ByteString variable, ByteString inst) {
+		List<ByteString[]> result = new ArrayList<ByteString[]>();
+		for (ByteString[] triple : triples) {
 			result.add(instantiate(triple, variable, inst));
 		}
 		return (result);
@@ -424,19 +453,19 @@ public class FactDatabase {
 	 * Returns list of entities, each of which have
 	 * map.get(entity)>minFrequency.
 	 */
-	protected List<String> mostFrequentValues(int minFrequency, final Map<String, Integer> map) {
-		List<String> result = new ArrayList<String>();
-		for (String key : map.keySet()) {
+	protected List<ByteString> mostFrequentValues(int minFrequency, final IntHashMap<ByteString> map) {
+		List<ByteString> result = new ArrayList<ByteString>();
+		for (ByteString key : map.keys()) {
 			if (map.get(key) >= minFrequency) {
 				result.add(key);
 			}
 		}
-		Collections.sort(result, new Comparator<String>() {
+		Collections.sort(result, new Comparator<ByteString>() {
 
 			@Override
-			public int compare(String o1, String o2) {
-				int f1 = map.get(o1);
-				int f2 = map.get(o2);
+			public int compare(ByteString o1, ByteString o2) {
+				int f1 = map.get(o1,-1);
+				int f2 = map.get(o2,-1);
 				return (f1 > f2 ? -1 : f2 > f1 ? 1 : 0);
 			}
 		});
@@ -447,17 +476,17 @@ public class FactDatabase {
 	 * Returns list of entities, each of which have
 	 * map.get(entity)>minFrequency.
 	 */
-	protected List<String> mostFrequentValuesSet(int minFrequency, final Map<String, Set<String>> map) {
-		List<String> result = new ArrayList<String>();
-		for (String key : map.keySet()) {
+	protected List<ByteString> mostFrequentValuesSet(int minFrequency, final Map<ByteString, Set<ByteString>> map) {
+		List<ByteString> result = new ArrayList<ByteString>();
+		for (ByteString key : map.keySet()) {
 			if (map.get(key).size() >= minFrequency) {
 				result.add(key);
 			}
 		}
-		Collections.sort(result, new Comparator<String>() {
+		Collections.sort(result, new Comparator<ByteString>() {
 
 			@Override
-			public int compare(String o1, String o2) {
+			public int compare(ByteString o1, ByteString o2) {
 				int f1 = map.get(o1).size();
 				int f2 = map.get(o2).size();
 				return (f1 > f2 ? -1 : f2 > f1 ? 1 : 0);
@@ -471,12 +500,19 @@ public class FactDatabase {
 	 * by descending frequency. Returns only values with a frequency higher than
 	 * minFrequency.
 	 */
-	public List<String> mostFrequentValues(int minFrequency, int pos, String... triple) {
+	public List<ByteString> mostFrequentValues(int minFrequency, int pos, String... triple) {
+		return(mostFrequentValues(minFrequency, pos, triple(triple)));
+	}
+	
+	/**
+	 * Returns most frequent values for the given variable in the triple, sorted
+	 * by descending frequency. Returns only values with a frequency higher than
+	 * minFrequency.
+	 */
+	public List<ByteString> mostFrequentValues(int minFrequency, int pos, ByteString... triple) {
 		if (!isVariable(triple[pos]))
 			throw new InvalidParameterException("Position " + pos + " should be a variable in "
 					+ Arrays.toString(triple));
-		for (int i = 0; i < triple.length; i++)
-			triple[i] = triple[i].intern();
 		switch (numVariables(triple)) {
 		case 2:
 			switch (pos) {
@@ -502,7 +538,7 @@ public class FactDatabase {
 				return (mostFrequentValuesSet(minFrequency, predicate2object2subject.get(triple[1])));
 			}
 		case 3:
-			final Map<String, Integer> sizes = pos == 0 ? subjectSize : pos == 1 ? predicateSize : objectSize;
+			final IntHashMap<ByteString> sizes = pos == 0 ? subjectSize : pos == 1 ? predicateSize : objectSize;
 			return (mostFrequentValues(minFrequency, sizes));
 		default:
 			throw new InvalidParameterException("Triple should contain at least 2 variables: "
@@ -510,31 +546,44 @@ public class FactDatabase {
 		}
 	}
 
-	/** Makes a list of facts */
-	public static List<String[]> triples(String[]... facts) {
-		return (Arrays.asList(facts));
+	/** Compresses a string to an internal string*/
+	public static ByteString compress(String s) {
+		return(new ByteString(s.trim()).intern());
+	}
+	
+	/** Makes a list of triples*/
+	public static List<ByteString[]> triples(ByteString[]... triples) {
+		return (Arrays.asList(triples));
 	}
 
-	/** Makes a facts */
-	public static String[] triple(String... fact) {
-		return (fact);
+	/** Makes a triple */
+	public static ByteString[] triple(ByteString... triple) {
+		return (triple);
+	}
+
+	/** Makes a triple */
+	public static ByteString[] triple(String... triple) {
+		ByteString[] result=new ByteString[triple.length];
+		for(int i=0;i<triple.length;i++) result[i]=compress(triple[i]);
+		return(result);
 	}
 
 	/** test */
 	public static void main(String[] args) throws Exception {
 		FactDatabase d = new FactDatabase();
-		 d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new
-		 File("/local/suchanek/yago2s/yagoFacts.ttl"));
+		// d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new
+		// File("/local/suchanek/yago2s/yagoFacts.ttl"));
 		// d.load(new File("c:/fabian/data/yago2s/"),
 		// Pattern.compile("yago.*\\.ttl"));
-		//d.load(new File("/Users/Fabian/Fabian/Work/yago2/newfacts/wordnetClasses.ttl"), new File(
-		//		"/Users/Fabian/Fabian/Work/yago2/newfacts/hardWiredFacts.ttl"));
+		d.load(new File("/Users/Fabian/Fabian/Work/yago2/newfacts/wordnetClasses.ttl")
+		, new File(				"/Users/Fabian/Fabian/Work/yago2/newfacts/hardWiredFacts.ttl"));
 
 		// Zero variables
 		D.p("Contains Angela Merkel as person:", d
 				.contains("<Angela_Merkel>", "rdf:type", "<wordnet_person_100007846>"));
 
 		// Counting one variable
+		D.p("Subclass facts about person:", d.resultsOneVariable("<wordnet_person_100007846>", "rdfs:subClassOf", "?y"));
 		D.p("Type facts about Angela Merkel:", d.resultsOneVariable("<Angela_Merkel>", "rdf:type", "?y"));
 		D.p("Number of type facts about Angela Merkel:", d.count("<Angela_Merkel>", "rdf:type", "?y"));
 		D.p("Type facts with person:", d.resultsOneVariable("?x", "rdf:type", "<wordnet_person_100007846>"));
