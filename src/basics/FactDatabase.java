@@ -152,6 +152,7 @@ public class FactDatabase {
     int size = size();
     long time = System.currentTimeMillis();
     Announce.doing("Loading files");
+    final Object lock=new Object();
     final int[] running = new int[1];
     for (final File file : files) {
       running[0]++;
@@ -166,7 +167,7 @@ public class FactDatabase {
             e.printStackTrace();
           }
           synchronized (running) {
-            running[0]--;
+            if(--running[0]==0) lock.notify();
           }
           synchronized(Announce.blanks) {
           Announce.message("Finished "+file.getName()+ ", still running: "+running[0]);
@@ -174,10 +175,7 @@ public class FactDatabase {
         }
       }.start();
     }
-    while (running[0] > 0) {
-      // Do something to make Java keep checking...
-       if(running[0]==-1) D.p("hello");
-    }
+    lock.wait();
     Announce.done("Loaded " + (size() - size) + " facts in " + NumberFormatter.formatMS(System.currentTimeMillis() - time));
   }
 
