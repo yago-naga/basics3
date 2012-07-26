@@ -166,11 +166,11 @@ public class FactDatabase {
           } catch (IOException e) {
             e.printStackTrace();
           }
-          synchronized (running) {
-            if(--running[0]==0) lock.notify();
-          }
           synchronized(Announce.blanks) {
           Announce.message("Finished "+file.getName()+ ", still running: "+running[0]);
+          synchronized (running) {
+              if(--running[0]==0) lock.notify();
+            }
           }
         }
       }.start();
