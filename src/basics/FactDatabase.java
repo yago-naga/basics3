@@ -31,22 +31,22 @@ import javatools.parsers.NumberFormatter;
 public class FactDatabase {
 
   /** Index*/
-  protected final Map<String, Map<String, Set<String>>> subject2predicate2object=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Set<String>>> subject2predicate2object = new IdentityHashMap<>();
 
   /** Index*/
-  protected final Map<String, Map<String, Set<String>>> predicate2object2subject=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Set<String>>> predicate2object2subject = new IdentityHashMap<>();
 
   /** Index*/
-  protected final Map<String, Map<String, Set<String>>> object2subject2predicate=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Set<String>>> object2subject2predicate = new IdentityHashMap<>();
 
   /** Index*/
-  protected final Map<String, Map<String, Integer>> predicate2subject2objectSize=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Integer>> predicate2subject2objectSize = new IdentityHashMap<>();
 
   /** Index*/
-  protected final Map<String, Map<String, Integer>> object2predicate2subjectSize=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Integer>> object2predicate2subjectSize = new IdentityHashMap<>();
 
   /** Index*/
-  protected final Map<String, Map<String, Integer>> subject2object2predicateSize=new IdentityHashMap<>();
+  protected final Map<String, Map<String, Integer>> subject2object2predicateSize = new IdentityHashMap<>();
 
   /** Number of facts per subject*/
   protected final Map<String, Integer> subjectSize = new IdentityHashMap<String, Integer>();
@@ -62,20 +62,24 @@ public class FactDatabase {
 
   /** Adds a fact*/
   protected boolean add(String subject, String relation, String object, Map<String, Map<String, Set<String>>> map) {
-    Map<String, Set<String>> relation2object = map.get(subject);
-    if (relation2object == null) map.put(subject, relation2object = new IdentityHashMap<String, Set<String>>());
-    Set<String> objects = relation2object.get(relation);
-    if (objects == null) relation2object.put(relation, objects = new HashSet<String>());
-    return (objects.add(object));
+    synchronized (map) {
+      Map<String, Set<String>> relation2object = map.get(subject);
+      if (relation2object == null) map.put(subject, relation2object = new IdentityHashMap<String, Set<String>>());
+      Set<String> objects = relation2object.get(relation);
+      if (objects == null) relation2object.put(relation, objects = new HashSet<String>());
+      return (objects.add(object));
+    }
   }
 
   /** Increases the size*/
   protected void increaseSize(String subject, String relation, Map<String, Map<String, Integer>> map) {
-    Map<String, Integer> relation2object = map.get(subject);
-    if (relation2object == null) map.put(subject, relation2object = new IdentityHashMap<String, Integer>());
-    Integer objects = relation2object.get(relation);
-    if (objects == null) relation2object.put(relation, new Integer(1));
-    else relation2object.put(relation, objects + 1);
+    synchronized (map) {
+      Map<String, Integer> relation2object = map.get(subject);
+      if (relation2object == null) map.put(subject, relation2object = new IdentityHashMap<String, Integer>());
+      Integer objects = relation2object.get(relation);
+      if (objects == null) relation2object.put(relation, new Integer(1));
+      else relation2object.put(relation, objects + 1);
+    }
   }
 
   /** Adds a fact*/
@@ -108,40 +112,73 @@ public class FactDatabase {
 
   /** Loads a file or all files in the folder*/
   public void load(File f) throws IOException {
+    load(f, "Loading " + f.getName());
+  }
+
+  /** Loads a file or all files in the folder*/
+  protected void load(File f, String message) throws IOException {
     int size = size();
     if (f.isDirectory()) {
-      long time=System.currentTimeMillis();
+      long time = System.currentTimeMillis();
       Announce.doing("Loading files in " + f.getName());
       for (File file : f.listFiles())
         load(file);
-      Announce.done("Loaded " + (size() - size) + " facts in "+NumberFormatter.formatMS(System.currentTimeMillis()-time));
+      Announce.done("Loaded " + (size() - size) + " facts in " + NumberFormatter.formatMS(System.currentTimeMillis() - time));
     }
-    for (String line : new FileLines(f, "UTF-8", "Loading " + f.getName())) {
+    for (String line : new FileLines(f, "UTF-8", message)) {
       if (line.endsWith(".")) line = Char.cutLast(line);
       String[] split = line.split("\t");
       if (split.length == 3) add(split[0], split[1], split[2]);
       else if (split.length == 4) add(split[1], split[2], split[3]);
     }
-    Announce.message("     Loaded", (size() - size), "facts");
+    if(message!=null) Announce.message("     Loaded", (size() - size), "facts");
   }
 
   /** Loads a files in the folder that match the regex pattern*/
   public void load(File folder, Pattern namePattern) throws IOException {
-    int size = size();
-    long time=System.currentTimeMillis();
-    Announce.doing("Loading files in " + folder.getName());
+    List<File> files = new ArrayList<>();
     for (File file : folder.listFiles())
-      if (namePattern.matcher(file.getName()).matches()) load(file);
-    Announce.done("Loaded " + (size() - size) + " facts in "+NumberFormatter.formatMS(System.currentTimeMillis()-time));
+      if (namePattern.matcher(file.getName()).matches()) files.add(file);
+    load(files);
   }
 
   /** Loads the files*/
   public void load(File... files) throws IOException {
+    load(Arrays.asList(files));
+  }
+
+  /** Loads the files*/
+  public void load(List<File> files) throws IOException {
     int size = size();
-    long time=System.currentTimeMillis();
+    long time = System.currentTimeMillis();
     Announce.doing("Loading files");
-    for (File file : files) load(file);
-    Announce.done("Loaded " + (size() - size) + " facts in "+NumberFormatter.formatMS(System.currentTimeMillis()-time));
+    final int[] running = new int[1];
+    for (final File file : files) {
+      running[0]++;
+      new Thread() {
+
+        public void run() {
+          try {
+            synchronized(Announce.blanks) {
+            Announce.message("Starting "+file.getName());}
+            load(file,(String)null);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          synchronized (running) {
+            running[0]--;
+          }
+          synchronized(Announce.blanks) {
+          Announce.message("Finished "+file.getName()+ ", still running: "+running[0]);
+          }
+        }
+      }.start();
+    }
+    while (running[0] > 0) {
+      // Do something to make Java keep checking...
+       if(running[0]==-1) D.p("hello");
+    }
+    Announce.done("Loaded " + (size() - size) + " facts in " + NumberFormatter.formatMS(System.currentTimeMillis() - time));
   }
 
   /** Returns the result of the map for key1 and key2*/
@@ -209,7 +246,8 @@ public class FactDatabase {
 
   /** returns number of instances of this triple*/
   public int count(String... triple) {
-    for(int i=0;i<triple.length;i++) triple[i]=triple[i].intern();
+    for (int i = 0; i < triple.length; i++)
+      triple[i] = triple[i].intern();
     switch (numVariables(triple)) {
       case 0:
         return (contains(triple) ? 1 : 0);
@@ -372,7 +410,8 @@ public class FactDatabase {
   /** Returns most frequent values for the given variable in the triple, sorted by descending frequency. Returns only values with a frequency higher than minFrequency. */
   public List<String> mostFrequentValues(int minFrequency, int pos, String... triple) {
     if (!isVariable(triple[pos])) throw new InvalidParameterException("Position " + pos + " should be a variable in " + Arrays.toString(triple));
-    for(int i=0;i<triple.length;i++) triple[i]=triple[i].intern();
+    for (int i = 0; i < triple.length; i++)
+      triple[i] = triple[i].intern();
     switch (numVariables(triple)) {
       case 2:
         switch (pos) {
@@ -402,55 +441,67 @@ public class FactDatabase {
 
   /** Makes a list of facts */
   public static List<String[]> triples(String[]... facts) {
-    return(Arrays.asList(facts));
+    return (Arrays.asList(facts));
   }
 
   /** Makes a facts */
   public static String[] triple(String... fact) {
-    return(fact);
+    return (fact);
   }
-  
+
   /** test*/
   public static void main(String[] args) throws Exception {
     FactDatabase d = new FactDatabase();
-    d.load(new File("/local/suchanek/yago2s/yagoTransitiveType.tsv"), new File("/local/suchanek/yago2s/yagoFacts.ttl"));
+    d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new File("/local/suchanek/yago2s/yagoFacts.ttl"));
+    //d.load(new File("c:/fabian/data/yago2s/"), Pattern.compile("yago.*\\.ttl"));
 
     // Zero variables
-    D.p("Contains Angela Merkel as person:",d.contains("<Angela_Merkel>","rdf:type","<wordnet_person_100007846>"));
-    
+    D.p("Contains Angela Merkel as person:", d.contains("<Angela_Merkel>", "rdf:type", "<wordnet_person_100007846>"));
+
     // Counting one variable
-    D.p("Type facts about Angela Merkel:",d.resultsOneVariable("<Angela_Merkel>","rdf:type","?y"));
-    D.p("Number of type facts about Angela Merkel:",d.count("<Angela_Merkel>","rdf:type","?y"));    
-    D.p("Type facts with person:",d.resultsOneVariable("?x","rdf:type","<wordnet_person_100007846>"));
-    D.p("Number of type facts with person:",d.count("?x","rdf:type","<wordnet_person_100007846>"));
-    D.p("Relationships between Angela and person:",d.resultsOneVariable("<Angela_Merkel>","?r","<wordnet_person_100007846>"));
-    D.p("Number of relationships between Angela and person:",d.count("<Angela_Merkel>","?r","<wordnet_person_100007846>"));
+    D.p("Type facts about Angela Merkel:", d.resultsOneVariable("<Angela_Merkel>", "rdf:type", "?y"));
+    D.p("Number of type facts about Angela Merkel:", d.count("<Angela_Merkel>", "rdf:type", "?y"));
+    D.p("Type facts with person:", d.resultsOneVariable("?x", "rdf:type", "<wordnet_person_100007846>"));
+    D.p("Number of type facts with person:", d.count("?x", "rdf:type", "<wordnet_person_100007846>"));
+    D.p("Relationships between Angela and person:", d.resultsOneVariable("<Angela_Merkel>", "?r", "<wordnet_person_100007846>"));
+    D.p("Number of relationships between Angela and person:", d.count("<Angela_Merkel>", "?r", "<wordnet_person_100007846>"));
 
     // Counting two variables
-    D.p("Facts about Angela Merkel:",d.resultsTwoVariables("<Angela_Merkel>","?r","?y"));
-    D.p("Number of facts about Angela Merkel:",d.count("<Angela_Merkel>","?r","?y"));
-    D.p("Number of facts with relation rdf:type:",d.count("?x","rdf:type","?y"));
-    D.p("Number of facts with object person:",d.count("?x","?r","<wordnet_person_100007846>"));
-    
+    D.p("Facts about Angela Merkel:", d.resultsTwoVariables("<Angela_Merkel>", "?r", "?y"));
+    D.p("Number of facts about Angela Merkel:", d.count("<Angela_Merkel>", "?r", "?y"));
+    D.p("Number of facts with relation rdf:type:", d.count("?x", "rdf:type", "?y"));
+    D.p("Number of facts with object person:", d.count("?x", "?r", "<wordnet_person_100007846>"));
+
     // Most frequent values
-    D.p("Most frequent relations of Angela Merkel:",d.mostFrequentValues(1, 1,"<Angela_Merkel>","?r","?y"));
-    D.p("Most frequent objects of Angela Merkel:",d.mostFrequentValues(1, 2,"<Angela_Merkel>","?r","?y"));
-    D.p("Most frequent subjects of rdf:type:",d.mostFrequentValues(1,  0,"?x","rdf:type","?y"));
-    D.p("Most frequent objects of rdf:type:",d.mostFrequentValues(1,  2,"?x","rdf:type","?y"));
-    D.p("Most frequent subjects of person:",d.mostFrequentValues(1, 0,"?x","?r","<wordnet_person_100007846>"));
-    D.p("Most frequent relations of person:",d.mostFrequentValues(1,  1,"?x","?r","<wordnet_person_100007846>"));
-    
+    D.p("Most frequent relations of Angela Merkel:", d.mostFrequentValues(1, 1, "<Angela_Merkel>", "?r", "?y"));
+    D.p("Most frequent objects of Angela Merkel:", d.mostFrequentValues(1, 2, "<Angela_Merkel>", "?r", "?y"));
+    D.p("Most frequent subjects of rdf:type:", d.mostFrequentValues(1, 0, "?x", "rdf:type", "?y"));
+    D.p("Most frequent objects of rdf:type:", d.mostFrequentValues(1, 2, "?x", "rdf:type", "?y"));
+    D.p("Most frequent subjects of person:", d.mostFrequentValues(1, 0, "?x", "?r", "<wordnet_person_100007846>"));
+    D.p("Most frequent relations of person:", d.mostFrequentValues(1, 1, "?x", "?r", "<wordnet_person_100007846>"));
+
     // Existence
-    D.p("Angela type ?x subclass of ?y exists:",d.exists(triples(triple("<Angela_Merkel>","rdf:type","?x"),triple("?x","rdfs:subClassOf","?y"))));
-    D.p("Angela type ?x subclass of person exists:",d.exists(triples(triple("<Angela_Merkel>","rdf:type","?x"),triple("?x","rdfs:subClassOf","<wordnet_person_100007846>"))));
-    D.p("Angela type ?x subclass of ?y subclassof ?z exists:",d.exists(triples(triple("<Angela_Merkel>","rdf:type","?x"),triple("?x","rdfs:subClassOf","?y"),triple("?y","rdfs:subClassOf","?z"))));
-    D.p("Angela type ?x subclass of ?y subclassof NONSENSE exists:",d.exists(triples(triple("<Angela_Merkel>","rdf:type","?x"),triple("?x","rdfs:subClassOf","?y"),triple("?y","rdfs:subClassOf","nonsense"))));
-    
+    D.p("Angela type ?x subclass of ?y exists:",
+        d.exists(triples(triple("<Angela_Merkel>", "rdf:type", "?x"), triple("?x", "rdfs:subClassOf", "?y"))));
+    D.p("Angela type ?x subclass of person exists:",
+        d.exists(triples(triple("<Angela_Merkel>", "rdf:type", "?x"), triple("?x", "rdfs:subClassOf", "<wordnet_person_100007846>"))));
+    D.p("Angela type ?x subclass of ?y subclassof ?z exists:",
+        d.exists(triples(triple("<Angela_Merkel>", "rdf:type", "?x"), triple("?x", "rdfs:subClassOf", "?y"), triple("?y", "rdfs:subClassOf", "?z"))));
+    D.p("Angela type ?x subclass of ?y subclassof NONSENSE exists:",
+        d.exists(triples(triple("<Angela_Merkel>", "rdf:type", "?x"), triple("?x", "rdfs:subClassOf", "?y"),
+            triple("?y", "rdfs:subClassOf", "nonsense"))));
+
     // Count projection
-    D.p("Number of ?x, such that Angela Merkel linksTo ?x:",d.countProjection(triple("<Angela_Merkel>","<linksTo>","?x"), triples()));
-    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person:",d.countProjection(triple("<Angela_Merkel>","<linksTo>","?x"), triples(triple("?x","rdf:type","<wordnet_person_100007846>"))));
-    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person ?x marriedTo ?y:",d.countProjection(triple("<Angela_Merkel>","<linksTo>","?x"), triples(triple("?x","rdf:type","<wordnet_person_100007846>"), triple("?x","<isMarriedTo>","?y"))));
-    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person ?x marriedTo Angela:",d.countProjection(triple("<Angela_Merkel>","<linksTo>","?x"), triples(triple("?x","rdf:type","<wordnet_person_100007846>"), triple("?x","<isMarriedTo>","<Angela_Merkel>"))));
-    D.p("Number of ?x/?y, such that ?x marriedTo ?y type person:",d.countProjection(triple("?x","<isMarriedTo>","?y"), triples(triple("?y","rdf:type","<wordnet_person_100007846>"))));
+    D.p("Number of ?x, such that Angela Merkel linksTo ?x:", d.countProjection(triple("<Angela_Merkel>", "<linksTo>", "?x"), triples()));
+    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person:",
+        d.countProjection(triple("<Angela_Merkel>", "<linksTo>", "?x"), triples(triple("?x", "rdf:type", "<wordnet_person_100007846>"))));
+    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person ?x marriedTo ?y:",
+        d.countProjection(triple("<Angela_Merkel>", "<linksTo>", "?x"),
+            triples(triple("?x", "rdf:type", "<wordnet_person_100007846>"), triple("?x", "<isMarriedTo>", "?y"))));
+    D.p("Number of ?x, such that Angela Merkel linksTo ?x type person ?x marriedTo Angela:",
+        d.countProjection(triple("<Angela_Merkel>", "<linksTo>", "?x"),
+            triples(triple("?x", "rdf:type", "<wordnet_person_100007846>"), triple("?x", "<isMarriedTo>", "<Angela_Merkel>"))));
+    D.p("Number of ?x/?y, such that ?x marriedTo ?y type person:",
+        d.countProjection(triple("?x", "<isMarriedTo>", "?y"), triples(triple("?y", "rdf:type", "<wordnet_person_100007846>"))));
   }
 }
