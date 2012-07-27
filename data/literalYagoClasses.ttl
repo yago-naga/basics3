@@ -18,6 +18,8 @@
 <m^2>	rdfs:subClassOf	<yagoQuantity> .
 <yagoTLD>	<_hasTypeCheckPattern>	"\.[a-z]{2,5}" .
 <yagoTLD>	rdfs:subClassOf	<yagoIdentifier> .
+<yagoICD10id>	<_hasTypeCheckPattern>	"[A-Z][0-9]{1,2}\\.[0-9]" .
+<yagoICD10id>	rdfs:subClassOf	<yagoIdentifier> .
 xsd:boolean	<_hasTypeCheckPattern>	"true|false" .
 xsd:boolean	rdfs:subClassOf	<yagoLiteral> .
 <yagoChar>	<_hasTypeCheckPattern>	"." .
@@ -39,6 +41,8 @@ xsd:integer	rdfs:subClassOf	xsd:decimal .
 xsd:nonNegativeInteger	<_hasTypeCheckPattern>	"([0-9]+)" .
 xsd:nonNegativeInteger	rdfs:subClassOf	xsd:integer .
 xsd:decimal	rdfs:subClassOf	<yagoLiteral> .
+<yagoFraction>	rdfs:subClassOf	xsd:decimal .
+<yagoFraction>	<_hasTypeCheckPattern>	"0\.[0-9]+" .
 <%>	rdfs:subClassOf	xsd:decimal .
 <yagoQuantity>	rdfs:subClassOf	<yagoLiteral> .
 xsd:string	rdfs:subClassOf	<yagoLiteral> .

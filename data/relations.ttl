@@ -53,7 +53,7 @@ rdfs:range	rdf:type	<yagoFunction> .
  <_hasTypeCheckPattern>	rdfs:domain	rdfs:class .
  <_hasTypeCheckPattern>	rdfs:range	xsd:string .
 <hasConfidence>	rdfs:domain	rdf:Property .
-<hasConfidence>	rdfs:range	xsd:decimal .
+<hasConfidence>	rdfs:range	<yagoFraction> .
 <hasConfidence>	rdf:type	rdf:Property .
 <occursSince>	rdfs:domain	rdf:Statement .
 <occursSince>	rdfs:range	xsd:date .
@@ -301,7 +301,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGini>	rdfs:range	xsd:decimal .
 <hasGini>	rdf:type	<yagoFunction> .
 <hasHDI>	rdfs:domain	<wordnet_location_100027167> .
-<hasHDI>	rdfs:range	xsd:decimal .
+<hasHDI>	rdfs:range	<yagoFraction> .
 <hasHDI>	rdf:type	<yagoFunctionInTime> .
 <hasImport>	rdfs:domain	<wordnet_location_100027167> .
 <hasImport>	rdfs:range	<yagoMonetaryValue> .
@@ -379,7 +379,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasWeight>	rdfs:range	<g> .
 <hasWeight>	rdf:type	<yagoFunction> .
 <hasICD10>	rdfs:domain	<wordnet_disease_114070360> .
-<hasICD10>	rdfs:range	<yagoIdentifier> .
+<hasICD10>	rdfs:range	<yagoICD10id> .
 <hasICD10>	rdf:type	<yagoFunction> .
 <hasICD10>	rdf:type	<permanentRelationToSubject> .
 <happenedIn>	rdfs:domain	<wordnet_event_100029378> .
@@ -406,7 +406,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGeonamesId>	rdf:type	<yagoFunction> .
 <hasGeonamesId>	rdf:type	<permanentRelationToSubject> .
 rdfs:label	<hasGloss>	"By '$2', someone could mean $1" .
-rdf:type	<hasGloss>	"$1 is a or was a (potentially fictional) $2" .
+rdf:type	<hasGloss>	"$1 belongs or belonged to the group of $2 (even if fictional)" .
 rdfs:subClassOf	<hasGloss>	"If something is in the group of $1, then it is also in the group of $2 (even if fictional)" .
 rdfs:domain	<hasGloss>	"The domain of $1 is the group of $2" .
 rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
@@ -439,7 +439,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasMotto>	<hasGloss>	"$1 has or had the motto/slogan $2 (Look in the Wikipedia infobox)" .
 <hasOfficialLanguage>	<hasGloss>	"$2 is or was an official language of $1" .
 <hasCapital>	<hasGloss>	"$2 is or was the capital of $1" .
-<hasGDP>	<hasGloss>	"$1 has or had a GDP of $2" .
+<hasGDP>	<hasGloss>	"$1 has or had a nominal GDP of $2" .
 <hasHDI>	<hasGloss>	"$1 has or had the HDI $2" .
 <hasGini>	<hasGloss>	"$1 has or had the GINI $2" .
 <hasCurrency>	<hasGloss>	"$1 uses the currency $2" .
@@ -447,8 +447,8 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasPages>	<hasGloss>	"'$1' has $2 pages" .
 <hasISBN>	<hasGloss>	"'$1' has the ISBN code $2" .
 <livesIn>	<hasGloss>	"$1 lives or lived in $2" .
-<hasHeight>	<hasGloss>	"$1 is or was $2 in height" .
-<hasLength>	<hasGloss>	"$1 is or was $2 in length" .
+<hasHeight>	<hasGloss>	"$1 is or was ca. $2 in height" .
+<hasLength>	<hasGloss>	"$1 is or was ca. $2 in length" .
 <hasWeight>	<hasGloss>	"$1 has or had a weight of $2" .
 <created>	<hasGloss>	"$1 contributed to the creation or invention of $2" .
 <isKnownFor>	<hasGloss>	"$1 is known for $2" .
@@ -479,7 +479,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasThreeLetterLanguageCode>	<hasGloss>	"$1 has the 3-letter language code $2" .
 <hasLanguageCode>	<hasGloss>	"$1 has the 2-letter language code $2" .
 <hasLatitude>	<hasGloss>	"$1 is at latitude $2 (Negative latitude means 'South')" .
-<hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'East')" .
+<hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'West')" .
 <hasGeoCoordinates>	<hasGloss>	"$1 has the geographical location specified by coordinates $2" .
 <hasPoverty>	<hasGloss>	"$1 has or had a poverty of $2" .
 <isPreferredMeaningOf>	<hasGloss>	"$1 has as preferred meaning $2" .
