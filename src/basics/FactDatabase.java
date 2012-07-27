@@ -91,7 +91,7 @@ public class FactDatabase {
 	}
 
 	/** Adds a fact */
-	public boolean add(String... fact) {
+	public boolean add(CharSequence... fact) {
 		return(add(compress(fact[0]),compress(fact[1]),compress(fact[2])));
 	}
 	
@@ -142,9 +142,9 @@ public class FactDatabase {
 				line = Char.cutLast(line);
 			String[] split = line.split("\t");
 			if (split.length == 3)
-				add(split[0], split[1], split[2]);
+				add(split[0].trim(), split[1].trim(), split[2].trim());
 			else if (split.length == 4)
-				add(split[1], split[2], split[3]);
+				add(split[1].trim(), split[2].trim(), split[3].trim());
 		}
 		if (message != null)
 			Announce.message("     Loaded", (size() - size), "facts");
@@ -202,7 +202,7 @@ public class FactDatabase {
 			e.printStackTrace();
 		}
 		Announce.done("Loaded " + (size() - size) + " facts in "
-				+ NumberFormatter.formatMS(System.currentTimeMillis() - time)+ " using "+((memory-Runtime.getRuntime().freeMemory())/1000000)+" MB");
+				+ NumberFormatter.formatMS(System.currentTimeMillis() - time)+ " using "+((Runtime.getRuntime().freeMemory()-memory)/1000000)+" MB");
 	}
 
 	/** Returns the result of the map for key1 and key2 */
@@ -220,7 +220,7 @@ public class FactDatabase {
 	 * Returns the results of the triple pattern query, if it contains exactly 1
 	 * variable
 	 */
-	public Set<ByteString> resultsOneVariable(String... triple) {
+	public Set<ByteString> resultsOneVariable(CharSequence... triple) {
 		return(resultsOneVariable(triple(triple)));
 	}
 	
@@ -239,7 +239,7 @@ public class FactDatabase {
 	}
 
 	/** TRUE if the database contains this fact (no variables) */
-	public boolean contains(String... fact) {
+	public boolean contains(CharSequence... fact) {
 		return(contains(triple(fact)));
 	}
 	
@@ -261,7 +261,7 @@ public class FactDatabase {
 	 * Returns the results of a triple query pattern with two variables as a map
 	 * of first value to set of second values
 	 */
-	public Map<ByteString, Set<ByteString>> resultsTwoVariables(String... triple) {
+	public Map<ByteString, Set<ByteString>> resultsTwoVariables(CharSequence... triple) {
 		return(resultsTwoVariables(triple(triple)));
 	}
 	
@@ -310,7 +310,7 @@ public class FactDatabase {
 	}
 
 	/** returns number of instances of this triple */
-	public int count(String... triple) {
+	public int count(CharSequence... triple) {
 		return(count(triple(triple)));
 	}
 	
@@ -500,7 +500,7 @@ public class FactDatabase {
 	 * by descending frequency. Returns only values with a frequency higher than
 	 * minFrequency.
 	 */
-	public List<ByteString> mostFrequentValues(int minFrequency, int pos, String... triple) {
+	public List<ByteString> mostFrequentValues(int minFrequency, int pos, CharSequence... triple) {
 		return(mostFrequentValues(minFrequency, pos, triple(triple)));
 	}
 	
@@ -547,8 +547,9 @@ public class FactDatabase {
 	}
 
 	/** Compresses a string to an internal string*/
-	public static ByteString compress(String s) {
-		return(new ByteString(s.trim()).intern());
+	public static ByteString compress(CharSequence s) {
+	  if(s instanceof ByteString) return((ByteString)s);
+		return(new ByteString(s).intern());
 	}
 	
 	/** Makes a list of triples*/
@@ -562,7 +563,7 @@ public class FactDatabase {
 	}
 
 	/** Makes a triple */
-	public static ByteString[] triple(String... triple) {
+	public static ByteString[] triple(CharSequence... triple) {
 		ByteString[] result=new ByteString[triple.length];
 		for(int i=0;i<triple.length;i++) result[i]=compress(triple[i]);
 		return(result);
@@ -571,10 +572,8 @@ public class FactDatabase {
 	/** test */
 	public static void main(String[] args) throws Exception {
 		FactDatabase d = new FactDatabase();
-		 d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new
-		 File("/local/suchanek/yago2s/yagoFacts.ttl"));
-		// d.load(new File("c:/fabian/data/yago2s/"),
-		// Pattern.compile("yago.*\\.ttl"));
+		 //d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new		 File("/local/suchanek/yago2s/yagoFacts.ttl"));
+		d.load(new File("c:/fabian/data/yago2s/"), Pattern.compile("yago.*\\.ttl"));
 		//d.load(new File("/Users/Fabian/Fabian/Work/yago2/newfacts/wordnetClasses.ttl")
 		//, new File(				"/Users/Fabian/Fabian/Work/yago2/newfacts/hardWiredFacts.ttl"));
 
