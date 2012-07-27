@@ -572,8 +572,8 @@ public class FactDatabase {
 	/** test */
 	public static void main(String[] args) throws Exception {
 		FactDatabase d = new FactDatabase();
-		 //d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new		 File("/local/suchanek/yago2s/yagoFacts.ttl"));
-		d.load(new File("c:/fabian/data/yago2s/"), Pattern.compile("yago.*\\.ttl"));
+		 d.load(new File("/local/suchanek/yago2s/yagoTypes.ttl"), new		 File("/local/suchanek/yago2s/yagoFacts.ttl"));
+		//d.load(new File("c:/fabian/data/yago2s/"), Pattern.compile("yago.*\\.ttl"));
 		//d.load(new File("/Users/Fabian/Fabian/Work/yago2/newfacts/wordnetClasses.ttl")
 		//, new File(				"/Users/Fabian/Fabian/Work/yago2/newfacts/hardWiredFacts.ttl"));
 
