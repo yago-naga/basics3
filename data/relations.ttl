@@ -415,7 +415,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasGivenName>	<hasGloss>	"$1's (first) given name is $2" .
 <hasWonPrize>	<hasGloss>	"$1 has won the $2" .
 <isLocatedIn>	<hasGloss>	"$1 is located in $2" .
-<isPoliticianOf>	<hasGloss>	"$1 is or was a politican of $2\u0022" .
+<isPoliticianOf>	<hasGloss>	"$1 is or was a politican of $2" .
 <isCitizenOf>	<hasGloss>	"$1 is or was a citizen of $2" .
 <wasBornOnDate>	<hasGloss>	"$1 was born $2" .
 <wasBornIn>	<hasGloss>	"$1 was born in $2" .
