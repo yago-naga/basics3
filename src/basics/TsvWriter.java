@@ -19,6 +19,8 @@ public class TsvWriter extends FactWriter {
 
 	protected Writer out;
 	
+	protected boolean writeDoubleValue=false;
+	
 	@Override
 	public void close() throws IOException {
 	out.close();	
@@ -26,10 +28,15 @@ public class TsvWriter extends FactWriter {
 
 	@Override
 	public void write(Fact f) throws IOException {
-		out.write(f.toTsvLine());
+		out.write(f.toTsvLine( writeDoubleValue));
 	}
 
 	public TsvWriter(File f) throws FileNotFoundException {
-		out=FileUtils.getBufferedUTF8Writer(f);
+		this(f,false);
 	}
+
+  public TsvWriter(File f, boolean writeDoubleValue) throws FileNotFoundException {
+    this.writeDoubleValue=writeDoubleValue;
+    out=FileUtils.getBufferedUTF8Writer(f);
+  }
 }
