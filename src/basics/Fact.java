@@ -3,6 +3,7 @@ package basics;
 import java.util.regex.Pattern;
 
 import javatools.administrative.D;
+import javatools.parsers.NumberParser;
 
 /**
  * Class Fact Represents a fact - YAGO2S
@@ -154,8 +155,18 @@ public class Fact {
   }
 
   /** returns a TSV line*/
+  public String toTsvLine(boolean withValue) {
+    if(withValue) {
+      String val=NumberParser.getNumber(FactComponent.getString(arg2));
+      if(val==null) val="";
+      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t"+val+"\n");
+    }
+    else return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\n");
+  }
+
+  /** returns a TSV line*/
   public String toTsvLine() {
-    return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\n");
+    return toTsvLine(false);
   }
 
   /** Creates a meta fact for this fact (generates an id if necessary)*/
