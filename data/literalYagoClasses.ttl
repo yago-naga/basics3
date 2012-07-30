@@ -43,6 +43,8 @@ xsd:nonNegativeInteger	rdfs:subClassOf	xsd:integer .
 xsd:decimal	rdfs:subClassOf	<yagoLiteral> .
 <yagoFraction>	rdfs:subClassOf	xsd:decimal .
 <yagoFraction>	<_hasTypeCheckPattern>	"0\.[0-9]+" .
+<yago0to100>	rdfs:subClassOf	xsd:decimal .
+<yago0to100>	<_hasTypeCheckPattern>	"[0-9][0-9](\.[0-9])?" .
 <%>	rdfs:subClassOf	xsd:decimal .
 <yagoQuantity>	rdfs:subClassOf	<yagoLiteral> .
 xsd:string	rdfs:subClassOf	<yagoLiteral> .
@@ -55,7 +57,6 @@ xsd:date	rdfs:subClassOf	<yagoLiteral> .
 <degrees>	rdfs:subClassOf	<yagoLiteral> .
 <yagoGeoCoordinatePair>	<_hasTypeCheckPattern>	"(-?\u005cd++(?:\u005c.[0-9]++)?(?:[Ee]\u005c-?[0-9]++)?)/(-?\u005cd++(?:\u005c.[0-9]++)?(?:[Ee]\u005c-?[0-9]++)?)" .
 <yagoGeoCoordinatePair>	rdfs:subClassOf	<yagoLiteral> .
-<yagoLanString>	rdfs:subClassOf	xsd:string .
 <yagoWordInContext>	<_hasTypeCheckPattern>	"\u005c^.*" .
 <yagoWordInContext>	rdfs:subClassOf	<yagoIdentifier> .
 xsd:gYear	<_hasTypeCheckPattern>	"[0-9]{1,4}" .

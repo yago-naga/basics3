@@ -61,6 +61,12 @@ rdfs:range	rdf:type	<yagoFunction> .
 <occursUntil>	rdfs:domain	rdf:Statement .
 <occursUntil>	rdfs:range	xsd:date .
 <occursUntil>	rdf:type	<yagoFunction> .
+<isConnectedTo> rdf:type rdf:Property .
+<isConnectedTo> rdfs:range	<yagoGeoEntity> .
+<isConnectedTo> rdfs:domain	<yagoGeoEntity> .
+<byTransport> rdf:type rdf:Property .
+<byTransport> rdfs:range	<yagoFact> .
+<byTransport> rdfs:domain	<wordnet_airline_102690081> .
 <linksTo>	rdfs:domain	owl:Thing .
 <linksTo>	rdfs:range	owl:Thing .
 <linksTo>	rdf:type	rdf:Property .
@@ -127,12 +133,12 @@ rdfs:range	rdf:type	<yagoFunction> .
 <extractionTechnique>	rdfs:domain	rdf:Statement .
 <extractionTechnique>	rdf:type	rdfs:Property .
 <extractionTechnique>	rdfs:range	xsd:string .
-<isPreferredMeaningOf>	rdfs:domain	<yagoLanString> .
+<isPreferredMeaningOf>	rdfs:domain	xsd:string .
 <isPreferredMeaningOf>	rdfs:range	owl:Thing .
 <isPreferredMeaningOf>	rdf:type	<yagoFunction> .
 <isPreferredMeaningOf>	rdf:type	<permanentRelationToObject> .
 skos:prefLabel	rdfs:domain	owl:Thing .
-skos:prefLabel	rdfs:range	<yagoLanString> .
+skos:prefLabel	rdfs:range	xsd:string .
 skos:prefLabel	rdf:type	<yagoFunction> .
 skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasSynsetId>	rdfs:domain	rdfs:Class .
@@ -151,9 +157,9 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
 <hasLanguageCode>	rdfs:range	xsd:string .
 <hasGloss>	rdfs:domain	owl:Thing .
-<hasGloss>	rdfs:range	<yagoLanString> .
+<hasGloss>	rdfs:range	xsd:string .
 <hasGloss>	rdf:type	<yagoFunction> .
-rdfs:label	rdfs:range	<yagoLanString> .
+rdfs:label	rdfs:range	xsd:string .
 rdfs:label	rdfs:domain	owl:Thing .
 rdfs:label	rdf:type	rdf:Property .
 rdfs:label	rdf:type	<permanentRelationToObject> .
@@ -298,7 +304,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasExport>	rdfs:range	<yagoMonetaryValue> .
 <hasExport>	rdf:type	<yagoFunction> .
 <hasGini>	rdfs:domain	<wordnet_location_100027167> .
-<hasGini>	rdfs:range	xsd:decimal .
+<hasGini>	rdfs:range	<yago0to100> .
 <hasGini>	rdf:type	<yagoFunction> .
 <hasHDI>	rdfs:domain	<wordnet_location_100027167> .
 <hasHDI>	rdfs:range	<yagoFraction> .
@@ -310,7 +316,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasInflation>	rdfs:range	<%> .
 <hasInflation>	rdf:type	<yagoFunctionInTime> .
 <hasMotto>	rdfs:domain	<yagoLegalActorGeo> .
-<hasMotto>	rdfs:range	<yagoLanString> .
+<hasMotto>	rdfs:range	xsd:string .
 <hasMotto>	rdf:type	rdf:Property .
 <hasGDP>	rdfs:domain	<wordnet_location_100027167> .
 <hasGDP>	rdfs:range	<yagoMonetaryValue> .
@@ -532,3 +538,5 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasGeonamesId>	<hasGloss>	"$1 has id $2 in Geonames" .
 rdfs:comment	<hasGloss>	"$1 has comment $2" .
 <linksTo> <hasGloss> "The Wikipedia article about $1 links to the Wikipedia article about $2" . 
+<isConnectedTo> <hasGloss> "There is an airline connection from $1 to $2" .
+<byTransport> <hasGloss> "The connecting airline for $1 is $2" .

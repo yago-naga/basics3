@@ -29,4 +29,6 @@ public class YAGO {
   public static final String hasGloss = "<hasGloss>";
   public static final String hasPreferredName = "skos:prefLabel";
   public static final String isPreferredMeaningOf= "<isPreferredMeaningOf>";
+  public static final String integer = "xsd:integer";
+  public static final String decimal = "xsd:decimal";
 }
