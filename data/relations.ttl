@@ -65,8 +65,8 @@ rdfs:range	rdf:type	<yagoFunction> .
 <isConnectedTo> rdfs:range	<yagoGeoEntity> .
 <isConnectedTo> rdfs:domain	<yagoGeoEntity> .
 <byTransport> rdf:type rdf:Property .
-<byTransport> rdfs:range	<yagoFact> .
-<byTransport> rdfs:domain	<wordnet_airline_102690081> .
+<byTransport> rdfs:domain	rdf:Statement .
+<byTransport> rdfs:range	<wordnet_airline_102690081> .
 <linksTo>	rdfs:domain	owl:Thing .
 <linksTo>	rdfs:range	owl:Thing .
 <linksTo>	rdf:type	rdf:Property .
