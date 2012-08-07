@@ -3,6 +3,7 @@ package basics;
 import java.util.regex.Pattern;
 
 import javatools.administrative.D;
+import javatools.parsers.DateParser;
 import javatools.parsers.NumberParser;
 
 /**
@@ -32,7 +33,7 @@ public class Fact {
 
   /** Hash code*/
   protected final int hashCode;
-  
+
   /**
    * All fact components must be the output of a method of the class
    * FactComponent!
@@ -44,7 +45,7 @@ public class Fact {
     this.relation = relation.intern();
     this.id = id == null ? null : id.intern();
     this.arg2datatype = arg2datatype == null ? null : arg2datatype.intern();
-    this.hashCode=arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
+    this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
   /**
@@ -56,8 +57,8 @@ public class Fact {
     this.arg1 = arg1.intern();
     String[] a2 = FactComponent.literalAndDatatypeAndLanguage(arg2withDataType);
     if (a2 != null) {
-      if(a2[2]==null) this.arg2 = a2[0].intern();
-      else this.arg2 = (a2[0]+'@'+a2[2]).intern();
+      if (a2[2] == null) this.arg2 = a2[0].intern();
+      else this.arg2 = (a2[0] + '@' + a2[2]).intern();
       this.arg2datatype = a2[1] == null ? null : a2[1].intern();
     } else {
       this.arg2 = arg2withDataType;
@@ -65,7 +66,7 @@ public class Fact {
     }
     this.relation = relation.intern();
     this.id = id == null ? null : id.intern();
-    this.hashCode=arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
+    this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
   /**
@@ -83,7 +84,7 @@ public class Fact {
     this.relation = copy.relation;
     this.id = copy.getId();
     this.arg2datatype = copy.arg2datatype;
-    this.hashCode=copy.hashCode;
+    this.hashCode = copy.hashCode;
   }
 
   @Override
@@ -156,12 +157,24 @@ public class Fact {
 
   /** returns a TSV line*/
   public String toTsvLine(boolean withValue) {
-    if(withValue) {
-      String val=NumberParser.getNumber(FactComponent.getString(arg2));
-      if(val==null) val="";
-      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t"+val+"\n");
-    }
-    else return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\n");
+    if (withValue && FactComponent.isLiteral(arg2) && arg2datatype!=null) {
+      String val = null;
+      if (arg2datatype.equals("xsd:date")) {
+        String[] split = DateParser.getDate(arg2);
+        if (split != null && split.length == 3) {
+          for (int i = 0; i < 3; i++) {
+            split[i] = split[i].replace('#', '0');
+            while (split[i].length() < 2)
+              split[1] = "0" + split[i];
+          }
+          val = split[0] + "." + split[1] + split[2];
+        }
+      } else {
+        val =NumberParser.getNumber(FactComponent.stripBrackets(arg2));
+      }
+      if (val == null) val = "";
+      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
+    } else return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\n");
   }
 
   /** returns a TSV line*/
