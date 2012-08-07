@@ -510,8 +510,8 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasSuccessor>	<hasGloss>	"$2 was successor of $1" .
 <hasPredecessor>	<hasGloss>	"$2 was predecessor of $1" .
 <playsFor>	<hasGloss>	"$1 plays (or played) for $2" .
-<startedOnDate>	<hasGloss>	"$1 started on $2" .
-<endedOnDate>	<hasGloss>	"$1 ended on $2" .
+<startedOnDate>	<hasGloss>	"$1 had a start event (creation, ratification, beginning, etc.) on $2" .
+<endedOnDate>	<hasGloss>	"$1 had an ending event (destruction, end of validity, etc.) on $2" .
 <occursSince>	<hasGloss>	"$1 occurs (or occurred) since $2" .
 <occursUntil>	<hasGloss>	"$1 occurs (or occurred) until $2" .
 <occursIn>	<hasGloss>	"$1 happened at $2" .
