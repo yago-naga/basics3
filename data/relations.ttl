@@ -440,7 +440,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <actedIn>	<hasGloss>	"$1 acted in $2" .
 <hasDuration>	<hasGloss>	"$1 has or had a duration of $2" .
 <hasBudget>	<hasGloss>	"$1 has or had a budget of $2" .
-<hasImdb>	<hasGloss>	"$1 is in the IMDb at http://www.imdb.com/title/tt$2 (Point with the mouse on the link 'IMDb profile' in the Wikipedia infobox to check)" .
+<hasImdb>	<hasGloss>	"$1 is in the IMDb at http://www.imdb.com/title/tt$2 (See link under 'External Links' at the bottom of the page)" .
 <hasChild>	<hasGloss>	"$2 is or was the child of $1" .
 <hasMotto>	<hasGloss>	"$1 has or had the motto/slogan $2 (Look in the Wikipedia infobox)" .
 <hasOfficialLanguage>	<hasGloss>	"$2 is or was an official language of $1" .
