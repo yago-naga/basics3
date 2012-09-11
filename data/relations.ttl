@@ -196,7 +196,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <directed>	rdfs:domain	<wordnet_person_100007846> .
 <directed>	rdfs:range	<wordnet_movie_106613686> .
 <directed>	rdf:type	<objectStartRelation> .
-<edited>	rdfs:domain	<wordnet_person_100007846> .
+<edited>	rdfs:domain	<wordnet_editor_110044879> . # We had lots of trouble with "person"
 <edited>	rdfs:range	<wordnet_movie_106613686> .
 <edited>	rdf:type	rdf:Property .
 <wroteMusicFor>	rdfs:domain	<wordnet_person_100007846> .
