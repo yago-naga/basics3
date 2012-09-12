@@ -181,9 +181,9 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <created>	rdfs:domain	<yagoLegalActor> .
 <created>	rdfs:range	owl:Thing .
 <created>	rdf:type	<objectStartRelation> .
-<isKnownFor>	rdfs:domain	<yagoLegalActor> .
-<isKnownFor>	rdfs:range	owl:Thing .
-<isKnownFor>	rdf:type	rdf:Property .
+#<isKnownFor>	rdfs:domain	<yagoLegalActor> . # no infobox patterns, see there
+#<isKnownFor>	rdfs:range	owl:Thing .
+#<isKnownFor>	rdf:type	rdf:Property .
 <diedIn>	rdfs:domain	<wordnet_person_100007846> .
 <diedIn>	rdfs:range	<wordnet_city_108524735> .
 <diedIn>	rdf:type	<yagoFunction> .
@@ -257,8 +257,8 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <isPoliticianOf>	rdfs:domain	<wordnet_person_100007846> .
 <isPoliticianOf>	rdfs:range	<wikicategory_States_of_the_United_States> .
 <isPoliticianOf>	rdf:type	<yagoFunction> .
-<produced>	rdfs:domain	<yagoLegalActor> .
-<produced>	rdfs:range	<wordnet_movie_106613686> .
+#<produced>	rdfs:domain	<yagoLegalActor> . # No infobox patterns, see there
+#<produced>	rdfs:range	<wordnet_movie_106613686> .
 <produced>	rdf:type	<objectStartRelation> .
 <worksAt>	rdfs:domain	<wordnet_person_100007846> .
 <worksAt>	rdfs:range	<wordnet_organization_108008335> .
@@ -306,9 +306,9 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGini>	rdfs:domain	<wordnet_location_100027167> .
 <hasGini>	rdfs:range	<yago0to100> .
 <hasGini>	rdf:type	<yagoFunction> .
-<hasHDI>	rdfs:domain	<wordnet_location_100027167> .
-<hasHDI>	rdfs:range	<yagoFraction> .
-<hasHDI>	rdf:type	<yagoFunctionInTime> .
+#<hasHDI>	rdfs:domain	<wordnet_location_100027167> .
+#<hasHDI>	rdfs:range	<yagoFraction> .
+#<hasHDI>	rdf:type	<yagoFunctionInTime> . # No infobox pattern, see there
 <hasImport>	rdfs:domain	<wordnet_location_100027167> .
 <hasImport>	rdfs:range	<yagoMonetaryValue> .
 <hasImport>	rdf:type	<yagoFunction> .
@@ -494,9 +494,9 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasGeonamesClassId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasGeonamesEntityId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
 <hasSynsetId>	<hasGloss>	"$1 has the WordNet identifier $2" .
-<holdsPoliticalPosition>	rdfs:domain	<wordnet_person_100007846> .
-<holdsPoliticalPosition>	rdfs:range	<wordnet_person_100007846> .
-<holdsPoliticalPosition>	rdf:type	rdf:Property .
+#<holdsPoliticalPosition>	rdfs:domain	<wordnet_person_100007846> . # No infobox patterns, see there
+#<holdsPoliticalPosition>	rdfs:range	<wordnet_person_100007846> .
+#<holdsPoliticalPosition>	rdf:type	rdf:Property .
 <hasSuccessor>	rdfs:domain	rdf:Statement .
 <hasSuccessor>	rdfs:range	<wordnet_person_100007846> .
 <hasSuccessor>	rdf:type	<yagoFunction> .
