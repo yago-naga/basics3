@@ -213,7 +213,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGivenName>	rdf:type	<permanentRelationToSubject> .
 <hasGivenName>	 rdfs:subPropertyOf	rdfs:label .
 <graduatedFrom>	rdfs:domain	<wordnet_person_100007846> .
-<graduatedFrom>	rdfs:range	<wordnet_university_108286163> .
+<graduatedFrom>	rdfs:range	<wordnet_university_108286569> .
 <graduatedFrom>	rdf:type	<yagoFunction> .
 <graduatedFrom>	rdf:type	<relationLocatedByObject> .
 <hasAcademicAdvisor>	rdfs:domain	<wordnet_person_100007846> .
@@ -259,7 +259,7 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <isPoliticianOf>	rdf:type	<yagoFunction> .
 #<produced>	rdfs:domain	<yagoLegalActor> . # No infobox patterns, see there
 #<produced>	rdfs:range	<wordnet_movie_106613686> .
-<produced>	rdf:type	<objectStartRelation> .
+#<produced>	rdf:type	<objectStartRelation> .
 <worksAt>	rdfs:domain	<wordnet_person_100007846> .
 <worksAt>	rdfs:range	<wordnet_organization_108008335> .
 <worksAt>	rdf:type	<yagoFunction> .
@@ -306,9 +306,9 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasGini>	rdfs:domain	<wordnet_location_100027167> .
 <hasGini>	rdfs:range	<yago0to100> .
 <hasGini>	rdf:type	<yagoFunction> .
-<hasHDI>	rdfs:domain	<wordnet_location_100027167> .
-<hasHDI>	rdfs:range	<yagoFraction> .
-<hasHDI>	rdf:type	<yagoFunctionInTime> .
+#<hasHDI>	rdfs:domain	<wordnet_location_100027167> .
+#<hasHDI>	rdfs:range	<yagoFraction> .
+#<hasHDI>	rdf:type	<yagoFunctionInTime> .
 <hasImport>	rdfs:domain	<wordnet_location_100027167> .
 <hasImport>	rdfs:range	<yagoMonetaryValue> .
 <hasImport>	rdf:type	<yagoFunction> .
@@ -384,10 +384,10 @@ rdfs:label	rdf:type	<permanentRelationToObject> .
 <hasWeight>	rdfs:domain	<wordnet_physical_entity_100001930> .
 <hasWeight>	rdfs:range	<g> .
 <hasWeight>	rdf:type	<yagoFunction> .
-<hasICD10>	rdfs:domain	<wordnet_disease_114070360> .
-<hasICD10>	rdfs:range	<yagoICD10id> .
-<hasICD10>	rdf:type	<yagoFunction> .
-<hasICD10>	rdf:type	<permanentRelationToSubject> .
+#<hasICD10>	rdfs:domain	<wordnet_disease_114070360> .
+#<hasICD10>	rdfs:range	<yagoICD10id> .
+#<hasICD10>	rdf:type	<yagoFunction> .
+#<hasICD10>	rdf:type	<permanentRelationToSubject> . # Extraction does not work
 <happenedIn>	rdfs:domain	<wordnet_event_100029378> .
 <happenedIn>	rdfs:range	<yagoGeoEntity> .
 <happenedIn>	rdf:type	<relationLocatedByObject> .
@@ -436,7 +436,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <isAffiliatedTo>	<hasGloss>	"$1 is or was affiliated to $2" .
 <influences>	<hasGloss>	"$1 influenced $2 (Watch out: If Wikipedia says 'influences: X', this means that X was an influence!)" .
 <directed>	<hasGloss>	"$1 directed $2" .
-<produced>	<hasGloss>	"$1 produced $2" .
+#<produced>	<hasGloss>	"$1 produced $2" .
 <actedIn>	<hasGloss>	"$1 acted in $2" .
 <hasDuration>	<hasGloss>	"$1 has or had a duration of $2" .
 <hasBudget>	<hasGloss>	"$1 has or had a budget of $2" .
@@ -446,7 +446,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasOfficialLanguage>	<hasGloss>	"$2 is or was an official language of $1" .
 <hasCapital>	<hasGloss>	"$2 is or was the capital of $1" .
 <hasGDP>	<hasGloss>	"$1 has or had a nominal GDP of $2" .
-<hasHDI>	<hasGloss>	"$1 has or had the HDI $2" .
+#<hasHDI>	<hasGloss>	"$1 has or had the HDI $2" .
 <hasGini>	<hasGloss>	"$1 has or had the GINI $2" .
 <hasCurrency>	<hasGloss>	"$1 uses the currency $2" .
 <hasTLD>	<hasGloss>	"$1 has the top level domain (TLD) $2" .
@@ -480,7 +480,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasExpenses>	<hasGloss>	"$1 has or had expenses of $2" .
 <hasExport>	<hasGloss>	"$1 exports goods with total value of $2" .
 <hasGloss>	<hasGloss>	"$1 is described by $2" .
-<hasICD10>	<hasGloss>	"$1 has the ICD10 identifier $2" .
+#<hasICD10>	<hasGloss>	"$1 has the ICD10 identifier $2" .
 <hasImport>	<hasGloss>	"$1 imports goods with total value of $2" .
 <hasThreeLetterLanguageCode>	<hasGloss>	"$1 has the 3-letter language code $2" .
 <hasLanguageCode>	<hasGloss>	"$1 has the 2-letter language code $2" .
