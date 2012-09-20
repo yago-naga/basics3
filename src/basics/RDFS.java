@@ -22,4 +22,5 @@ public class RDFS {
   public static final String object = "rdf:object";
   public static final String predicate = "rdf:predicate";
   public static final String subject = "rdf:subject";
+  public static final String disjoint = "owl:disjointWith";
 }
