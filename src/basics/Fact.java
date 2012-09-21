@@ -174,7 +174,9 @@ public class Fact {
       }
       if (val == null) val = "";
       return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
-    } else return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\n");
+    } else {
+      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + (withValue?"\t\n":"\n"));
+    }
   }
 
   /** returns a TSV line*/
