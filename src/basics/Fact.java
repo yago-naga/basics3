@@ -165,12 +165,12 @@ public class Fact {
           for (int i = 0; i < 3; i++) {
             split[i] = split[i].replace('#', '0');
             while (split[i].length() < 2)
-              split[1] = "0" + split[i];
+              split[i] = "0" + split[i];
           }
           val = split[0] + "." + split[1] + split[2];
         }
       } else {
-        val =NumberParser.getNumber(FactComponent.stripBrackets(arg2));
+        val =NumberParser.getNumber(FactComponent.stripQuotes(arg2));
       }
       if (val == null) val = "";
       return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
