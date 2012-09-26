@@ -463,8 +463,8 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <isInterestedIn>	<hasGloss>	"$1 is or was interested in $2" .
 <hasInflation>	<hasGloss>	"$1 has an inflation of $2" .
 <hasUnemployment>	<hasGloss>	"$1 has an unemployment of $2" .
-<exports>	<hasGloss>	"$1 exports the good $2" .
-<imports>	<hasGloss>	"$1 imports the good $2" .
+<exports>	<hasGloss>	"$1 exports the goods $2" .
+<imports>	<hasGloss>	"$1 imports the goods $2" .
 <hasNeighbor>	<hasGloss>	"$1 has $2 as neighbor" .
 <dealsWith>	<hasGloss>	"$1 deals with $2" .
 <hasRevenue>	<hasGloss>	"$1 has or had a revenue of $2" .
