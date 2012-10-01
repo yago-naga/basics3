@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
+import paris.storage.YagoFact;
+
 import javatools.administrative.Announce;
 import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.TSVFile;
@@ -37,10 +39,11 @@ public class TsvReader extends PeekIterator<Fact> {
       case 2:
         return (new Fact(line.get(0), "<relation>", line.get(1)));
       case 3:
+        if(line.get(0).startsWith("#")) return (new Fact(line.get(0),line.get(1), "<relation>", line.get(2)));
         return (new Fact(line.get(0), line.get(1), line.get(2)));
       case 4:
       case 5:
-        return (new Fact(line.get(1), line.get(2), line.get(3)));
+        return (new Fact(line.get(0),line.get(1), line.get(2), line.get(3)));
       default:
         Announce.warning("Unsupported number of columns (", line.size(), ")");
         return (null);
