@@ -2,10 +2,12 @@ package basics;
 
 import java.io.File;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
 import javatools.administrative.Announce;
+import javatools.administrative.D;
 import javatools.filehandlers.FileSet;
 import javatools.util.FileUtils;
 
@@ -26,7 +28,14 @@ public abstract class FactSource implements Iterable<Fact> {
 	public static FactSource from(File f) {
 		return(new FileFactSource(f));
 	}
-	
+
+	 /** returns a fact source from a file or URL
+	 * @throws MalformedURLException */
+  public static FactSource from(String f) throws MalformedURLException {
+    if(f.startsWith("http:")) return(new UrlFactSource(new URL(f)));
+    return(new FileFactSource(new File(f)));
+  }
+
 	/** returns a fact source from an url*/
 	public static FactSource from(URL f) {
 		return(new UrlFactSource(f));
@@ -37,6 +46,8 @@ public abstract class FactSource implements Iterable<Fact> {
 		switch (fileExtension) {
 		case ".ttl":
 			return (new N4Reader(reader));
+		case ".tsv":
+		  return (new TsvReader(reader));
 		default:
 			Announce.error("Unknown file format " + fileExtension);
 			return (null);
@@ -99,5 +110,12 @@ public abstract class FactSource implements Iterable<Fact> {
 		}
 
 	}
+
+
+  public static void main(String[] args) throws Exception {
+    for(Fact f : FactSource.from("c:/fabian/data/yago2s/yagoMetaFacts.tsv")) {
+      D.p(f);
+    }
+  }
 
 }
