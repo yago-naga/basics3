@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-import paris.storage.YagoFact;
-
 import javatools.administrative.Announce;
 import javatools.datatypes.PeekIterator;
 import javatools.filehandlers.TSVFile;

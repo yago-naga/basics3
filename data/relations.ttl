@@ -45,13 +45,13 @@ rdfs:domain	rdfs:range	rdfs:Class .
 rdfs:domain	rdf:type	owl:FunctionalProperty .
 rdfs:range	rdfs:range	rdfs:Class .
 rdfs:range	rdf:type	owl:FunctionalProperty .
- rdfs:subPropertyOf	rdfs:domain	rdf:Property .
- rdfs:subPropertyOf	rdfs:range	rdf:Property .
- rdfs:subPropertyOf	rdf:type	rdf:Property .
- rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
- <_hasTypeCheckPattern>	rdf:type	<yagoInternalRelation> .
- <_hasTypeCheckPattern>	rdfs:domain	rdfs:class .
- <_hasTypeCheckPattern>	rdfs:range	xsd:string .
+rdfs:subPropertyOf	rdfs:domain	rdf:Property .
+rdfs:subPropertyOf	rdfs:range	rdf:Property .
+rdfs:subPropertyOf	rdf:type	rdf:Property .
+rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
+<_hasTypeCheckPattern>	rdf:type	<yagoInternalRelation> .
+<_hasTypeCheckPattern>	rdfs:domain	rdfs:class .
+<_hasTypeCheckPattern>	rdfs:range	xsd:string .
 <hasConfidence>	rdfs:domain	rdf:Property .
 <hasConfidence>	rdfs:range	<yagoFraction> .
 <hasConfidence>	rdf:type	rdf:Property .

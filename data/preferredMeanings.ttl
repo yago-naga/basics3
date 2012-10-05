@@ -19,6 +19,9 @@
 <Brazil>	<isPreferredMeaningOf>	"Brazil"@en .
 <China>	<isPreferredMeaningOf>	"China"@en .
 
+#@ <id_minister>
+<wordnet_minister_110320863>	<isPreferredMeaningOf>	"minister"@en .
+<id_minister> rdfs:comment "not the religious minister" .
 #@ <id_company>
 <wordnet_company_108058098>	<isPreferredMeaningOf>	"medium"@en .
 <id_company> rdfs:comment "To deal with media companies" .
