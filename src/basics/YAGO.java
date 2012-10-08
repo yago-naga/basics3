@@ -13,7 +13,7 @@ public class YAGO {
 	public static final String function="owl:FunctionalProperty";
 	public static final String url=FactComponent.forYagoEntity("yagoURL");
 	public static final String string="xsd:string";
-	public static final String yago=FactComponent.forYagoEntity("YAGO");
+	public static final String yago=FactComponent.forYagoEntity("YAGO_(database)");
 	public static final String hasNumber=FactComponent.forYagoEntity("hasNumber");
 	public static final String entity = "owl:Thing";//FactComponent.forWordnetEntity("entity", "100001740");
 	public static final String person="<wordnet_person_100007846>";
