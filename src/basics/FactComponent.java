@@ -20,7 +20,7 @@ import javatools.parsers.NumberParser;
 public class FactComponent {
 
   /** YAGO namespace */
-  public static final String YAGONAMESPACE = "http://yago-knowledge/resource/";
+  public static final String YAGONAMESPACE = "http://yago-knowledge.org/resource/";
 
   /** Standard namespace prefixes that this N4Reader will assume */
   public static final Map<String, String> standardPrefixes = new FinalMap<String, String>("rdf:", "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
