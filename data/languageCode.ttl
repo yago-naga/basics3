@@ -3,7 +3,7 @@
 # These are the language codes for of YAGO2s.
 # The HardExtractor will make this data part of YAGO2s
 
-@base <http://yago-knowledge/resource/> .
+@base <http://yago-knowledge.org/resource/> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
