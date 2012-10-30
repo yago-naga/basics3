@@ -64,9 +64,13 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <isConnectedTo> rdf:type rdf:Property .
 <isConnectedTo> rdfs:range	<yagoGeoEntity> .
 <isConnectedTo> rdfs:domain	<yagoGeoEntity> .
-<byTransport> rdf:type rdf:Property .
-<byTransport> rdfs:domain	rdf:Statement .
-<byTransport> rdfs:range	<wordnet_airline_102690081> .
+<byTransport>	rdf:type rdf:Property .
+<byTransport>	rdfs:domain	rdf:Statement .
+<byTransport>	rdfs:range	<wordnet_airline_102690081> .
+<hasAirportCode>	rdf:type rdf:Property .
+<hasAirportCode>	rdfs:range	xsd:string .
+<hasAirportCode>	rdfs:domain	<yagoGeoEntity> .
+<hasAirportCode>	rdfs:subClassOf	rdf:label .
 <linksTo>	rdfs:domain	owl:Thing .
 <linksTo>	rdfs:range	owl:Thing .
 <linksTo>	rdf:type	rdf:Property .
