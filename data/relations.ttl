@@ -70,7 +70,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <hasAirportCode>	rdf:type owl:FunctionalProperty .
 <hasAirportCode>	rdfs:range	xsd:string .
 <hasAirportCode>	rdfs:domain	<wordnet_airport_102692232> .
-<hasAirportCode>	rdfs:subPropertyOf	rdf:label .
+<hasAirportCode>	rdfs:subPropertyOf	rdfs:label .
 <linksTo>	rdfs:domain	owl:Thing .
 <linksTo>	rdfs:range	owl:Thing .
 <linksTo>	rdf:type	rdf:Property .
