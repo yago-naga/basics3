@@ -16,9 +16,9 @@
 #@ <hardId9>
 <yagoLegalActorGeo>	rdfs:subClassOf	owl:Thing .
 <hardId9>	rdfs:comment	"Additional YAGO class" .
-<yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity"@en .
-<yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity"@en .
-<yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo"@en .
+<yagoLegalActorGeo>	skos:prefLabel	"legal actor or geographic entity"@eng .
+<yagoLegalActorGeo>	<hasGloss>	"legal actor or geographic entity"@eng .
+<yagoLegalActorGeo>	rdfs:label	"yagoLegalActorGeo"@eng .
 #@ <hardId10>
 <yagoLegalActor>	rdfs:subClassOf	<yagoLegalActorGeo> .
 <hardId10>	rdfs:comment	"Additional YAGO class" .
@@ -29,10 +29,10 @@
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
 #@ <hardId11>
-<yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@en .
+<yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@eng .
 <hardId11>	rdfs:comment	"Additional YAGO class for individuals with geographical coordinates" .
-<yagoGeoEntity>	skos:prefLabel	"geographical entity"@en .
-<yagoGeoEntity>	<hasGloss>	"geographical entity"@en .
+<yagoGeoEntity>	skos:prefLabel	"geographical entity"@eng .
+<yagoGeoEntity>	<hasGloss>	"geographical entity"@eng .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_body_of_water_109225146>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_geological_formation_109287968>	rdfs:subClassOf	<yagoGeoEntity> .
@@ -44,17 +44,17 @@
 <wordnet_way_104564698>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109334396>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
-<yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@en .
+<yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@eng .
 #@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	owl:Thing .
-<hardId12>	rdfs:comment	"Additional YAGO class for entities that can be permanently located somewhere"@en .
+<hardId12>	rdfs:comment	"Additional YAGO class for entities that can be permanently located somewhere"@eng .
 <wordnet_event_100029378>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <yagoGeoEntity>	rdfs:subClassOf	<yagoPermanentlyLocatedEntity> .
 <male>	rdf:type	<wordnet_sex_105006898> .
-<male>	rdfs:label	"male"@en .
+<male>	rdfs:label	"male"@eng .
 <female>	rdf:type	<wordnet_sex_105006898> .
-<female>	rdfs:label	"female"@en .
+<female>	rdfs:label	"female"@eng .
 <Earth>	rdf:type	<yagoGeoEntity> .
 <Africa>	rdf:type	<yagoGeoEntity> .
 <Africa>	<isLocatedIn>	<Earth> .
@@ -70,32 +70,32 @@
 <Oceania>	<isLocatedIn>	<Earth> .
 <South_America>	rdf:type	<yagoGeoEntity> .
 <South_America>	<isLocatedIn>	<Earth> .
-<European_Union>	rdfs:label	"EU"@en .
-<European_Union>	rdfs:label	"EC"@en .
-<United_States>	rdfs:label	"US"@en .
-<United_Nations>	rdfs:label	"UN"@en .
-<United_Kingdom>	rdfs:label	"UK"@en .
-<Great_Britain>	rdfs:label	"GB"@en .
-<Richard_Rashid>	rdfs:label	"Rick"@en .
-<Frédéric_Joliot-Curie>	rdfs:label	"Frederic"@en .
-<wordnet_lock_103683079>	rdfs:label	"lock flight"@en .	
+<European_Union>	rdfs:label	"EU"@eng .
+<European_Union>	rdfs:label	"EC"@eng .
+<United_States>	rdfs:label	"US"@eng .
+<United_Nations>	rdfs:label	"UN"@eng .
+<United_Kingdom>	rdfs:label	"UK"@eng .
+<Great_Britain>	rdfs:label	"GB"@eng .
+<Richard_Rashid>	rdfs:label	"Rick"@eng .
+<Frédéric_Joliot-Curie>	rdfs:label	"Frederic"@eng .
+<wordnet_lock_103683079>	rdfs:label	"lock flight"@eng .	
 
 # Bugfixes suggested by Hannah Bast's team
 #@ <hbfix1>
 <wordnet_musician_110340312>	rdfs:subClassOf	<wordnet_musician_110339966> .
-<hbfix1>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. This makes all musicians artists."@en .
+<hbfix1>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. This makes all musicians artists."@eng .
 #@ <hbfix2>
 <wordnet_city_108540903>	rdfs:subClassOf		<wordnet_city_108524735> .
-<hbfix2>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix2>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@eng .
 #@ <hbfix3>
 <wordnet_cabbage_107713895> 	rdfs:subClassOf		<wordnet_cabbage_111875691> .
-<hbfix3>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix3>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@eng .
 #@ <hbfix4>
 <wordnet_vegetable_112212361> 	rdfs:subClassOf		<wordnet_plant_100017222> .
-<hbfix4>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix4>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@eng .
 #@ <hbfix5>
 <wordnet_vegetable_107707451> 	rdfs:subClassOf		<wordnet_plant_100017222> .
-<hbfix5>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@en .
+<hbfix5>	rdfs:comment	"Bugfix in WordNet suggested by Hannah Bast's team. "@eng .
 
 # Bug fixes from Svitlana
 <wordnet_emulator_0> 	rdfs:subClassOf		<wordnet_software_106566077> .
