@@ -80,7 +80,7 @@ public class FactComponent {
 
   /** Creates a fact component for a YAGO entity */
   public static String forYagoEntity(String name) {
-    return (forUri(name));
+    return (forUri(name.replace(' ','_'));
   }
 
   /** Creates a fact component for a Wikipedia title */
