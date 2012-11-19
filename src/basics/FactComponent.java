@@ -315,14 +315,35 @@ public class FactComponent {
 
   /** Makes a Wikipedia URL for an entity*/
   public static String wikipediaURL(String entity) {
-    entity=stripBrackets(entity);
-    return("<http://en.wikipedia.org/wiki/"+entity+">");
+    entity = stripBrackets(entity);
+    return ("<http://en.wikipedia.org/wiki/" + entity + ">");
   }
-  
+
   /** Parses out the Wordnet name*/
   public static String wordnetWord(String wordnetEntity) {
-    if(!wordnetEntity.startsWith("<wordnet_") || wordnetEntity.length()<8+9) return(null);
-    wordnetEntity=wordnetEntity.substring("<wordnet_".length(),wordnetEntity.length()-11);
-    return(wordnetEntity);
+    if (!wordnetEntity.startsWith("<wordnet_") || wordnetEntity.length() < 8 + 9) return (null);
+    wordnetEntity = wordnetEntity.substring("<wordnet_".length(), wordnetEntity.length() - 11);
+    return (wordnetEntity);
+  }
+
+  /** DBpedia class prefix*/
+  public static final String dbpediaPrefix = "http://dbpedia.org/class/yago/";
+
+  /** Returns the DBpedia class name for a YAGO class name*/
+  public static String dbpediaClassForYagoClass(String arg) {
+    arg = FactComponent.stripBrackets(arg);
+    if (arg.startsWith("wordnet_")) arg = arg.substring("wordnet_".length());
+    if (arg.startsWith("wikicategory_")) arg = arg.substring("wikicategory_".length());
+    StringBuilder result = new StringBuilder(dbpediaPrefix);
+    boolean upcase = true;
+    for (int i = 0; i < arg.length(); i++) {
+      if (arg.charAt(i) == '_') {
+        upcase = true;
+        continue;
+      }
+      result.append(upcase ? Character.toUpperCase(arg.charAt(i)) : arg.charAt(i));
+      upcase = false;
+    }
+    return FactComponent.forUri(result.toString());
   }
 }
