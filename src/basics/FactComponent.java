@@ -91,7 +91,7 @@ public class FactComponent {
 
   /** Creates a fact component for a String with language. We check the syntax */
   public static String forStringWithLanguage(String string, String language) {
-    if (language != null) return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
+    if (language != null && language.length()>1) return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
     return ('"' + Char.encodeBackslash(string, turtleString) + "\"");
   }
 
