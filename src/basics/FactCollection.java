@@ -43,12 +43,18 @@ public class FactCollection extends AbstractSet<Fact> {
 
   /** Adds a fact, adds a source fact and a technique fact*/
   public synchronized boolean add(Fact fact, String source, String technique) {
-    Fact sourceFact=fact.metaFact(YAGO.extractionSource,FactComponent.forUri(source));
-    Fact techniqueFact=sourceFact.metaFact(YAGO.extractionTechnique, FactComponent.forString(technique));
-    return(add(fact) && add(sourceFact) && add(techniqueFact));
+    Fact sourceFact = fact.metaFact(YAGO.extractionSource, FactComponent.forUri(source));
+    Fact techniqueFact = sourceFact.metaFact(YAGO.extractionTechnique, FactComponent.forString(technique));
+    return (add(fact) && add(sourceFact) && add(techniqueFact));
   }
-  
-  public synchronized boolean add(final Fact fact) {
+
+  /** Adds a fact, checks for duplicates*/
+  public boolean add(final Fact fact) {
+    return (add(fact, null));
+  }
+
+  /** Adds a fact, checks for functional duplicates*/
+  public synchronized boolean add(final Fact fact, Set<String> functions) {
     if (fact.getArg(1) == null || fact.getArg(2) == null) {
       Announce.debug("Null fact not added:", fact);
       return (false);
@@ -61,10 +67,9 @@ public class FactCollection extends AbstractSet<Fact> {
       Announce.debug("Identical arguments not added", fact);
       return (false);
     }
-    Map<String,List<Fact>>  map=index.get(fact.arg1);
-    if (map==null) index.put(fact.arg1, map=Collections.synchronizedMap(new HashMap<String, List<Fact>>()));
-    if (!map.containsKey(fact.relation)) map.put(fact.relation,
-        Collections.synchronizedList(new ArrayList<Fact>(1)));
+    Map<String, List<Fact>> map = index.get(fact.arg1);
+    if (map == null) index.put(fact.arg1, map = Collections.synchronizedMap(new HashMap<String, List<Fact>>()));
+    if (!map.containsKey(fact.relation)) map.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
     for (Fact other : map.get(fact.relation)) {
       if (FactComponent.isMoreSpecific(fact.getArg(2), other.getArg(2))) {
         Announce.debug("Removed", other, "because of newly added", fact);
@@ -86,6 +91,22 @@ public class FactCollection extends AbstractSet<Fact> {
         break;
       }
     }
+    if (functions != null && functions.contains(fact.getRelation()) && !map.get(fact.relation).isEmpty()) {
+      Announce.debug("Functional fact not added because another fact is already there:", fact, ". Already there:", map.get(fact.relation));
+      return (false);
+    }
+    return (justAdd(fact));
+  }
+
+  /** Adds a fact, does not check for duplicates*/
+  protected synchronized boolean justAdd(final Fact fact) {
+    if (facts.contains(fact)) {
+      Announce.debug("Duplicate fact not added:", fact);
+      return (false);
+    }
+    Map<String, List<Fact>> map = index.get(fact.arg1);
+    if (map == null) index.put(fact.arg1, map = Collections.synchronizedMap(new HashMap<String, List<Fact>>()));
+    if (!map.containsKey(fact.relation)) map.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
     map.get(fact.relation).add(fact);
     if (!relindex.containsKey(fact.relation)) relindex.put(fact.relation, Collections.synchronizedList(new ArrayList<Fact>(1)));
     relindex.get(fact.relation).add(fact);
@@ -106,7 +127,7 @@ public class FactCollection extends AbstractSet<Fact> {
   /** Returns facts with matching first arg */
   public List<Fact> getFactsWithSubject(String arg1) {
     List<Fact> result = new ArrayList<>();
-    if(!index.containsKey(arg1)) return(result);
+    if (!index.containsKey(arg1)) return (result);
     for (Collection<Fact> facts : index.get(arg1).values()) {
       result.addAll(facts);
     }
@@ -144,6 +165,18 @@ public class FactCollection extends AbstractSet<Fact> {
     List<Fact> result = new ArrayList<Fact>();
     for (Fact f : relindex.get(relation)) {
       if (f.arg2.equals(arg2)) result.add(f);
+    }
+    return (result);
+  }
+
+  /**
+   * Returns subjects with matching relation and second argument. This is very
+   * slow.
+   */
+  public Set<String> getArg1sSlow(String relation, String arg2) {
+    Set<String> result=new HashSet<>();
+    for (Fact f : getBySecondArgSlow(relation, arg2)) {
+      result.add(f.getArg(1));
     }
     return (result);
   }
