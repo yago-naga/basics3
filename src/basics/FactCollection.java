@@ -174,7 +174,7 @@ public class FactCollection extends AbstractSet<Fact> {
    * slow.
    */
   public Set<String> getArg1sSlow(String relation, String arg2) {
-    Set<String> result=new HashSet<>();
+    Set<String> result = new HashSet<>();
     for (Fact f : getBySecondArgSlow(relation, arg2)) {
       result.add(f.getArg(1));
     }
@@ -183,16 +183,25 @@ public class FactCollection extends AbstractSet<Fact> {
 
   /** Loads from N4 file */
   public FactCollection(File n4File) throws IOException {
-    facts = Collections.synchronizedSet(new HashSet<Fact>());
-    name = n4File.toString();
-    load(n4File);
+    this(n4File, false);
   }
 
-  /** Loads from N4 file */
+  /** Loads from N4 file. FAST does not check duplicates */
+  public FactCollection(File n4File, boolean fast) throws IOException {
+    this(FactSource.from(n4File), fast);
+  }
+
+  /** Loads from N4 file. FAST does not check duplicates */
   public FactCollection(FactSource n4File) throws IOException {
+    this(n4File, false);
+  }
+
+  /** Loads from N4 file. FAST does not check duplicates */
+  public FactCollection(FactSource n4File, boolean fast) throws IOException {
     facts = Collections.synchronizedSet(new HashSet<Fact>());
     name = n4File.name();
-    load(n4File);
+    if (fast) loadFast(n4File);
+    else load(n4File);
   }
 
   public FactCollection() {
@@ -241,8 +250,21 @@ public class FactCollection extends AbstractSet<Fact> {
 
   /** Loads from N4 file */
   public void load(File n4File) throws IOException {
-    if (!n4File.getName().contains(".")) n4File = FileSet.newExtension(n4File, ".ttl");
     load(FactSource.from(n4File));
+  }
+
+  /** Loads from N4 file, does not check duplicates */
+  public void loadFast(File n4File) throws IOException {
+    loadFast(FactSource.from(n4File));
+  }
+
+  /** Loads from N4 file, does not check duplicates */
+  public void loadFast(FactSource reader) throws IOException {
+    Announce.doing("Fast loading", reader);
+    for (Fact f : reader) {
+      justAdd(f);
+    }
+    Announce.done();
   }
 
   /** Loads from N4 file */

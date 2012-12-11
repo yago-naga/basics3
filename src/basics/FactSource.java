@@ -24,8 +24,9 @@ public abstract class FactSource implements Iterable<Fact> {
 	/** Name of this source*/
 	protected String name;
 	
-	/** returns a fact source from a file*/
+	/** returns a fact source from a file. assumes ttl by default.*/
 	public static FactSource from(File f) {
+	  if (!f.getName().contains(".")) f = FileSet.newExtension(f, ".ttl");
 		return(new FileFactSource(f));
 	}
 
