@@ -121,6 +121,11 @@ public class FactComponent {
     return (forYagoEntity("geoclass_" + word.replace(' ', '_')));
   }
 
+  /** Creates a fact component for a degree */
+  public static String forDegree(double deg) {
+    return (forStringWithDatatype(deg+"", "<degrees>"));
+  }
+
   /** returns a YAGO entity name for this theme*/
   public static String forTheme(Theme t) {
     return (FactComponent.forYagoEntity("yagoTheme_" + t.name));
