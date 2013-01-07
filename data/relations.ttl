@@ -125,6 +125,9 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <hasContext>	rdfs:domain	owl:Thing .
 <hasContext>	rdfs:range	xsd:string .
 <hasContext>	rdf:type	rdf:Property .
+<hasFactContext>	rdfs:domain	rdf:statement .
+<hasContext>	rdfs:range	xsd:string .
+<hasContext>	rdf:type	rdf:Property .
 <hasImdb>	rdfs:domain	<wordnet_movie_106613686> .
 <hasImdb>	rdfs:range	<yagoIdentifier> .
 <hasImdb>	rdf:type	owl:FunctionalProperty .
