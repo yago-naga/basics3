@@ -113,6 +113,8 @@ public class FactComponent {
 
   /** Creates a fact component for a Wikipedia category */
   public static String forWikiCategory(String word) {
+	//Capitalize the first letter for consistency
+	word = word.substring(0, 1).toUpperCase() + word.substring(1);
     return (forYagoEntity("wikicategory_" + word.replace(' ', '_')));
   }
 
