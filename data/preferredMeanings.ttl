@@ -39,7 +39,7 @@
 <wordnet_organization_108008335>	<isPreferredMeaningOf>	"organisation"@eng .
 <wordnet_organization_108008335>	<isPreferredMeaningOf>	"organization"@eng .
 
-<wordnet_state_108654360>	<isPreferredMeaningOf>	"state"@eng .
+<wordnet_administrative_district_108491826> <isPreferredMeaningOf>  "state"@eng .
 
 <wordnet_episode_106396330>	<isPreferredMeaningOf>	"episode"@eng .
 
@@ -110,8 +110,6 @@
 <wordnet_counterspy_109970192>	<isPreferredMeaningOf>	"mole"@eng .
 
 <wordnet_model_110324560>	<isPreferredMeaningOf>	"model"@eng .
-
-<wordnet_country_108544813>	<isPreferredMeaningOf>	"state"@eng .
 
 <wordnet_country_108544813>	<isPreferredMeaningOf>	"country"@eng .
 
