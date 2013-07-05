@@ -170,6 +170,10 @@ rdfs:label	rdfs:range	xsd:string .
 rdfs:label	rdfs:domain	owl:Thing .
 rdfs:label	rdf:type	rdf:Property .
 rdfs:label	rdf:type	<permanentRelationToObject> .
+<redirectedFrom> rdfs:range  xsd:string .
+<redirectedFrom> rdfs:domain owl:Thing .
+<redirectedFrom> rdf:type  rdf:Property .
+<redirectedFrom> rdf:type  <permanentRelationToObject> .
 <hasGender>	rdfs:domain	<wordnet_person_100007846> .
 <hasGender>	rdfs:range	<wordnet_sex_105006898> .
 <hasGender>	rdf:type	owl:FunctionalProperty .
