@@ -40,11 +40,17 @@ public class Fact {
    */
   public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
     super();
-    this.arg1 = arg1.intern();
-    this.arg2 = arg2.intern();
-    this.relation = relation.intern();
-    this.id = id == null ? null : id.intern();
-    this.arg2datatype = arg2datatype == null ? null : arg2datatype.intern();
+//    this.arg1 = arg1.intern();
+    this.arg1 = arg1;
+//    this.arg2 = arg2.intern();
+    this.arg2 = arg2;
+//    this.relation = relation.intern();
+    this.relation = relation;
+//    this.id = id == null ? null : id.intern();
+    this.id = id;
+//    this.arg2datatype = arg2datatype == null ? null : arg2datatype.intern();
+    this.arg2datatype = arg2datatype;
+    
     this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
@@ -54,18 +60,24 @@ public class Fact {
    */
   public Fact(String id, String arg1, String relation, String arg2withDataType) {
     super();
-    this.arg1 = arg1.intern();
+//    this.arg1 = arg1.intern();
+    this.arg1 = arg1;
     String[] a2 = FactComponent.literalAndDatatypeAndLanguage(arg2withDataType);
     if (a2 != null) {
-      if (a2[2] == null) this.arg2 = a2[0].intern();
-      else this.arg2 = (a2[0] + '@' + a2[2]).intern();
-      this.arg2datatype = a2[1] == null ? null : a2[1].intern();
+//      if (a2[2] == null) this.arg2 = a2[0].intern();
+    	if (a2[2] == null) this.arg2 = a2[0];
+//      else this.arg2 = (a2[0] + '@' + a2[2]).intern();
+    	else this.arg2 = (a2[0] + '@' + a2[2]);
+//      this.arg2datatype = a2[1] == null ? null : a2[1].intern();
+    	this.arg2datatype = a2[1];
     } else {
       this.arg2 = arg2withDataType;
       this.arg2datatype = null;
     }
-    this.relation = relation.intern();
-    this.id = id == null ? null : id.intern();
+//    this.relation = relation.intern();
+    this.relation = relation;
+//    this.id = id == null ? null : id.intern();
+    this.id = id;
     this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
   }
 
