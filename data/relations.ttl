@@ -129,7 +129,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <hasContext>	rdfs:range	xsd:string .
 <hasContext>	rdf:type	rdf:Property .
 <hasImdb>	rdfs:domain	<wordnet_movie_106613686> .
-<hasImdb>	rdfs:range	<yagoIdentifier> .
+<hasImdb>	rdfs:range	xsd:string .
 <hasImdb>	rdf:type	owl:FunctionalProperty .
 <hasWikipediaUrl>	rdfs:domain	owl:Thing .
 <hasWikipediaUrl>	rdfs:range	<yagoURL> .
@@ -149,13 +149,13 @@ skos:prefLabel	rdfs:range	xsd:string .
 skos:prefLabel	rdf:type	owl:FunctionalProperty .
 skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 <hasSynsetId>	rdfs:domain	rdfs:Class .
-<hasSynsetId>	rdfs:range	<yagoIdentifier> .
+<hasSynsetId>	rdfs:range	xsd:string .
 <hasSynsetId>	rdf:type	owl:FunctionalProperty .
 <hasGeonamesClassId>	rdfs:domain	owl:Thing .
-<hasGeonamesClassId>	rdfs:range	<yagoIdentifier> .
+<hasGeonamesClassId>	rdfs:range	xsd:string .
 <hasGeonamesClassId>	rdf:type	owl:FunctionalProperty .
 <hasGeonamesEntityId>	rdfs:domain	owl:Thing .
-<hasGeonamesEntityId>	rdfs:range	<yagoIdentifier> .
+<hasGeonamesEntityId>	rdfs:range	xsd:string .
 <hasGeonamesEntityId>	rdf:type	owl:FunctionalProperty .
 <hasThreeLetterLanguageCode>	rdf:type	rdf:Property .
 <hasThreeLetterLanguageCode>	rdfs:domain	<wordnet_language_106282651> .
