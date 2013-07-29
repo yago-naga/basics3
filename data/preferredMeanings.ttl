@@ -14,10 +14,11 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Avoid that these countries get kicked out because they have a corresponding wordnet word
+# Avoid that these entities get kicked out because they have a corresponding wordnet word
 <Turkey>	<isPreferredMeaningOf>	"Turkey"@eng .
 <Brazil>	<isPreferredMeaningOf>	"Brazil"@eng .
 <China>	<isPreferredMeaningOf>	"China"@eng .
+<Twitter>	<isPreferredMeaningOf>	"Twitter"@eng .
 
 #@ <id_minister>
 <wordnet_minister_110320863>	<isPreferredMeaningOf>	"minister"@eng .
