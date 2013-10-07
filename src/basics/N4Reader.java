@@ -10,7 +10,9 @@ import java.util.TreeMap;
 
 import javatools.administrative.Announce;
 import javatools.filehandlers.FileLines;
+import javatools.filehandlers.FileSet;
 import javatools.parsers.Char;
+import javatools.util.FileUtils;
 
 /**
  * N4Reader - YAGO2S
@@ -42,6 +44,13 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	public N4Reader(Reader r) throws IOException {
 		reader = r;
 		next();
+	}
+	
+	public N4Reader(Reader r, boolean readOnce) throws IOException {
+		
+		reader = r;
+		if(readOnce)
+			next();
 	}
 
 	/** Counter for blank nodes*/
@@ -133,9 +142,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			return (".");
 		case ';':
 			c = READNEW;
-			Announce.warning("Semicolons are not supported");
-			FileLines.scrollTo(reader, '.');
-			return (".");
+//			Announce.warning("Semicolons are not supported");
+//			FileLines.scrollTo(reader, '.');
+			return (";");
 		case '+':
 		case '-':
 		case '0':
@@ -153,8 +162,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			return (FactComponent.forNumber(number));
 		default:
 			String name = ((char) c) + FileLines.readToSpace(reader).toString();
+				
 			// Save some stuff that follows...
-			if (".;,<".indexOf(Char.last(name)) != -1) {
+			if (".,<".indexOf(Char.last(name)) != -1 ||name.endsWith(";")) {
 				c = Char.last(name);
 				name = Char.cutLast(name);
 			} else {
@@ -201,6 +211,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			if (nextFact == null)
 				close();
 		}
+		
+		
+//		System.out.println(toReturn);
 		return (toReturn);
 	}
 
@@ -210,6 +223,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	}
 
 	/** returns the next fact */
+	static String prevSubj;
 	protected Fact internalNext() throws Exception {
 		while (true) {
 			String item = nextItem();
@@ -255,7 +269,14 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 
 			// Fact identifier
 			String factId = null;
-			String subject;
+			// Subject Verb Object dot
+			String subject=null;
+			String predicate=null;
+			String object = null;
+			String dot = null;
+			Fact f = null;
+			
+			//subject
 			if (item.startsWith("&")) {
 				factId = item.substring(1);
 				subject = nextItem();
@@ -263,25 +284,47 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 				subject = item;
 			}
 
-			// Subject Verb Object
 			if (subject.equals(".")) {
-				Announce.warning("Dot on empty line");
+//				Announce.warning("Dot on empty line");
 				continue;
 			}
-			String predicate = nextItem();
+			//predicate
+			predicate = nextItem();
 			if (predicate.equals(".")) {
 				Announce.warning("Only one item on line", subject);
 				continue;
 			}
-			String object = nextItem();
-			String dot = nextItem();
-			if (!dot.equals(".")) {
+			
+			if(predicate !=null && predicate.endsWith(";")){
+				f = new Fact(factId, prevSubj, subject,  predicate.replaceAll(";", ""));
+				dot=";";
+			}
+			
+			else{
+				object = nextItem();
+				if(object.equals(";") || object.equals(".")){
+					f = new Fact(factId, prevSubj, subject, predicate);
+					dot =object;
+					
+				}else if(object!=null && object.contains(";")){
+					f = new Fact(factId, subject, predicate, object.replaceAll(";",""));
+					dot = ";";
+					prevSubj= subject;
+				}
+				else{
+					dot = nextItem();
+					 f = new Fact(factId, subject, predicate,object);
+					prevSubj= subject;
+					
+				}
+			} 
+			if (!(dot.equals(".")||dot.equals(";"))) {
 				// Line too long
 				Announce.warning("More than three items on line", factId, subject, predicate, object, dot);
 				FileLines.scrollTo(reader, '.');
 				continue;
 			}
-			return (new Fact(factId, subject, predicate, object));
+			return (f);
 		}
 	}
 
@@ -300,8 +343,8 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws Exception {
-
-		for (File in : new File("/Users/Fabian/Fabian/Temp/tests").listFiles()) {
+	
+		for (File in : new File("C://Users//Administrator//ILData").listFiles()) {
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
@@ -312,13 +355,17 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			w.close();
 			Announce.done();
 		}
+//		File in2 = new File("C://Users//Administrator//Downloads//test.ttl");
+		File in2 = new File("C://Users//Administrator//ILData//test.nt.ttl");
 
-		File in = new File("/Users/Fabian/Fabian/Temp/tests/test.nt.txt");
-		N4Writer w = new N4Writer(new File(in.toString().replace("nt", "myout")), "Test run");
-		for (Fact f : FactSource.from(in)) {
+		Announce.doing("Testing", in2.getName());
+		N4Writer w = new N4Writer(new File(in2.toString().replace("ttl", "myout")), "Test run");
+		for (Fact f : FactSource.from(in2)) {
 			w.write(f);
 		}
 		w.close();
+		Announce.done();
+
 	}
 
 	@Override
