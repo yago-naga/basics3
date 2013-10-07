@@ -218,6 +218,16 @@ public class FactComponent {
     return (result);
   }
 
+
+  public static String stripPrefix(String relation) {
+	  return "<" + relation.split("/")[2];
+  }
+  
+  public static String removePrefix(String relation) {
+	  return relation.replace("<" + relation.split("/")[2], "");
+  }
+  
+  
   /** Returns a Java string for a YAGO string */
   public static String asJavaString(String stringLiteral) {
     return (Char.decodeBackslash(FactComponent.stripQuotes(getString(stringLiteral))));
