@@ -1,6 +1,5 @@
 # Manually coded facts of YAGO2s.
 #  DO NOT OVERWRITE!
-# These are the facts needed for the WWW 2011 demo.
 # The HardExtractor will make this data part of YAGO2s
 
 @base <http://yago-knowledge.org/resource/> .
@@ -13,84 +12,92 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<Ulm>	rdf:type	<wordnet_city_108524735> .
-<Nobel_Prize_in_Physics>	rdf:type	<wordnet_award_106696483> .
-<Woodstock_Festival>	<startedOnDate>	"1969-08-15"^^xsd:date .
-<Woodstock_Festival>	<endedOnDate>	"1969-08-17"^^xsd:date .
-<Paul_McCartney>	<wasBornIn>	<Liverpool> .
-<Paul_McCartney>	<wasBornOnDate>	"1942-06-18"^^xsd:date .
-<Linda_McCartney>	<wasBornIn>	<New_York_City> .
-<Linda_McCartney>	<wasBornOnDate>	"1941-09-24"^^xsd:date .
-#@ <demoId0>
-<Paul_McCartney>	<isMarriedTo>	<Linda_McCartney> .
-<demoId0>	<occursSince>	"1969-01-01"^^xsd:date .
-<demoId0>	<occursUntil>	"1998-04-07"^^xsd:date .
-<Heather_Mills>	<wasBornIn>	<Aldershot> .
-<Heather_Mills>	<wasBornOnDate>	"1968-01-12"^^xsd:date .
-#@ <demoId1>
-<Paul_McCartney>	<isMarriedTo>	<Heather_Mills> .
-<demoId1>	<occursSince>	"2002-01-01"^^xsd:date .
-<demoId1>	<occursUntil>	"2008-05-31"^^xsd:date .
-<Nancy_Shevell>	<wasBornIn>	<Edison,_New_Jersey> .
-<Nancy_Shevell>	<wasBornOnDate>	"1960-11-##"^^xsd:date .
-#@ <demoId2>
-<Paul_McCartney>	<isMarriedTo>	<Nancy_Shevell> .
-<demoId2>	<occursSince>	"2011-10-09"^^xsd:date .
-<John_Lennon>	<wasBornIn>	<Liverpool> .
-<John_Lennon>	<wasBornOnDate>	"1940-10-09"^^xsd:date .
-<Cynthia_Lennon>	<wasBornIn>	<Blackpool> .
-<Cynthia_Lennon>	<wasBornOnDate>	"1939-09-10"^^xsd:date .
-#@ <demoId3>
-<John_Lennon>	<isMarriedTo>	<Cynthia_Lennon> .
-<demoId3>	<occursSince>	"1962-08-23"^^xsd:date .
-<demoId3>	<occursUntil>	"1968-11-08"^^xsd:date .
-<Yoko_Ono>	<wasBornIn>	<Tokyo> .
-<Yoko_Ono>	<wasBornOnDate>	"1933-02-18"^^xsd:date .
-#@ <demoId4>
-<John_Lennon>	<isMarriedTo>	<Yoko_Ono> .
-<demoId4>	<occursSince>	"1969-03-20"^^xsd:date .
-<demoId4>	<occursUntil>	"1980-12-08"^^xsd:date .
-<George_Harrison>	<wasBornIn>	<Liverpool> .
-<George_Harrison>	<wasBornOnDate>	"1943-02-25"^^xsd:date .
-<Pattie_Boyd>	<wasBornIn>	<Taunton> .
-<Pattie_Boydn>	<wasBornOnDate>	"1944-03-17"^^xsd:date .
-#@ <demoId5>
-<George_Harrison>	<isMarriedTo>	<Pattie_Boyd> .
-<demoId5>	<occursSince>	"1966-01-21"^^xsd:date .
-<demoId5>	<occursUntil>	"1974-06-30"^^xsd:date .
-<Olivia_Harrison>	<wasBornIn>	<Mexico_City> .
-<Olivia_Harrison>	<wasBornOnDate>	"1948-05-18"^^xsd:date .
-#@ <demoId6>
-<George_Harrison>	<isMarriedTo>	<Olivia_Harrison> .
-<demoId6>	<occursSince>	"1978-09-02"^^xsd:date .
-<demoId6>	<occursUntil>	"2001-11-29"^^xsd:date .
-<Ringo_Starr>	<wasBornIn>	<Liverpool> .
-<Ringo_Starr>	<wasBornOnDate>	"1940-07-07"^^xsd:date .
-<Maureen_Starkey>	<wasBornIn>	<Liverpool> .
-<Maureen_Starkey>	<wasBornOnDate>	"1946-08-04"^^xsd:date .
-#@ <demoId7>
-<Ringo_Starr>	<isMarriedTo>	<Maureen_Starkey> .
-<demoId7>	<occursSince>	"1965-02-11"^^xsd:date .
-<demoId7>	<occursUntil>	"1975-06-17"^^xsd:date .
-<Barbara_Bach>	<wasBornIn>	<Queens> .
-<Barbara_Bach>	<wasBornOnDate>	"1947-08-27"^^xsd:date .
-#@ <demoId8>
-<Ringo_Starr>	<isMarriedTo>	<Barbara_Bach> .
-<demoId8>	<occursSince>	"1981-04-27"^^xsd:date .
-<Paul_McCartney>	rdf:type	<wikicategory_The_Beatles_members> .
-<John_Lennon>	rdf:type	<wikicategory_The_Beatles_members> .
-<Ringo_Starr>	rdf:type	<wikicategory_The_Beatles_members> .
-<George_Harrison>	rdf:type	<wikicategory_The_Beatles_members> .
-<wikicategory_The_Beatles_members>	rdfs:subClassOf	<wordnet_member_110307234> .
-<Jeff_Beck>	<wasBornIn>	<Wallington,_London> .
-<Jeff_Beck>	<wasBornOnDate>	"1944-06-24"^^xsd:date .
-<Eric_Clapton>	<wasBornIn>	<Ripley,_Surrey> .
-<Eric_Clapton>	<wasBornOnDate>	"1945-03-30"^^xsd:date .
-<Dave_Grohl>	<wasBornIn>	<Warren,_Ohio> .
-<Dave_Grohl>	<wasBornOnDate>	"1969-01-14"^^xsd:date .
-<Pete_Townshend>	<wasBornIn>	<London> .
-<Pete_Townshend>	<wasBornOnDate>	"1945-05-19"^^xsd:date .
-<Jimmy_Page>	<wasBornIn>	<Heston> .
-<Jimmy_Page>	<wasBornOnDate>	"1944-01-09"^^xsd:date .
-<Peter_Green_(musician)>	<wasBornIn>	<Bethnal_Green> .
-<Peter_Green_(musician)>	<wasBornOnDate>	"1946-10-29"^^xsd:date .
+
+
+#------------------------------------------------------------------------------------------
+# !! These were the facts needed for the WWW 2011 demo. !!
+# Currently some of them are incorrect, and some miss accompanying facts (e.g. labels).
+# That's why we comment them out and leave them for archiving purposes.
+#------------------------------------------------------------------------------------------
+#<Ulm>	rdf:type	<wordnet_city_108524735> .
+#<Nobel_Prize_in_Physics>	rdf:type	<wordnet_award_106696483> .
+#<Woodstock_Festival>	<startedOnDate>	"1969-08-15"^^xsd:date .
+#Woodstock_Festival>	<endedOnDate>	"1969-08-17"^^xsd:date .
+#<Paul_McCartney>	<wasBornIn>	<Liverpool> .
+#<Paul_McCartney>	<wasBornOnDate>	"1942-06-18"^^xsd:date .
+#<Linda_McCartney>	<wasBornIn>	<New_York_City> .
+#<Linda_McCartney>	<wasBornOnDate>	"1941-09-24"^^xsd:date .
+##@ <demoId0>
+#<Paul_McCartney>	<isMarriedTo>	<Linda_McCartney> .
+#<demoId0>	<occursSince>	"1969-01-01"^^xsd:date .
+#<demoId0>	<occursUntil>	"1998-04-07"^^xsd:date .
+#<Heather_Mills>	<wasBornIn>	<Aldershot> .
+#<Heather_Mills>	<wasBornOnDate>	"1968-01-12"^^xsd:date .
+##@ <demoId1>
+#<Paul_McCartney>	<isMarriedTo>	<Heather_Mills> .
+#<demoId1>	<occursSince>	"2002-01-01"^^xsd:date .
+#<demoId1>	<occursUntil>	"2008-05-31"^^xsd:date .
+#<Nancy_Shevell>	<wasBornIn>	<Edison,_New_Jersey> .
+#<Nancy_Shevell>	<wasBornOnDate>	"1960-11-##"^^xsd:date .
+##@ <demoId2>
+#<Paul_McCartney>	<isMarriedTo>	<Nancy_Shevell> .
+#<demoId2>	<occursSince>	"2011-10-09"^^xsd:date .
+#<John_Lennon>	<wasBornIn>	<Liverpool> .
+#<John_Lennon>	<wasBornOnDate>	"1940-10-09"^^xsd:date .
+#<Cynthia_Lennon>	<wasBornIn>	<Blackpool> .
+#<Cynthia_Lennon>	<wasBornOnDate>	"1939-09-10"^^xsd:date .
+##@ <demoId3>
+#<John_Lennon>	<isMarriedTo>	<Cynthia_Lennon> .
+#<demoId3>	<occursSince>	"1962-08-23"^^xsd:date .
+#<demoId3>	<occursUntil>	"1968-11-08"^^xsd:date .
+#<Yoko_Ono>	<wasBornIn>	<Tokyo> .
+#<Yoko_Ono>	<wasBornOnDate>	"1933-02-18"^^xsd:date .
+##@ <demoId4>
+#<John_Lennon>	<isMarriedTo>	<Yoko_Ono> .
+#<demoId4>	<occursSince>	"1969-03-20"^^xsd:date .
+#<demoId4>	<occursUntil>	"1980-12-08"^^xsd:date .
+#<George_Harrison>	<wasBornIn>	<Liverpool> .
+#<George_Harrison>	<wasBornOnDate>	"1943-02-25"^^xsd:date .
+#<Pattie_Boyd>	<wasBornIn>	<Taunton> .
+#<Pattie_Boydn>	<wasBornOnDate>	"1944-03-17"^^xsd:date .
+##@ <demoId5>
+#<George_Harrison>	<isMarriedTo>	<Pattie_Boyd> .
+#<demoId5>	<occursSince>	"1966-01-21"^^xsd:date .
+#<demoId5>	<occursUntil>	"1974-06-30"^^xsd:date .
+#Olivia_Harrison>	<wasBornIn>	<Mexico_City> .
+#<Olivia_Harrison>	<wasBornOnDate>	"1948-05-18"^^xsd:date .
+##@ <demoId6>
+#<George_Harrison>	<isMarriedTo>	<Olivia_Harrison> .
+#<demoId6>	<occursSince>	"1978-09-02"^^xsd:date .
+#<demoId6>	<occursUntil>	"2001-11-29"^^xsd:date .
+#Ringo_Starr>	<wasBornIn>	<Liverpool> .
+#<Ringo_Starr>	<wasBornOnDate>	"1940-07-07"^^xsd:date .
+#<Maureen_Starkey>	<wasBornIn>	<Liverpool> .
+#<Maureen_Starkey>	<wasBornOnDate>	"1946-08-04"^^xsd:date .
+##@ <demoId7>
+#<Ringo_Starr>	<isMarriedTo>	<Maureen_Starkey> .
+#<demoId7>	<occursSince>	"1965-02-11"^^xsd:date .
+#demoId7>	<occursUntil>	"1975-06-17"^^xsd:date .
+#<Barbara_Bach>	<wasBornIn>	<Queens> .
+#<Barbara_Bach>	<wasBornOnDate>	"1947-08-27"^^xsd:date .
+##@ <demoId8>
+#<Ringo_Starr>	<isMarriedTo>	<Barbara_Bach> .
+#<demoId8>	<occursSince>	"1981-04-27"^^xsd:date .
+#<Paul_McCartney>	rdf:type	<wikicategory_The_Beatles_members> .
+#<John_Lennon>	rdf:type	<wikicategory_The_Beatles_members> .
+#<Ringo_Starr>	rdf:type	<wikicategory_The_Beatles_members> .
+#<George_Harrison>	rdf:type	<wikicategory_The_Beatles_members> .
+#<wikicategory_The_Beatles_members>	rdfs:subClassOf	<wordnet_member_110307234> .
+#<Jeff_Beck>	<wasBornIn>	<Wallington,_London> .
+#<Jeff_Beck>	<wasBornOnDate>	"1944-06-24"^^xsd:date .
+#<Eric_Clapton>	<wasBornIn>	<Ripley,_Surrey> .
+#<Eric_Clapton>	<wasBornOnDate>	"1945-03-30"^^xsd:date .
+#<Dave_Grohl>	<wasBornIn>	<Warren,_Ohio> .
+#<Dave_Grohl>	<wasBornOnDate>	"1969-01-14"^^xsd:date .
+#<Pete_Townshend>	<wasBornIn>	<London> .
+#<Pete_Townshend>	<wasBornOnDate>	"1945-05-19"^^xsd:date .
+#<Jimmy_Page>	<wasBornIn>	<Heston> .
+#<Jimmy_Page>	<wasBornOnDate>	"1944-01-09"^^xsd:date .
+#<Peter_Green_(musician)>	<wasBornIn>	<Bethnal_Green> .
+#<Peter_Green_(musician)>	<wasBornOnDate>	"1946-10-29"^^xsd:date .
+#------------------------------------------------------------------------------------------
