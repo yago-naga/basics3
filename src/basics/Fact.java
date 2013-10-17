@@ -170,7 +170,16 @@ public class Fact {
   /** returns a TSV line*/
   public String toTsvLine(boolean withValue) {
     if (withValue && FactComponent.isLiteral(arg2) && arg2datatype!=null) {
-      String val = null;
+      String val = getValue();
+      if (val == null) val = "";
+      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
+    } else {
+      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + (withValue?"\t\n":"\n"));
+    }
+  }
+  
+  public String getValue() {
+	  String val = null;
       if (arg2datatype.equals("xsd:date")) {
         String[] split = DateParser.getDate(arg2);
         if (split != null && split.length == 3) {
@@ -182,13 +191,9 @@ public class Fact {
           val = split[0] + "." + split[1] + split[2];
         }
       } else {
-        val =NumberParser.getNumber(FactComponent.stripQuotes(arg2));
+        val = NumberParser.getNumber(FactComponent.stripQuotes(arg2));
       }
-      if (val == null) val = "";
-      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
-    } else {
-      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + (withValue?"\t\n":"\n"));
-    }
+      return val;
   }
 
   /** returns a TSV line*/
