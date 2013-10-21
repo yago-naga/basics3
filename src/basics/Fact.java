@@ -180,19 +180,21 @@ public class Fact {
   
   public String getValue() {
 	  String val = null;
-      if (arg2datatype.equals("xsd:date")) {
-        String[] split = DateParser.getDate(arg2);
-        if (split != null && split.length == 3) {
-          for (int i = 0; i < 3; i++) {
-            split[i] = split[i].replace('#', '0');
-            while (split[i].length() < 2)
-              split[i] = "0" + split[i];
-          }
-          val = split[0] + "." + split[1] + split[2];
-        }
-      } else {
-        val = NumberParser.getNumber(FactComponent.stripQuotes(arg2));
-      }
+	  if (FactComponent.isLiteral(arg2) && arg2datatype!=null) {
+	      if (arg2datatype.equals("xsd:date")) {
+	        String[] split = DateParser.getDate(arg2);
+	        if (split != null && split.length == 3) {
+	          for (int i = 0; i < 3; i++) {
+	            split[i] = split[i].replace('#', '0');
+	            while (split[i].length() < 2)
+	              split[i] = "0" + split[i];
+	          }
+	          val = split[0] + "." + split[1] + split[2];
+	        }
+	      } else {
+	        val = NumberParser.getNumber(FactComponent.stripQuotes(arg2));
+	      }
+	  }
       return val;
   }
 
