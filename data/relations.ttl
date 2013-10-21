@@ -139,10 +139,10 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <extractionTechnique>	rdfs:domain	rdf:Statement .
 <extractionTechnique>	rdf:type	rdfs:Property .
 <extractionTechnique>	rdfs:range	xsd:string .
-<isPreferredMeaningOf>	rdfs:domain	xsd:string .
-<isPreferredMeaningOf>	rdfs:range	owl:Thing .
+<isPreferredMeaningOf>	rdfs:domain	owl:Thing .
+<isPreferredMeaningOf>	rdfs:range	xsd:string .
 <isPreferredMeaningOf>	rdf:type	owl:FunctionalProperty .
-<isPreferredMeaningOf>	rdf:type	<permanentRelationToObject> .
+<isPreferredMeaningOf>	rdf:type	<permanentRelationToSubject> .
 skos:prefLabel	rdfs:domain	owl:Thing .
 skos:prefLabel	rdfs:range	xsd:string .
 skos:prefLabel	rdf:type	owl:FunctionalProperty .
@@ -168,11 +168,11 @@ skos:prefLabel	rdf:type	<permanentRelationToSubject> .
 rdfs:label	rdfs:range	xsd:string .
 rdfs:label	rdfs:domain	owl:Thing .
 rdfs:label	rdf:type	rdf:Property .
-rdfs:label	rdf:type	<permanentRelationToObject> .
+rdfs:label	rdf:type	<permanentRelationToSubject> .
 <redirectedFrom> rdfs:range  xsd:string .
 <redirectedFrom> rdfs:domain owl:Thing .
 <redirectedFrom> rdf:type  rdf:Property .
-<redirectedFrom> rdf:type  <permanentRelationToObject> .
+<redirectedFrom> rdf:type  <permanentRelationToSubject> .
 <hasGender>	rdfs:domain	<wordnet_person_100007846> .
 <hasGender>	rdfs:range	<wordnet_sex_105006898> .
 <hasGender>	rdf:type	owl:FunctionalProperty .
