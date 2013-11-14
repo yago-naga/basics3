@@ -405,5 +405,13 @@ public class FactCollection extends AbstractSet<Fact> {
 
     return reverseMap;
   }
+  
+  public Set<String> getSubjects(){
+    Set<String> subjects= new HashSet<String>();
+    for(Fact f2:facts){
+      subjects.add(f2.getArg(1));
+    }
+    return subjects;
+  }
 
 }
