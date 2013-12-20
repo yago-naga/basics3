@@ -220,6 +220,8 @@ public class FactComponent {
 
 
   public static String stripPrefix(String relation) {
+    if(relation.split("/").length<3)
+      return relation;
 	  return "<" + relation.split("/")[2];
   }
   
