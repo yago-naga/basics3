@@ -213,7 +213,6 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		}
 		
 		
-//		System.out.println(toReturn);
 		return (toReturn);
 	}
 
@@ -306,7 +305,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 					f = new Fact(factId, prevSubj, subject, predicate);
 					dot =object;
 					
-				}else if(object!=null && object.contains(";")){
+				}else if(object!=null &&
+						!(object.startsWith("\"") && object.endsWith("\"")) &&
+						object.contains(";")){
 					f = new Fact(factId, subject, predicate, object.replaceAll(";",""));
 					dot = ";";
 					prevSubj= subject;
