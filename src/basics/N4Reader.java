@@ -212,7 +212,6 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 				close();
 		}
 		
-		
 		return (toReturn);
 	}
 
@@ -222,7 +221,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	}
 
 	/** returns the next fact */
-	static String prevSubj;
+	String prevSubj;
 	protected Fact internalNext() throws Exception {
 		while (true) {
 			String item = nextItem();
