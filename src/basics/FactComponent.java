@@ -118,6 +118,12 @@ public class FactComponent {
     return (forYagoEntity("wikicategory_" + word.replace(' ', '_')));
   }
 
+  public static String forInfoboxType(String word) {
+    //Capitalize the first letter for consistency
+    word = word.substring(0, 1).toUpperCase() + word.substring(1);
+      return (forYagoEntity("infoboxType_" + word.replace(' ', '_')));
+    }
+  
   /** Creates a fact component for a GeoNames class */
   public static String forGeoNamesClass(String word) {
     return (forYagoEntity("geoclass_" + word.replace(' ', '_')));
