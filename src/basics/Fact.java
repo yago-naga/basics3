@@ -111,7 +111,7 @@ public class Fact {
     // I have an id
     if (getId() != null) {
       if (f.getId() == null) return (false);
-      return (getId().equals(f.getId()));
+      return (getId().equals(f.getId()) && D.equalPairs(arg1, f.arg1, relation, f.relation, arg2, f.arg2));
     }
     // I don't have an id
     if (f.getId() != null) return (false);
