@@ -29,7 +29,7 @@ public class FactComponent {
 
   /** Creates a fact component for a URI */
   public static String forUri(String s) {
-    if (s.startsWith("<")) return (s);
+    if (s.startsWith("<") && s.endsWith(">")) return (s);
     if (s.startsWith(YAGONAMESPACE)) {
       return ('<' + s.substring(YAGONAMESPACE.length()) + '>');
     }
