@@ -169,3 +169,5 @@
 <wordnet_emulator_0>	<isPreferredMeaningOf>	"emulator"@eng .
 <wordnet_server_104175147>	<isPreferredMeaningOf>	"server"@eng .
 <wordnet_plant_100017222>	<isPreferredMeaningOf>	"plant"@eng .
+
+<wordnet_politician_110450303>	<isPreferredMeaningOf>	"politician"@eng .
