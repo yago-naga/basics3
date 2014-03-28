@@ -408,7 +408,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <happenedOnDate>	rdfs:range	xsd:date .
 <happenedOnDate>	 rdfs:subPropertyOf	<startsExistingOnDate> .
 <happenedOnDate>	 rdfs:subPropertyOf	<endsExistingOnDate> .
-<happenedOnDate>	 rdfs:subPropertyOf	<startedOnDate > .
+<happenedOnDate>	 rdfs:subPropertyOf	<startedOnDate> .
 <happenedOnDate>	 rdfs:subPropertyOf	<endedOnDate> .
 <happenedOnDate>	rdf:type	owl:FunctionalProperty .
 <startedOnDate>	rdfs:domain	<wordnet_event_100029378> .
