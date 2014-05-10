@@ -29,14 +29,13 @@ import javatools.administrative.Announce;
  */
 public class FactCollection extends AbstractSet<Fact> {
 
-	/** Holds a name */
-	protected final String name;
-
 	/** Holds the facts */
-	protected Set<Fact> facts;
+	protected Set<Fact> facts = Collections
+			.synchronizedSet(new HashSet<Fact>());;
 
 	/** Holds the objects */
-	protected HashMap<String, String> objects;
+	protected Map<String, String> objects = Collections
+			.synchronizedMap(new HashMap<String, String>());
 
 	/** Maps first arg to relation to facts */
 	protected Map<String, Map<String, List<Fact>>> index = Collections
@@ -136,7 +135,7 @@ public class FactCollection extends AbstractSet<Fact> {
 					factsWithRelation = Collections
 							.synchronizedList(new ArrayList<Fact>(1)));
 		} else if (!factsWithRelation.isEmpty()) {
-			canonicalizedRelation = factsWithRelation.get(1).getRelation();
+			canonicalizedRelation = factsWithRelation.get(0).getRelation();
 			changed = true;
 		}
 
@@ -300,8 +299,6 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Loads from N4 file. FAST does not check duplicates */
 	public FactCollection(FactSource n4File, boolean fast) throws IOException {
-		facts = Collections.synchronizedSet(new HashSet<Fact>());
-		name = n4File.name();
 		if (fast)
 			loadFast(n4File);
 		else
@@ -309,17 +306,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	public FactCollection() {
-		this("anonymous FactCollection");
-	}
 
-	public FactCollection(String name) {
-		facts = Collections.synchronizedSet(new HashSet<Fact>());
-		this.name = name;
-	}
-
-	public FactCollection(int capacity) {
-		facts = Collections.synchronizedSet(new HashSet<Fact>(capacity));
-		name = "anonymous FactCollection";
 	}
 
 	/** Add facts */
@@ -395,7 +382,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Checks if all of my facts are in the other set, prints differences */
-	public boolean checkContainedIn(FactCollection goldStandard) {
+	public boolean checkContainedIn(FactCollection goldStandard, String name) {
 		boolean matches = true;
 		next: for (Fact fact : facts) {
 			for (Fact other : goldStandard.getFactsWithSubjectAndRelation(
@@ -406,21 +393,22 @@ public class FactCollection extends AbstractSet<Fact> {
 					continue next;
 				}
 			}
-			Announce.message("Not found in", goldStandard.name(), ":", fact);
+			Announce.message("Not found in", name, ":", fact);
 			matches = false;
 		}
 		return (matches);
 	}
 
-	/** returns the name */
-	public String name() {
-		return name;
-	}
-
-	/** Checks for differences, returns TRUE if equal, prints differences */
-	public boolean checkEqual(FactCollection goldStandard) {
-		boolean b = checkContainedIn(goldStandard)
-				& goldStandard.checkContainedIn(this);
+	/**
+	 * Checks for differences, returns TRUE if equal, prints differences
+	 * 
+	 * @param goldStandardName
+	 * @param thisName
+	 */
+	public boolean checkEqual(FactCollection goldStandard, String thisName,
+			String goldStandardName) {
+		boolean b = checkContainedIn(goldStandard, goldStandardName)
+				& goldStandard.checkContainedIn(this, thisName);
 		return (b);
 	}
 

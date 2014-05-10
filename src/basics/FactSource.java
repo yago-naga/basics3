@@ -50,8 +50,7 @@ public abstract class FactSource implements Iterable<Fact> {
 		case ".tsv":
 		  return (new TsvReader(reader));
 		default:
-			Announce.error("Unknown file format " + fileExtension);
-			return (null);
+			throw new RuntimeException("Unknown file format " + fileExtension);
 		}
 	}
 

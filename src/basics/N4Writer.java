@@ -47,7 +47,8 @@ public class N4Writer extends FactWriter {
 
 	/** Starts a writer to this file */
 	public N4Writer(File f, String header) throws Exception {
-		this(f, header, "", new HashMap<String, String>());
+		this(f, header, "http://yago-knowledge.org/resource/",
+				new HashMap<String, String>());
 	}
 
 	/** Writes a fact */

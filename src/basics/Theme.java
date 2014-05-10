@@ -42,7 +42,7 @@ public class Theme implements Comparable<Theme> {
 		this.name = name;
 		this.description = description;
 		if (name2theme.containsKey(name))
-			Announce.error("Duplicate Theme: ", this);
+			throw new RuntimeException("Duplicate Theme: "+name);
 		name2theme.put(this.name, this);
 		themeGroup = group;
 	}
@@ -120,9 +120,9 @@ public class Theme implements Comparable<Theme> {
 	/** Opens the theme for writing */
 	public synchronized void open(FactWriter w) {
 		if (factWriter != null)
-			Announce.error("Already writing into Theme " + this);
+			throw new RuntimeException("Already writing into Theme " + this);
 		if (file != null)
-			Announce.error("Theme " + this + " already written");
+			throw new RuntimeException("Theme " + this + " already written");
 		factWriter = w;
 		file = w.getFile();
 	}
@@ -130,7 +130,7 @@ public class Theme implements Comparable<Theme> {
 	/** Closes the theme for writing */
 	public void close() throws IOException {
 		if (factWriter == null)
-			Announce.error("Theme " + this
+			throw new RuntimeException("Theme " + this
 					+ " cannot be closed because it was not open");
 		factWriter.close();
 		factWriter = null;
@@ -142,9 +142,9 @@ public class Theme implements Comparable<Theme> {
 	 */
 	public FactSource factSource() {
 		if (file == null)
-			Announce.error("Theme " + this + " has not yet been written");
+			throw new RuntimeException("Theme " + this + " has not yet been written");
 		if (factWriter != null)
-			Announce.error("Theme " + this + " is currently being written");
+			throw new RuntimeException("Theme " + this + " is currently being written");
 		return (FactSource.from(file));
 	}
 
@@ -159,11 +159,11 @@ public class Theme implements Comparable<Theme> {
 			if (file.equals(f))
 				return;
 			else
-				Announce.error("Theme " + this
+				throw new RuntimeException("Theme " + this
 						+ " is already assigned to a file");
 		}
 		if (!f.exists())
-			Announce.error("File " + f + " for theme " + this
+			throw new RuntimeException("File " + f + " for theme " + this
 					+ " does not exist");
 		file = f;
 	}
@@ -171,9 +171,9 @@ public class Theme implements Comparable<Theme> {
 	/** returns the cache */
 	public FactCollection factCollection() throws IOException {
 		if (factWriter != null)
-			Announce.error("Theme " + this + " is currently being written");
+			throw new RuntimeException("Theme " + this + " is currently being written");
 		if (file == null)
-			Announce.error("Theme " + this + " has not yet been written");
+			throw new RuntimeException("Theme " + this + " has not yet been written");
 		if (cache == null)
 			cache = new FactCollection(file, true);
 		return (cache);
@@ -191,6 +191,18 @@ public class Theme implements Comparable<Theme> {
 
 	public boolean isAvailable() {
 		return file != null && factWriter == null;
+	}
+
+	/** Forgets the file */
+	public void forgetFile() {
+		if (factWriter != null)
+			throw new RuntimeException(this+" cannot forget a file while writing to it: "+this.file);
+		file = null;
+	}
+
+	/** Removes all known themes */
+	public static void clear() {
+		name2theme.clear();
 	}
 
 }

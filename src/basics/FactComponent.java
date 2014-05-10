@@ -272,10 +272,8 @@ public class FactComponent {
 	}
 
 	public static String stripPrefix(String entityWithPrefix) {
-		int pos = Math.max(
-				Math.max(entityWithPrefix.lastIndexOf('#'),
-						entityWithPrefix.lastIndexOf('/')),
-				entityWithPrefix.lastIndexOf(':'));
+		int pos = Math.max(entityWithPrefix.lastIndexOf('#'),
+				entityWithPrefix.lastIndexOf('/'));
 		return (stripBrackets(entityWithPrefix.substring(pos + 1)));
 	}
 
