@@ -9,9 +9,10 @@ import java.util.Map;
 /**
  * Class ExtendedFactCollection - YAGO2S
  * 
- * Represents a collection of facts, indexes them with extended functionality.
+ * Represents a collection of facts, indexes them also on their object.
  * 
  * @author Farzaneh Mahdisoltani
+ * @deprecated This can probably go away
  */
 public class ExtendedFactCollection extends FactCollection {
 
@@ -19,11 +20,11 @@ public class ExtendedFactCollection extends FactCollection {
   protected Map<String, List<Fact>> obindex = Collections.synchronizedMap(new HashMap<String, List<Fact>>());
 
   /** Adds a fact, does not check for duplicates*/
-  protected synchronized boolean justAdd(final Fact fact) {
+  public synchronized boolean justAdd(final Fact fact) {
     if (!super.justAdd(fact)) return false;
 
-    if (!obindex.containsKey(fact.arg2)) obindex.put(fact.arg2, Collections.synchronizedList(new ArrayList<Fact>(1)));
-    obindex.get(fact.arg2).add(fact);
+    if (!obindex.containsKey(fact.object)) obindex.put(fact.object, Collections.synchronizedList(new ArrayList<Fact>(1)));
+    obindex.get(fact.object).add(fact);
 
     return (true);
   }
@@ -35,10 +36,15 @@ public class ExtendedFactCollection extends FactCollection {
     return (result);
   }
 
+  /** TRUE if the subject exists */
+  public boolean hasObject(String arg1) {
+	  return(obindex.containsKey(arg1));
+  }
+
   /** Removes a fact */
   public synchronized boolean remove(Object f) {
     if (!super.remove(f)) return false;
-    obindex.get(((Fact) f).arg2).remove(((Fact) f));
+    obindex.get(((Fact) f).object).remove(((Fact) f));
     return true;
   }
 

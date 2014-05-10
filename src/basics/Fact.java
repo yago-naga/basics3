@@ -16,196 +16,185 @@ import javatools.parsers.NumberParser;
  */
 public class Fact {
 
-  /** ID (or NULL) */
-  private String id;
+	/** ID (or NULL) */
+	private String id;
 
-  /** Argument 1 */
-  protected final String arg1;
+	/** Argument 1 */
+	protected final String subject;
 
-  /** Relation */
-  protected final String relation;
+	/** Relation */
+	protected final String relation;
 
-  /** Argument 2 */
-  protected final String arg2;
+	/** Argument 2 */
+	protected final String object;
 
-  /** Datatype of arg2 (or null) */
-  protected final String arg2datatype;
+	/** Hash code */
+	protected final int hashCode;
 
-  /** Hash code*/
-  protected final int hashCode;
+	/**
+	 * All fact components must be the output of a method of the class
+	 * FactComponent!
+	 */
+	public Fact(String id, String arg1, String relation, String object) {
+		this.subject = arg1;
+		this.relation = relation;
+		this.id = id;
+		this.object = object;
+		this.hashCode = arg1.hashCode() ^ relation.hashCode()
+				^ object.hashCode();
+	}
 
-  /**
-   * All fact components must be the output of a method of the class
-   * FactComponent!
-   */
-  public Fact(String id, String arg1, String relation, String arg2, String arg2datatype) {
-    super();
-//    this.arg1 = arg1.intern();
-    this.arg1 = arg1;
-//    this.arg2 = arg2.intern();
-    this.arg2 = arg2;
-//    this.relation = relation.intern();
-    this.relation = relation;
-//    this.id = id == null ? null : id.intern();
-    this.id = id;
-//    this.arg2datatype = arg2datatype == null ? null : arg2datatype.intern();
-    this.arg2datatype = arg2datatype;
-    
-    this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
-  }
+	/**
+	 * All fact components must be the output of a method of the class
+	 * FactComponent!
+	 */
+	public Fact(String arg1, String relation, String arg2withDataType) {
+		this(null, arg1, relation, arg2withDataType);
+	}
 
-  /**
-   * All fact components must be the output of a method of the class
-   * FactComponent!
-   */
-  public Fact(String id, String arg1, String relation, String arg2withDataType) {
-    super();
-//    this.arg1 = arg1.intern();
-    this.arg1 = arg1;
-    String[] a2 = FactComponent.literalAndDatatypeAndLanguage(arg2withDataType);
-    if (a2 != null) {
-//      if (a2[2] == null) this.arg2 = a2[0].intern();
-    	if (a2[2] == null) this.arg2 = a2[0];
-//      else this.arg2 = (a2[0] + '@' + a2[2]).intern();
-    	else this.arg2 = (a2[0] + '@' + a2[2]);
-//      this.arg2datatype = a2[1] == null ? null : a2[1].intern();
-    	this.arg2datatype = a2[1];
-    } else {
-      this.arg2 = arg2withDataType;
-      this.arg2datatype = null;
-    }
-//    this.relation = relation.intern();
-    this.relation = relation;
-//    this.id = id == null ? null : id.intern();
-    this.id = id;
-    this.hashCode = arg1.hashCode() ^ relation.hashCode() ^ arg2.hashCode();
-  }
+	/** Creates a copy of the fact */
+	public Fact(Fact copy) {
+		this.subject = copy.subject;
+		this.object = copy.object;
+		this.relation = copy.relation;
+		this.id = copy.getId();
+		this.hashCode = copy.hashCode;
+	}
 
-  /**
-   * All fact components must be the output of a method of the class
-   * FactComponent!
-   */
-  public Fact(String arg1, String relation, String arg2withDataType) {
-    this(null, arg1, relation, arg2withDataType);
-  }
+	@Override
+	public int hashCode() {
+		return (hashCode);
+	}
 
-  /** Creates a copy of the fact */
-  public Fact(Fact copy) {
-    this.arg1 = copy.arg1;
-    this.arg2 = copy.arg2;
-    this.relation = copy.relation;
-    this.id = copy.getId();
-    this.arg2datatype = copy.arg2datatype;
-    this.hashCode = copy.hashCode;
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Fact))
+			return (false);
+		Fact f = (Fact) obj;
+		// I have an id
+		if (getId() != null) {
+			if (f.getId() == null)
+				return (false);
+			return (getId().equals(f.getId()) && D.equalPairs(subject,
+					f.subject, relation, f.relation, object, f.object));
+		}
+		// I don't have an id
+		if (f.getId() != null)
+			return (false);
+		return (D.equalPairs(subject, f.subject, relation, f.relation, object,
+				f.object));
+	}
 
-  @Override
-  public int hashCode() {
-    return (hashCode);
-  }
+	/** Returns arg n as a Java string */
+	public String getArgJavaString(int a) {
+		return (FactComponent.asJavaString(a == 1 ? subject : object));
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof Fact)) return (false);
-    Fact f = (Fact) obj;
-    // I have an id
-    if (getId() != null) {
-      if (f.getId() == null) return (false);
-      return (getId().equals(f.getId()) && D.equalPairs(arg1, f.arg1, relation, f.relation, arg2, f.arg2));
-    }
-    // I don't have an id
-    if (f.getId() != null) return (false);
-    return (D.equalPairs(arg1, f.arg1, relation, f.relation, arg2, f.arg2));
-  }
+	/** Returns object as a Java string */
+	public String getObjectAsJavaString() {
+		return (FactComponent.asJavaString(object));
+	}
 
-  /** Returns arg n as a Java string */
-  public String getArgJavaString(int a) {
-    return (FactComponent.asJavaString(a == 1 ? arg1 : arg2));
-  }
+	/** Returns arg n, strips quotes, compiles a case-insensitive pattern */
+	public Pattern getArgPattern(int a) {
+		return (Pattern.compile(getArgJavaString(a), Pattern.CASE_INSENSITIVE));
+	}
 
-  /** Returns arg n, strips quotes, compiles a case-insensitive pattern */
-  public Pattern getArgPattern(int a) {
-    return (Pattern.compile(getArgJavaString(a), Pattern.CASE_INSENSITIVE));
-  }
+	/** Gets subject */
+	public String getSubject() {
+		return (subject);
+	}
 
-  /** Gets argument 1 or 2 */
-  public String getArg(int a) {
-    return (a == 1 ? arg1 : arg2 + (arg2datatype == null ? "" : "^^" + arg2datatype));
-  }
+	/** Gets object with data type */
+	public String getObject() {
+		return (object);
+	}
 
-  /** returns the relation */
-  public String getRelation() {
-    return (relation);
-  }
+	/** Gets argument 1 or 2 */
+	public String getArg(int a) {
+		return (a == 1 ? getSubject() : getObject());
+	}
 
-  /** returns the datatype of the second argument */
-  public String getDataType() {
-    return (arg2datatype);
-  }
+	/** returns the relation */
+	public String getRelation() {
+		return (relation);
+	}
 
-  @Override
-  public String toString() {
-    return (getId() == null ? "" : getId() + " ") + arg1 + " " + relation + " " + arg2 + (arg2datatype == null ? "" : "^^" + arg2datatype);
-  }
+	/** returns the datatype of the second argument */
+	public String getDataType() {
+		return (FactComponent.getDatatype(object));
+	}
 
-  /**
-   * Makes (and sets) the id, which depends on the fact components, 1+6+3+6=16
-   * chars long, MIGHT HAVE DUPS, but the chances are # facts with id / 2
-   * billion
-   */
-  public String makeId() {
-    id = "id_";
-    id += FactComponent.hashEntity(arg1);
-    id += "_" + FactComponent.hashRelation(relation);
-    id += "_" + FactComponent.hashLiteralOrEntity(arg2);
-    id = FactComponent.forYagoEntity(id);
-    return (id);
-  }
+	@Override
+	public String toString() {
+		return (getId() == null ? "" : getId() + " ") + subject + " "
+				+ relation + " " + object;
+	}
 
-  /** returns the id*/
-  public String getId() {
-    return id;
-  }
+	/**
+	 * Makes (and sets) the id, which depends on the fact components, 1+6+3+6=16
+	 * chars long, MIGHT HAVE DUPS, but the chances are # facts with id / 2
+	 * billion
+	 */
+	public String makeId() {
+		id = "id_";
+		id += FactComponent.hashEntity(subject);
+		id += "_" + FactComponent.hashRelation(relation);
+		id += "_" + FactComponent.hashLiteralOrEntity(object);
+		id = FactComponent.forYagoEntity(id);
+		return (id);
+	}
 
-  /** returns a TSV line*/
-  public String toTsvLine(boolean withValue) {
-    if (withValue && FactComponent.isLiteral(arg2) && arg2datatype!=null) {
-      String val = getValue();
-      if (val == null) val = "";
-      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
-    } else {
-      return ((id == null ? "" : id) + "\t" + getArg(1) + "\t" + getRelation() + "\t" + getArg(2) + (withValue?"\t\n":"\n"));
-    }
-  }
-  
-  public String getValue() {
-	  String val = null;
-	  if (FactComponent.isLiteral(arg2) && arg2datatype!=null) {
-	      if (arg2datatype.equals("xsd:date")) {
-	        String[] split = DateParser.getDate(arg2);
-	        if (split != null && split.length == 3) {
-	          for (int i = 0; i < 3; i++) {
-	            split[i] = split[i].replace('#', '0');
-	            while (split[i].length() < 2)
-	              split[i] = "0" + split[i];
-	          }
-	          val = split[0] + "." + split[1] + split[2];
-	        }
-	      } else {
-	        val = NumberParser.getNumber(FactComponent.stripQuotes(arg2));
-	      }
-	  }
-      return val;
-  }
+	/** returns the id */
+	public String getId() {
+		return id;
+	}
 
-  /** returns a TSV line*/
-  public String toTsvLine() {
-    return toTsvLine(false);
-  }
+	/** returns a TSV line */
+	public String toTsvLine(boolean withValue) {
+		if (withValue && FactComponent.isLiteral(object)) {
+			String val = getValue();
+			if (val == null)
+				val = "";
+			return ((id == null ? "" : id) + "\t" + getArg(1) + "\t"
+					+ getRelation() + "\t" + getArg(2) + "\t" + val + "\n");
+		} else {
+			return ((id == null ? "" : id) + "\t" + getArg(1) + "\t"
+					+ getRelation() + "\t" + getArg(2) + (withValue ? "\t\n"
+						: "\n"));
+		}
+	}
 
-  /** Creates a meta fact for this fact (generates an id if necessary)*/
-  public Fact metaFact(String relation, String arg2withdatatype) {
-    if (getId() == null) makeId();
-    return (new Fact(getId(), relation, arg2withdatatype));
-  }
+	public String getValue() {
+		String val = null;
+		if (FactComponent.isLiteral(object)) {
+			String datatype = getDataType();
+			if (datatype != null && datatype.equals("xsd:date")) {
+				String[] split = DateParser.getDate(object);
+				if (split != null && split.length == 3) {
+					for (int i = 0; i < 3; i++) {
+						split[i] = split[i].replace('#', '0');
+						while (split[i].length() < 2)
+							split[i] = "0" + split[i];
+					}
+					val = split[0] + "." + split[1] + split[2];
+				}
+			} else if (datatype != null) {
+				val = NumberParser.getNumber(FactComponent.stripQuotes(object));
+			}
+		}
+		return val;
+	}
+
+	/** returns a TSV line */
+	public String toTsvLine() {
+		return toTsvLine(false);
+	}
+
+	/** Creates a meta fact for this fact (generates an id if necessary) */
+	public Fact metaFact(String relation, String arg2withdatatype) {
+		if (getId() == null)
+			makeId();
+		return (new Fact(getId(), relation, arg2withdatatype));
+	}
 }

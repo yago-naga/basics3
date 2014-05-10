@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 import javatools.administrative.Announce;
 import javatools.filehandlers.FileLines;
-import javatools.filehandlers.FileSet;
 import javatools.parsers.Char;
 import javatools.util.FileUtils;
 
@@ -19,8 +18,8 @@ import javatools.util.FileUtils;
  * 
  * Provides a reader for facts from an N4 document. This follows the Turtle
  * Specification http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It
- * (1) understands a first (optional) component in the preceding comment (2)
- * and it does not support all Turtle features
+ * (1) understands a first (optional) component in the preceding comment (2) and
+ * it does not support all Turtle features
  * 
  * Passes all tests from
  * http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23
@@ -45,17 +44,22 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		reader = r;
 		next();
 	}
-	
+
+	/** Creates a N4 reader */
+	public N4Reader(File f) throws IOException {
+		this(FileUtils.getBufferedUTF8Reader(f));
+	}
+
 	public N4Reader(Reader r, boolean readOnce) throws IOException {
-		
+
 		reader = r;
-		if(readOnce)
+		if (readOnce)
 			next();
 	}
 
-	/** Counter for blank nodes*/
-	protected int blankCounter=0;
-	
+	/** Counter for blank nodes */
+	protected int blankCounter = 0;
+
 	/** Value for "Ignore, read new */
 	public static final int READNEW = -2;
 
@@ -99,10 +103,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			c = reader.read();
 			switch (c) {
 			case '@':
-			  language="";
-				while (Character.isLetter(c = reader.read()) || c=='-')
-					language += (char)c;
-				c=READNEW;
+				language = "";
+				while (Character.isLetter(c = reader.read()) || c == '-')
+					language += (char) c;
+				c = READNEW;
 				break;
 			case '^':
 				reader.read();
@@ -118,15 +122,19 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			}
 			if (Character.isWhitespace(c))
 				c = READNEW;
-			if(language==null) return(FactComponent.forStringWithDatatype(Char.decodeBackslash(string), datatype));
-			else return (FactComponent.forStringWithLanguage(Char.decodeBackslash(string), language));
+			if (language == null)
+				return (FactComponent.forStringWithDatatype(
+						Char.decodeBackslash(string), datatype));
+			else
+				return (FactComponent.forStringWithLanguage(
+						Char.decodeBackslash(string), language));
 		case '[':
 			String blank = FileLines.readTo(reader, ']').toString().trim();
 			if (blank.length() != 0) {
 				Announce.warning("Properties of blank node ignored", blank);
 			}
 			c = READNEW;
-			return (FactComponent.forYagoEntity("blank"+(blankCounter++)));
+			return (FactComponent.forYagoEntity("blank" + (blankCounter++)));
 		case '(':
 			c = READNEW;
 			String list = FileLines.readTo(reader, ')').toString().trim();
@@ -142,8 +150,8 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			return (".");
 		case ';':
 			c = READNEW;
-//			Announce.warning("Semicolons are not supported");
-//			FileLines.scrollTo(reader, '.');
+			// Announce.warning("Semicolons are not supported");
+			// FileLines.scrollTo(reader, '.');
 			return (";");
 		case '+':
 		case '-':
@@ -157,14 +165,15 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		case '7':
 		case '8':
 		case '9':
-			String number = ((char) c) + FileLines.readToSpace(reader).toString();
+			String number = ((char) c)
+					+ FileLines.readToSpace(reader).toString();
 			c = READNEW;
 			return (FactComponent.forNumber(number));
 		default:
 			String name = ((char) c) + FileLines.readToSpace(reader).toString();
-				
+
 			// Save some stuff that follows...
-			if (".,<".indexOf(Char.last(name)) != -1 ||name.endsWith(";")) {
+			if (".,<".indexOf(Char.last(name)) != -1 || name.endsWith(";")) {
 				c = Char.last(name);
 				name = Char.cutLast(name);
 			} else {
@@ -174,9 +183,11 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			if (name.equals("a"))
 				return (FactComponent.forQname("rdf:", "type"));
 			if (name.equals("true"))
-				return (FactComponent.forStringWithDatatype("true", FactComponent.forQname("xsd:", "boolean")));
+				return (FactComponent.forStringWithDatatype("true",
+						FactComponent.forQname("xsd:", "boolean")));
 			if (name.equals("false"))
-				return (FactComponent.forStringWithDatatype("false", FactComponent.forQname("xsd:", "boolean")));
+				return (FactComponent.forStringWithDatatype("false",
+						FactComponent.forQname("xsd:", "boolean")));
 			// Prefixes
 			int colon = name.indexOf(':');
 			if (colon == -1) {
@@ -196,7 +207,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	}
 
 	/** caches the next fact, initially a dummy fact; null for EOF */
-	protected Fact nextFact=new Fact("Elvis","rdf:type","theBest");
+	protected Fact nextFact = new Fact("Elvis", "rdf:type", "theBest");
 
 	@Override
 	public Fact next() {
@@ -211,7 +222,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			if (nextFact == null)
 				close();
 		}
-		
+
 		return (toReturn);
 	}
 
@@ -222,6 +233,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 
 	/** returns the next fact */
 	String prevSubj;
+
 	protected Fact internalNext() throws Exception {
 		while (true) {
 			String item = nextItem();
@@ -239,8 +251,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 					if (dest.equals(FactComponent.standardPrefixes.get(prefix)))
 						continue;
 					else
-						Announce.warning("Redefining standard prefix", prefix, "from",
-								FactComponent.standardPrefixes.get(prefix), "to", dest);
+						Announce.warning("Redefining standard prefix", prefix,
+								"from",
+								FactComponent.standardPrefixes.get(prefix),
+								"to", dest);
 				}
 				prefixes.put(prefix, dest);
 				continue;
@@ -268,13 +282,13 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			// Fact identifier
 			String factId = null;
 			// Subject Verb Object dot
-			String subject=null;
-			String predicate=null;
+			String subject = null;
+			String predicate = null;
 			String object = null;
 			String dot = null;
 			Fact f = null;
-			
-			//subject
+
+			// subject
 			if (item.startsWith("&")) {
 				factId = item.substring(1);
 				subject = nextItem();
@@ -283,44 +297,46 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			}
 
 			if (subject.equals(".")) {
-//				Announce.warning("Dot on empty line");
+				// Announce.warning("Dot on empty line");
 				continue;
 			}
-			//predicate
+			// predicate
 			predicate = nextItem();
 			if (predicate.equals(".")) {
 				Announce.warning("Only one item on line", subject);
 				continue;
 			}
-			
-			if(predicate !=null && predicate.endsWith(";")){
-				f = new Fact(factId, prevSubj, subject,  predicate.replaceAll(";", ""));
-				dot=";";
+
+			if (predicate != null && predicate.endsWith(";")) {
+				f = new Fact(factId, prevSubj, subject, predicate.replaceAll(
+						";", ""));
+				dot = ";";
 			}
-			
-			else{
+
+			else {
 				object = nextItem();
-				if(object.equals(";") || object.equals(".")){
+				if (object.equals(";") || object.equals(".")) {
 					f = new Fact(factId, prevSubj, subject, predicate);
-					dot =object;
-					
-				}else if(object!=null &&
-						!(object.startsWith("\"") && object.endsWith("\"")) &&
-						object.contains(";")){
-					f = new Fact(factId, subject, predicate, object.replaceAll(";",""));
+					dot = object;
+
+				} else if (object != null
+						&& !(object.startsWith("\"") && object.endsWith("\""))
+						&& object.contains(";")) {
+					f = new Fact(factId, subject, predicate, object.replaceAll(
+							";", ""));
 					dot = ";";
-					prevSubj= subject;
-				}
-				else{
+					prevSubj = subject;
+				} else {
 					dot = nextItem();
-					 f = new Fact(factId, subject, predicate,object);
-					prevSubj= subject;
-					
+					f = new Fact(factId, subject, predicate, object);
+					prevSubj = subject;
+
 				}
-			} 
-			if (!(dot.equals(".")||dot.equals(";"))) {
+			}
+			if (!(dot.equals(".") || dot.equals(";"))) {
 				// Line too long
-				Announce.warning("More than three items on line", factId, subject, predicate, object, dot);
+				Announce.warning("More than three items on line", factId,
+						subject, predicate, object, dot);
 				FileLines.scrollTo(reader, '.');
 				continue;
 			}
@@ -343,23 +359,25 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws Exception {
-	
+
 		for (File in : new File("C://Users//Administrator//ILData").listFiles()) {
 			if (!in.getName().matches("test-\\d+\\.ttl.*"))
 				continue;
 			Announce.doing("Testing", in.getName());
-			N4Writer w = new N4Writer(new File(in.toString().replace("ttl", "myout")), "Test run");
+			N4Writer w = new N4Writer(new File(in.toString().replace("ttl",
+					"myout")), "Test run");
 			for (Fact f : FactSource.from(in)) {
 				w.write(f);
 			}
 			w.close();
 			Announce.done();
 		}
-//		File in2 = new File("C://Users//Administrator//Downloads//test.ttl");
+		// File in2 = new File("C://Users//Administrator//Downloads//test.ttl");
 		File in2 = new File("C://Users//Administrator//ILData//test.nt.ttl");
 
 		Announce.doing("Testing", in2.getName());
-		N4Writer w = new N4Writer(new File(in2.toString().replace("ttl", "myout")), "Test run");
+		N4Writer w = new N4Writer(new File(in2.toString().replace("ttl",
+				"myout")), "Test run");
 		for (Fact f : FactSource.from(in2)) {
 			w.write(f);
 		}
