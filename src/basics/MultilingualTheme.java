@@ -17,7 +17,7 @@ import basics.Theme.ThemeGroup;
  * 
  */
 
-public class BaseTheme {
+public class MultilingualTheme {
 
 	/** Types of my theme */
 	public final ThemeGroup themeGroup;
@@ -28,12 +28,12 @@ public class BaseTheme {
 	/** Description of the theme */
 	public final String description;
 
-	public BaseTheme(String name, String description) {
+	public MultilingualTheme(String name, String description) {
 		this(name, description, name.startsWith("yago") ? ThemeGroup.OTHER
 				: ThemeGroup.INTERNAL);
 	}
 
-	public BaseTheme(String name, String description, ThemeGroup group) {
+	public MultilingualTheme(String name, String description, ThemeGroup group) {
 		this.name = name;
 		this.description = description;
 		themeGroup = group;

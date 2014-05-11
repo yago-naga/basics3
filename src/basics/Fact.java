@@ -71,18 +71,8 @@ public class Fact {
 		if (!(obj instanceof Fact))
 			return (false);
 		Fact f = (Fact) obj;
-		// I have an id
-		if (getId() != null) {
-			if (f.getId() == null)
-				return (false);
-			return (getId().equals(f.getId()) && D.equalPairs(subject,
-					f.subject, relation, f.relation, object, f.object));
-		}
-		// I don't have an id
-		if (f.getId() != null)
-			return (false);
-		return (D.equalPairs(subject, f.subject, relation, f.relation, object,
-				f.object));
+		return (D.equal(id, f.id) && subject.equals(f.subject)
+				&& relation.equals(f.relation) && object.equals(f.object));
 	}
 
 	/** Returns arg n as a Java string */

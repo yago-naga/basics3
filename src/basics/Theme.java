@@ -1,20 +1,26 @@
 package basics;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javatools.administrative.Announce;
-import javatools.filehandlers.FileSet;
 
 /**
  * Represents a theme
  * 
+ * If a theme is assigned to a file, it is a file fact source, i.e., it can
+ * iterate over the facts in the file. It can also write facts.
+ * 
  * @author Fabian M. Suchanek
  * 
  */
-public class Theme implements Comparable<Theme> {
+public class Theme extends FactSource.FileFactSource implements
+		Comparable<Theme> {
 
 	/** Types of Theme */
 	public enum ThemeGroup {
@@ -39,10 +45,11 @@ public class Theme implements Comparable<Theme> {
 	}
 
 	public Theme(String name, String description, ThemeGroup group) {
+		super(null);
 		this.name = name;
 		this.description = description;
 		if (name2theme.containsKey(name))
-			throw new RuntimeException("Duplicate Theme: "+name);
+			throw new RuntimeException("Duplicate Theme: " + name);
 		name2theme.put(this.name, this);
 		themeGroup = group;
 	}
@@ -61,19 +68,6 @@ public class Theme implements Comparable<Theme> {
 		if (name.length() < 3 || name.charAt(name.length() - 3) != '_')
 			return (null);
 		return (name.substring(name.length() - 2));
-	}
-
-	/**
-	 * Returns the theme for a file; works only if the theme has been created
-	 * before!
-	 */
-	public static Theme forFile(File f) {
-		return (name2theme.get(FileSet.newExtension(f.getName(), "")));
-	}
-
-	/** Returns the file name of this theme in the given folder */
-	public File file(File folder) {
-		return (new File(folder, name + ".ttl"));
 	}
 
 	/** TRUE for export-ready themes */
@@ -101,79 +95,119 @@ public class Theme implements Comparable<Theme> {
 		return name.hashCode();
 	}
 
-	/** returns the theme group with that name */
-	public static ThemeGroup themeGroupFor(String name) {
-		try {
-			return (ThemeGroup.valueOf(name));
-		} catch (Exception whocares) {
-			return (null);
+	/** Returns all available themes */
+	public static Collection<Theme> all() {
+		return (name2theme.values());
+	}
+
+	/** Removes all known themes */
+	public static void clear() {
+		name2theme.clear();
+	}
+
+	/**
+	 * Returns the file name of this theme in the given folder, in either TTL or
+	 * TSV. Gives preference to TSV. Returns null if not found.
+	 */
+	public File findFileInFolder(File folder) {
+		File tsv = new File(folder, name + ".tsv");
+		File ttl = new File(folder, name + ".ttl");
+		if (tsv.exists()) {
+			if (ttl.exists())
+				Announce.warning("Theme", this, "exists as ttl and tsv in",
+						folder, ". Using tsv.");
+			return (tsv);
 		}
+		if (ttl.exists())
+			return (ttl);
+		return (null);
 	}
 
 	/** Fact writer for writing the theme */
 	protected FactWriter factWriter;
 	/** Caching the theme */
 	protected FactCollection cache = null;
-	/** File of the theme */
-	protected File file;
 
 	/** Opens the theme for writing */
-	public synchronized void open(FactWriter w) {
+	public synchronized void openForWritingInFolder(File folder, String header)
+			throws Exception {
 		if (factWriter != null)
 			throw new RuntimeException("Already writing into Theme " + this);
 		if (file != null)
 			throw new RuntimeException("Theme " + this + " already written");
-		factWriter = w;
-		file = w.getFile();
+		file = new File(folder, name + ".tsv");
+		factWriter = FactWriter.from(file, header);
 	}
 
 	/** Closes the theme for writing */
 	public void close() throws IOException {
 		if (factWriter == null)
-			throw new RuntimeException("Theme " + this
+			throw new IOException("Theme " + this
 					+ " cannot be closed because it was not open");
 		factWriter.close();
 		factWriter = null;
 	}
 
-	/**
-	 * Returns the fact source. Unlike the fact cache, the fact source provides
-	 * the facts in the order in which they were written
-	 */
-	public FactSource factSource() {
-		if (file == null)
-			throw new RuntimeException("Theme " + this + " has not yet been written");
-		if (factWriter != null)
-			throw new RuntimeException("Theme " + this + " is currently being written");
-		return (FactSource.from(file));
-	}
-
-	/** Returns the file (or NULL) */
-	public File file() {
-		return (file);
-	}
-
-	/** Sets the fact source (to use a theme that is already there) */
-	public synchronized void setFile(File f) {
+	/** Assigns the theme to a file (to use data that is already there) */
+	public synchronized Theme assignToFolder(File folder) throws IOException {
+		File f = findFileInFolder(folder);
+		if (f == null)
+			throw new FileNotFoundException("Cannot find theme " + this
+					+ " in " + folder);
 		if (file != null) {
 			if (file.equals(f))
-				return;
+				return (this);
 			else
-				throw new RuntimeException("Theme " + this
+				throw new IOException("Theme " + this
 						+ " is already assigned to a file");
 		}
-		if (!f.exists())
-			throw new RuntimeException("File " + f + " for theme " + this
-					+ " does not exist");
 		file = f;
+		return (this);
 	}
 
-	/** returns the cache */
+	/** Writes a fact */
+	public void write(Fact f) throws IOException {
+		factWriter.write(f);
+	}
+
+	/** True if the facts can be read from this source */
+	public boolean isAvailableForReading() {
+		return file != null && factWriter == null;
+	}
+
+	/** Forgets the file */
+	public void forgetFile() {
+		if (factWriter != null)
+			throw new RuntimeException(this
+					+ " cannot forget a file while writing to it: " + this.file);
+		file = null;
+	}
+
+	/** Returns the file of this theme (or null) */
+	public File file() {
+		return file;
+	}
+
+	@Override
+	public Iterator<Fact> iterator() {
+		if (file == null)
+			throw new RuntimeException("Theme " + this
+					+ " has not yet been written");
+		if (factWriter != null)
+			throw new RuntimeException("Theme " + this
+					+ " is currently being written");
+		return (super.iterator());
+	}
+
+	/** returns the cache, or creates a cache */
 	public FactCollection factCollection() throws IOException {
 		if (factWriter != null)
-			throw new RuntimeException("Theme " + this + " is currently being written");
+			throw new IOException("Theme " + this
+					+ " is currently being written");
 		if (file == null)
-			throw new RuntimeException("Theme " + this + " has not yet been written");
+			throw new IOException("Theme " + this
+					+ " has not yet been assigned to a file.\n"
+					+ "Maybe it was not declared as input to an extractor?");
 		if (cache == null)
 			cache = new FactCollection(file, true);
 		return (cache);
@@ -182,27 +216,6 @@ public class Theme implements Comparable<Theme> {
 	/** Removes the cache */
 	public void killCache() {
 		cache = null;
-	}
-
-	/** Writes a fact */
-	public void write(Fact f) throws IOException {
-		factWriter.write(f);
-	}
-
-	public boolean isAvailable() {
-		return file != null && factWriter == null;
-	}
-
-	/** Forgets the file */
-	public void forgetFile() {
-		if (factWriter != null)
-			throw new RuntimeException(this+" cannot forget a file while writing to it: "+this.file);
-		file = null;
-	}
-
-	/** Removes all known themes */
-	public static void clear() {
-		name2theme.clear();
 	}
 
 }

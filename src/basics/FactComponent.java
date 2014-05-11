@@ -449,4 +449,16 @@ public class FactComponent {
 	public static String forInfoboxTypeRelation(String language) {
 		return (forInfoboxAttribute(language, "type"));
 	}
+
+	public static String forInfoboxTemplate(String cls, String lan) {
+		cls = cls.toLowerCase().replace('_', ' ').trim();
+		if (Character.isDigit(Char.last(cls)))
+			cls = Char.cutLast(cls);
+		return forStringWithLanguage(cls, lan);
+	}
+
+	/** TRUE if the entity is a wordnet class or a wikipedia category*/
+	public static boolean isClass(String entity) {
+		return entity.startsWith("<wordnet_") || entity.startsWith("<wikicat_");
+	}
 }

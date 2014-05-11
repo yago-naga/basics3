@@ -50,17 +50,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		this(FileUtils.getBufferedUTF8Reader(f));
 	}
 
-	public N4Reader(Reader r, boolean readOnce) throws IOException {
-
-		reader = r;
-		if (readOnce)
-			next();
-	}
-
 	/** Counter for blank nodes */
 	protected int blankCounter = 0;
 
-	/** Value for "Ignore, read new */
+	/** Value for "Ignore this character, read new one */
 	public static final int READNEW = -2;
 
 	/** Current character */
@@ -231,9 +224,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 		return nextFact != null;
 	}
 
-	/** returns the next fact */
-	String prevSubj;
+	/** Holds the previous subject (for ;-lists) */
+	protected String prevSubj;
 
+	/** returns the next fact */
 	protected Fact internalNext() throws Exception {
 		while (true) {
 			String item = nextItem();

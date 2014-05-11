@@ -1,7 +1,6 @@
 package basics;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -31,14 +30,28 @@ public class TsvWriter extends FactWriter {
 		out.write(f.toTsvLine(writeDoubleValue));
 	}
 
-	public TsvWriter(File f) throws FileNotFoundException {
+	public TsvWriter(File f) throws IOException {
 		this(f, false);
 	}
 
-	public TsvWriter(File f, boolean writeDoubleValue)
-			throws FileNotFoundException {
+	public TsvWriter(File f, String header) throws IOException {
+		this(f, false, header);
+	}
+
+	public TsvWriter(File f, boolean writeDoubleValue) throws IOException {
+		this(f, writeDoubleValue, null);
+	}
+
+	public TsvWriter(File f, boolean writeDoubleValue, String header)
+			throws IOException {
 		super(f);
 		this.writeDoubleValue = writeDoubleValue;
 		out = FileUtils.getBufferedUTF8Writer(f);
+		if (header != null) {
+			for (String line : header.split("\n")) {
+				out.write("// " + line + "\n");
+			}
+			out.write("\n");
+		}
 	}
 }

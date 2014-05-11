@@ -6,7 +6,6 @@ import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,30 +22,28 @@ import javatools.administrative.Announce;
  * Represents a collection of facts, indexes them. Methods have 3 degrees of
  * complexity: (1) getXYZ(): simple index access (2) collectXYZ(): requires
  * creating a collection (3) seekXYZ(): requires an expensive traversal of the
- * index
+ * index. The collection is no longer synchronized! This should be fine as long
+ * as writing is done by a single process, and reading occurs only after
+ * writing.
  * 
  * @author Fabian M. Suchanek
  */
 public class FactCollection extends AbstractSet<Fact> {
 
 	/** Holds the facts */
-	protected Set<Fact> facts = Collections
-			.synchronizedSet(new HashSet<Fact>());;
+	protected Set<Fact> facts = new HashSet<Fact>();
 
 	/** Holds the objects */
-	protected Map<String, String> objects = Collections
-			.synchronizedMap(new HashMap<String, String>());
+	protected Map<String, String> objects = new HashMap<String, String>();
 
 	/** Maps first arg to relation to facts */
-	protected Map<String, Map<String, List<Fact>>> index = Collections
-			.synchronizedMap(new HashMap<String, Map<String, List<Fact>>>());
+	protected Map<String, Map<String, List<Fact>>> index = new HashMap<String, Map<String, List<Fact>>>();
 
 	/** Maps relation to facts */
-	protected Map<String, List<Fact>> relindex = Collections
-			.synchronizedMap(new HashMap<String, List<Fact>>());
+	protected Map<String, List<Fact>> relindex = new HashMap<String, List<Fact>>();
 
 	/** Adds a fact, adds a source fact and a technique fact */
-	public synchronized boolean add(Fact fact, String source, String technique) {
+	public boolean add(Fact fact, String source, String technique) {
 		Fact sourceFact = fact.metaFact(YAGO.extractionSource,
 				FactComponent.forUri(source));
 		Fact techniqueFact = sourceFact.metaFact(YAGO.extractionTechnique,
@@ -60,7 +57,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Adds a fact, checks for functional duplicates */
-	public synchronized boolean add(final Fact fact, Set<String> functions) {
+	public boolean add(final Fact fact, Set<String> functions) {
 		if (fact.getSubject() == null || fact.getObject() == null) {
 			Announce.debug("Null fact not added:", fact);
 			return (false);
@@ -74,52 +71,48 @@ public class FactCollection extends AbstractSet<Fact> {
 			return (false);
 		}
 		Map<String, List<Fact>> map = index.get(fact.getSubject());
-		if (map == null)
-			index.put(
-					fact.getSubject(),
-					map = Collections
-							.synchronizedMap(new HashMap<String, List<Fact>>()));
-		if (!map.containsKey(fact.relation))
-			map.put(fact.relation,
-					Collections.synchronizedList(new ArrayList<Fact>(1)));
-		for (Fact other : map.get(fact.relation)) {
-			if (FactComponent.isMoreSpecific(fact.getObject(),
-					other.getObject())) {
-				Announce.debug("Removed", other, "because of newly added", fact);
-				remove(other);
-				break;
+		if (map != null && map.containsKey(fact.relation)) {
+			for (Fact other : map.get(fact.relation)) {
+				if (FactComponent.isMoreSpecific(fact.getObject(),
+						other.getObject())) {
+					Announce.debug("Removed", other, "because of newly added",
+							fact);
+					remove(other);
+					break;
+				}
+				if (FactComponent.isMoreSpecific(other.getObject(),
+						fact.getObject())) {
+					Announce.debug("More general fact not added:", fact,
+							"because of", other);
+					return (false);
+				}
+				if (!other.getObject().equals(fact.getObject()))
+					continue;
+				if (other.getId() != null && fact.getId() == null) {
+					Announce.debug("Fact without id not added:", fact,
+							"because of", other);
+					return (false);
+				}
+				if (other.getId() == null && fact.getId() != null) {
+					Announce.debug("Removed", other, "because of newly added",
+							fact);
+					remove(other);
+					break;
+				}
 			}
-			if (FactComponent.isMoreSpecific(other.getObject(),
-					fact.getObject())) {
-				Announce.debug("More general fact not added:", fact,
-						"because of", other);
+			if (functions != null && functions.contains(fact.getRelation())
+					&& !map.get(fact.relation).isEmpty()) {
+				Announce.debug(
+						"Functional fact not added because another fact is already there:",
+						fact, ". Already there:", map.get(fact.relation));
 				return (false);
 			}
-			if (!other.getObject().equals(fact.getObject()))
-				continue;
-			if (other.getId() != null && fact.getId() == null) {
-				Announce.debug("Fact without id not added:", fact,
-						"because of", other);
-				return (false);
-			}
-			if (other.getId() == null && fact.getId() != null) {
-				Announce.debug("Removed", other, "because of newly added", fact);
-				remove(other);
-				break;
-			}
-		}
-		if (functions != null && functions.contains(fact.getRelation())
-				&& !map.get(fact.relation).isEmpty()) {
-			Announce.debug(
-					"Functional fact not added because another fact is already there:",
-					fact, ". Already there:", map.get(fact.relation));
-			return (false);
 		}
 		return (justAdd(fact));
 	}
 
 	/** Adds a fact, does not check for duplicates */
-	public synchronized boolean justAdd(final Fact fact) {
+	public boolean justAdd(final Fact fact) {
 		if (facts.contains(fact)) {
 			Announce.debug("Duplicate fact not added:", fact);
 			return (false);
@@ -130,10 +123,8 @@ public class FactCollection extends AbstractSet<Fact> {
 		String canonicalizedRelation = fact.getRelation();
 		List<Fact> factsWithRelation = relindex.get(fact.getRelation());
 		if (factsWithRelation == null) {
-			relindex.put(
-					fact.getRelation(),
-					factsWithRelation = Collections
-							.synchronizedList(new ArrayList<Fact>(1)));
+			relindex.put(fact.getRelation(),
+					factsWithRelation = new ArrayList<Fact>(1));
 		} else if (!factsWithRelation.isEmpty()) {
 			canonicalizedRelation = factsWithRelation.get(0).getRelation();
 			changed = true;
@@ -143,21 +134,20 @@ public class FactCollection extends AbstractSet<Fact> {
 		String canonicalizedSubject = fact.getSubject();
 		Map<String, List<Fact>> relation2facts = index.get(fact.getSubject());
 		if (relation2facts == null) {
-			index.put(
-					fact.getSubject(),
-					relation2facts = Collections
-							.synchronizedMap(new HashMap<String, List<Fact>>()));
+			index.put(fact.getSubject(),
+					relation2facts = new HashMap<String, List<Fact>>());
 		} else if (!relation2facts.isEmpty()) {
-			String anyRel = relation2facts.keySet().iterator().next();
-			List<Fact> anyFacts = relation2facts.get(anyRel);
-			if (!anyFacts.isEmpty()) {
-				canonicalizedSubject = anyFacts.get(0).getSubject();
-				changed = true;
-			}
+			// Canonicaliztion could happen here
+			// Removing it for reasons of speed
+			/*
+			 * String anyRel = relation2facts.keySet().iterator().next();
+			 * List<Fact> anyFacts = relation2facts.get(anyRel); if
+			 * (!anyFacts.isEmpty()) { canonicalizedSubject =
+			 * anyFacts.get(0).getSubject(); changed = true; }
+			 */
 		}
 		if (!relation2facts.containsKey(fact.relation))
-			relation2facts.put(fact.relation,
-					Collections.synchronizedList(new ArrayList<Fact>(1)));
+			relation2facts.put(fact.relation, new ArrayList<Fact>(1));
 
 		String canonicalizedObject = objects.get(fact.getObject());
 		if (canonicalizedObject == null) {
@@ -310,7 +300,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Add facts */
-	public synchronized boolean add(Iterable<Fact> facts) {
+	public boolean add(Iterable<Fact> facts) {
 		boolean change = false;
 		for (Fact f : facts)
 			change |= add(f);
@@ -318,7 +308,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	}
 
 	/** Removes a fact */
-	public synchronized boolean remove(Object f) {
+	public boolean remove(Object f) {
 		if (!facts.remove(f))
 			return (false);
 		Fact fact = (Fact) f;
@@ -384,6 +374,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	/** Checks if all of my facts are in the other set, prints differences */
 	public boolean checkContainedIn(FactCollection goldStandard, String name) {
 		boolean matches = true;
+		int maxMessages = 5;
 		next: for (Fact fact : facts) {
 			for (Fact other : goldStandard.getFactsWithSubjectAndRelation(
 					fact.getSubject(), fact.relation)) {
@@ -395,6 +386,8 @@ public class FactCollection extends AbstractSet<Fact> {
 			}
 			Announce.message("Not found in", name, ":", fact);
 			matches = false;
+			if (--maxMessages <= 0)
+				break;
 		}
 		return (matches);
 	}
@@ -521,7 +514,7 @@ public class FactCollection extends AbstractSet<Fact> {
 	 * Returns a map from the objects (as Java Strings) to the subjects (as
 	 * entities). This map is generated on request and then cached.
 	 */
-	public Map<String, String> getPreferredMeanings() {
+	public synchronized Map<String, String> getPreferredMeanings() {
 		if (preferredMeanings != null)
 			return (preferredMeanings);
 		preferredMeanings = new HashMap<>();

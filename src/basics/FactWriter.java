@@ -4,6 +4,8 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 
+import javatools.filehandlers.FileSet;
+
 /**
  * FactWriter interface - YAGO2S
  * 
@@ -23,8 +25,25 @@ public abstract class FactWriter implements Closeable {
 	};
 
 	public abstract void write(Fact f) throws IOException;
-	
+
 	public FactWriter(File f) {
-		file=f;
+		file = f;
+	}
+
+	/** Returns a fact writer for a file */
+	public static FactWriter from(File f) throws Exception {
+		return (FactWriter.from(f, null));
+	}
+
+	/** Returns a fact writer for a file */
+	public static FactWriter from(File f, String header) throws Exception {
+		switch (FileSet.extension(f).toLowerCase()) {
+		case ".ttl":
+			return (new N4Writer(f, header));
+		case ".tsv":
+			return (new TsvWriter(f, header));
+		}
+		throw new RuntimeException(
+				"Unsupported output file format for writing to: " + f);
 	}
 }
