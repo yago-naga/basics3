@@ -133,14 +133,14 @@ public class FactComponent {
 
 	/** Creates a fact component for a wordnet entity */
 	public static String forWordnetEntity(String word, String id) {
-		return (forYagoEntity("wordnet_" + word.replace(' ', '_') + "_" + id));
+		return (forYagoEntity("wordnet_" + word + "_" + id));
 	}
 
 	/** Creates a fact component for a Wikipedia category */
 	public static String forWikiCategory(String word) {
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
-		return (forYagoEntity("wikicat_" + word.replace(' ', '_')));
+		return (forYagoEntity("wikicat_" + word));
 	}
 
 	/** Creates a fact component for a Wikipedia category */
@@ -149,12 +149,12 @@ public class FactComponent {
 			return (forWikiCategory(word));
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
-		return (forYagoEntity(lan + "/wikicat_" + word.replace(' ', '_')));
+		return (forYagoEntity(lan + "/wikicat_" + word));
 	}
 
 	/** Creates a fact component for a GeoNames class */
 	public static String forGeoNamesClass(String word) {
-		return (forYagoEntity("geoclass_" + word.replace(' ', '_')));
+		return (forYagoEntity("geoclass_" + word));
 	}
 
 	/** Creates a fact component for a degree */

@@ -137,6 +137,7 @@ public class Theme extends FactSource.FileFactSource implements
 			throw new RuntimeException("Theme " + this + " already written");
 		file = new File(folder, name + ".tsv");
 		factWriter = FactWriter.from(file, header);
+		cache=null;
 	}
 
 	/** Closes the theme for writing */
@@ -162,6 +163,7 @@ public class Theme extends FactSource.FileFactSource implements
 						+ " is already assigned to a file");
 		}
 		file = f;
+		cache=null;
 		return (this);
 	}
 
@@ -181,6 +183,7 @@ public class Theme extends FactSource.FileFactSource implements
 			throw new RuntimeException(this
 					+ " cannot forget a file while writing to it: " + this.file);
 		file = null;
+		cache=null;
 	}
 
 	/** Returns the file of this theme (or null) */
@@ -213,6 +216,10 @@ public class Theme extends FactSource.FileFactSource implements
 		return (cache);
 	}
 
+	/** TRUE if is cached*/
+	public boolean isCached() {
+		return(cache!=null);
+	}
 	/** Removes the cache */
 	public void killCache() {
 		cache = null;
