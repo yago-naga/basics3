@@ -192,7 +192,7 @@ public class Theme extends FactSource.FileFactSource implements
 	public Iterator<Fact> iterator() {
 		if (file == null)
 			throw new RuntimeException("Theme " + this
-					+ " has not yet been written");
+					+ " has not yet been assigned to a file.\nMaybe the theme was not declared as an input to an extractor?");
 		if (factWriter != null)
 			throw new RuntimeException("Theme " + this
 					+ " is currently being written");
