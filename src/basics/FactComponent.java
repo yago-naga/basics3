@@ -95,7 +95,7 @@ public class FactComponent {
 
 	/** Creates a fact component for a YAGO entity from another language */
 	public static String forForeignYagoEntity(String name, String lan) {
-		if (lan.equals("en"))
+		if (lan.startsWith("en"))
 			return (forYagoEntity(name));
 		return (forYagoEntity(lan + "/" + name));
 	}
@@ -145,7 +145,7 @@ public class FactComponent {
 
 	/** Creates a fact component for a Wikipedia category */
 	public static String forForeignWikiCategory(String word, String lan) {
-		if (lan.equals("en"))
+		if (lan.startsWith("en"))
 			return (forWikiCategory(word));
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);

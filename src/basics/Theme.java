@@ -54,6 +54,12 @@ public class Theme extends FactSource.FileFactSource implements
 		themeGroup = group;
 	}
 
+	public static synchronized Theme getOrCreate(String name, String description, ThemeGroup group) {
+		Theme result=name2theme.get(name);
+		if(result==null) result=new Theme(name, description, group);
+		return(result);
+	}
+	
 	public Theme(String name, String language, String description,
 			ThemeGroup group) {
 		this(name + "_" + language, description, group);
@@ -101,8 +107,8 @@ public class Theme extends FactSource.FileFactSource implements
 	}
 
 	/** Removes all known themes */
-	public static void clear() {
-		name2theme.clear();
+	public static void forgetAllFiles() {
+		for(Theme t : all()) t.forgetFile();
 	}
 
 	/**
@@ -134,7 +140,7 @@ public class Theme extends FactSource.FileFactSource implements
 		if (factWriter != null)
 			throw new RuntimeException("Already writing into Theme " + this);
 		if (file != null)
-			throw new RuntimeException("Theme " + this + " already written");
+			throw new RuntimeException("Theme " + this + " already written to "+file);
 		file = new File(folder, name + ".tsv");
 		factWriter = FactWriter.from(file, header);
 		cache=null;
@@ -160,7 +166,7 @@ public class Theme extends FactSource.FileFactSource implements
 				return (this);
 			else
 				throw new IOException("Theme " + this
-						+ " is already assigned to a file");
+						+ " is already assigned to file "+file+", cannot assign it to "+f);
 		}
 		file = f;
 		cache=null;

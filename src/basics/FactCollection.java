@@ -377,10 +377,11 @@ public class FactCollection extends AbstractSet<Fact> {
 		return facts.toString();
 	}
 
+	/** Maximal messages for comparison of fact collectioms*/
+	public static int maxMessages = 4;
 	/** Checks if all of my facts are in the other set, prints differences */
 	public boolean checkContainedIn(FactCollection goldStandard, String name) {
 		boolean matches = true;
-		int maxMessages = 5;
 		next: for (Fact fact : facts) {
 			for (Fact other : goldStandard.getFactsWithSubjectAndRelation(
 					fact.getSubject(), fact.relation)) {
