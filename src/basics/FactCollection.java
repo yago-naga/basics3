@@ -6,6 +6,7 @@ import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -177,11 +178,13 @@ public class FactCollection extends AbstractSet<Fact> {
 	/** Returns facts with matching first arg and relation */
 	public List<Fact> getFactsWithSubjectAndRelation(String arg1,
 			String relation) {
-		if (!index.containsKey(arg1))
-			return (EMPTY);
-		if (!index.get(arg1).containsKey(relation))
-			return (EMPTY);
-		return (index.get(arg1).get(relation));
+		Map<String, List<Fact>> map = index.get(arg1);
+		if (map == null)
+			return (Collections.emptyList());
+		List<Fact> list = map.get(relation);
+		if (list == null)
+			return (Collections.emptyList());
+		return (list);
 	}
 
 	/** TRUE if the subject exists */
@@ -207,10 +210,13 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Returns the first object (or null) */
 	public String getObject(String arg1, String relation) {
-		List<Fact> res = getFactsWithSubjectAndRelation(arg1, relation);
-		if (res == null || res.isEmpty())
+		Map<String, List<Fact>> map = index.get(arg1);
+		if (map == null)
 			return (null);
-		return (res.get(0).getObject());
+		List<Fact> list = map.get(relation);
+		if (list == null || list.isEmpty())
+			return (null);
+		return (list.get(0).getObject());
 	}
 
 	/** Returns the objects */
@@ -218,10 +224,10 @@ public class FactCollection extends AbstractSet<Fact> {
 		return (objects.keySet());
 	}
 
-	/** Returns the arg2s */
-	public Set<String> collectObjects(String arg1, String relation) {
+	/** Returns the objects with a given subject and relation */
+	public Set<String> collectObjects(String subject, String relation) {
 		Set<String> result = new TreeSet<>();
-		for (Fact f : getFactsWithSubjectAndRelation(arg1, relation)) {
+		for (Fact f : getFactsWithSubjectAndRelation(subject, relation)) {
 			result.add(f.getArg(2));
 		}
 		return (result);

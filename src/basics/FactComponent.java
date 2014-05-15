@@ -108,8 +108,8 @@ public class FactComponent {
 
 	/** Creates a fact component for a Wikipedia title */
 	public static String forWikipediaTitle(String name) {
-		name = Char.decodeAmpersand(name).trim().replace(' ', '_');
-		return (forUri(name));
+		name = Char.decodeAmpersand(name).trim();
+		return (forYagoEntity(name));
 	}
 
 	/** Creates a fact component for a String with language. We check the syntax */
