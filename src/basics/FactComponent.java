@@ -106,6 +106,15 @@ public class FactComponent {
 		return (entity.substring(entity.indexOf('/') + 1));
 	}
 
+	/** Returns the pure string of a Wikipedia category*/
+	public static String stripCat(String cat) {
+		cat=stripBracketsAndLanguage(cat);
+		if(cat.startsWith("wikicat_")) cat=cat.substring("wikicat_".length());
+		cat=cat.replace('_', ' ');
+		cat=Char.decodeBackslash(cat);
+		return(cat);
+	}
+
 	/** Creates a fact component for a Wikipedia title */
 	public static String forWikipediaTitle(String name) {
 		name = Char.decodeAmpersand(name).trim();
