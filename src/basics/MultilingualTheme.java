@@ -50,6 +50,15 @@ public class MultilingualTheme {
 		return (result);
 	}
 
+	/** Returns the theme in English*/
+	public Theme inEnglish() {
+		Theme r=language2theme.get("en");
+		if(r!=null) return(r);
+		r=language2theme.get("eng");
+		if(r!=null) return(r);
+		return(inLanguage("en"));
+	}
+	
 	/** Returns this theme in a language */
 	public Theme inLanguage(String lang) {
 		Theme result = language2theme.get(lang);
@@ -58,6 +67,11 @@ public class MultilingualTheme {
 			language2theme.put(lang, result);
 		}
 		return (result);
+	}
+
+	/** TRUE if the language is english*/
+	public static boolean isEnglish(String lan) {
+		return(lan.equals("en") || lan.equals("eng"));
 	}
 
 }
