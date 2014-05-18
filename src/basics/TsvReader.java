@@ -52,7 +52,7 @@ public class TsvReader extends PeekIterator<Fact> {
 			return (new Fact(id, line[1], line[2], line[3]));
 		default:
 			Announce.warning("Unsupported number of columns (", line.length,
-					")");
+					"), aborting read");
 			return (null);
 		}
 	}
@@ -69,13 +69,13 @@ public class TsvReader extends PeekIterator<Fact> {
 	/** Test program shows that reading TSV is twice as fact as reading TTL */
 	public static void main(String[] args) throws Exception {
 		Announce.startTimer();
-		for (Fact f : FactSource.from(new File(
+		for (@SuppressWarnings("unused") Fact f : FactSource.from(new File(
 				"c:/fabian/data/yago3test/yagoTaxonomy.tsv"))) {
 
 		}
 		Announce.message("TSV: ", Announce.getTime());
 		Announce.startTimer();
-		for (Fact f : FactSource.from(new File(
+		for (@SuppressWarnings("unused")Fact f : FactSource.from(new File(
 				"c:/fabian/data/yago3test/yagoTaxonomy.ttl"))) {
 
 		}
