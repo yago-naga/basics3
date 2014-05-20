@@ -15,8 +15,7 @@ public class YAGO {
 	public static final String string = "xsd:string";
 	public static final String yago = "<YAGO_(database)>";
 	public static final String hasNumber = "<hasNumber>";
-	public static final String entity = "owl:Thing";// FactComponent.forWordnetEntity("entity",
-													// "100001740");
+	public static final String entity = "owl:Thing";
 	public static final String person = "<wordnet_person_100007846>";
 	public static final String organization = "<wordnet_organization_108008335>";
 	public static final String location = "<yagoGeoEntity>";

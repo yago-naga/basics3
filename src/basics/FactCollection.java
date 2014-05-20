@@ -54,23 +54,44 @@ public class FactCollection extends AbstractSet<Fact> {
 
 	/** Adds a fact, checks for duplicates */
 	public boolean add(final Fact fact) {
-		return (add(fact, null));
+		return (add(fact, null).added);
+	}
+
+	/** Type of things that happen when a fact is added */
+	public enum Add {
+		NULL(false, false, false, false), DUPLICATE(false, false, false, true), TOOGENERAL(
+				false, false, false, true), NOID(false, false, false, false), FUNCLASH(
+				false, false, true, false), MORESPECIFIC(true, true, false,
+				true), ADDED(true, false, false, false), HASID(true, true,
+				false, true);
+		public final boolean added;
+		public final boolean better;
+		public final boolean contradiction;
+		public final boolean confirmation;
+
+		Add(boolean a, boolean b, boolean c, boolean conf) {
+			added = a;
+			better = b;
+			contradiction = c;
+			confirmation = conf;
+		}
 	}
 
 	/** Adds a fact, checks for functional duplicates */
-	public boolean add(final Fact fact, Set<String> functions) {
+	public Add add(final Fact fact, Set<String> functions) {
 		if (fact.getSubject() == null || fact.getObject() == null) {
 			Announce.debug("Null fact not added:", fact);
-			return (false);
+			return (Add.NULL);
 		}
 		if (facts.contains(fact)) {
 			Announce.debug("Duplicate fact not added:", fact);
-			return (false);
+			return (Add.DUPLICATE);
 		}
 		if (fact.getSubject().equals(fact.getObject())) {
 			Announce.debug("Identical arguments not added", fact);
-			return (false);
+			return (Add.DUPLICATE);
 		}
+		Add result = Add.ADDED;
 		Map<String, List<Fact>> map = index.get(fact.getSubject());
 		if (map != null && map.containsKey(fact.relation)) {
 			for (Fact other : map.get(fact.relation)) {
@@ -79,25 +100,27 @@ public class FactCollection extends AbstractSet<Fact> {
 					Announce.debug("Removed", other, "because of newly added",
 							fact);
 					remove(other);
+					result = Add.MORESPECIFIC;
 					break;
 				}
 				if (FactComponent.isMoreSpecific(other.getObject(),
 						fact.getObject())) {
 					Announce.debug("More general fact not added:", fact,
 							"because of", other);
-					return (false);
+					return (Add.TOOGENERAL);
 				}
 				if (!other.getObject().equals(fact.getObject()))
 					continue;
 				if (other.getId() != null && fact.getId() == null) {
 					Announce.debug("Fact without id not added:", fact,
 							"because of", other);
-					return (false);
+					return (Add.NOID);
 				}
 				if (other.getId() == null && fact.getId() != null) {
 					Announce.debug("Removed", other, "because of newly added",
 							fact);
 					remove(other);
+					result = Add.HASID;
 					break;
 				}
 			}
@@ -106,10 +129,10 @@ public class FactCollection extends AbstractSet<Fact> {
 				Announce.debug(
 						"Functional fact not added because another fact is already there:",
 						fact, ". Already there:", map.get(fact.relation));
-				return (false);
+				return (Add.FUNCLASH);
 			}
 		}
-		return (justAdd(fact));
+		return (justAdd(fact) ? result : Add.DUPLICATE);
 	}
 
 	/** Adds a fact, does not check for duplicates */
@@ -377,8 +400,9 @@ public class FactCollection extends AbstractSet<Fact> {
 		return facts.toString();
 	}
 
-	/** Maximal messages for comparison of fact collectioms*/
+	/** Maximal messages for comparison of fact collectioms */
 	public static int maxMessages = 4;
+
 	/** Checks if all of my facts are in the other set, prints differences */
 	public boolean checkContainedIn(FactCollection goldStandard, String name) {
 		boolean matches = true;

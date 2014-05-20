@@ -25,7 +25,7 @@ public class Tsv2Ttl {
 			Announce.error("Argument must be a TSV or TTL file");
 		}
 		if (output.exists())
-			Announce.error("Outout file already exists:", output);
+			Announce.error("Output file already exists:", output);
 		try (FactWriter out = FactWriter.from(output)) {
 			for (Fact f : FactSource.from(input)) {
 				out.write(f);

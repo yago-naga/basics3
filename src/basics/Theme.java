@@ -71,11 +71,18 @@ public class Theme extends FactSource.FileFactSource implements
 
 	/** Returns the language of a theme (or NULL) */
 	public String language() {
-		if (name.length() < 3 || name.charAt(name.length() - 3) != '_')
+		int pos=name.lastIndexOf('_');
+		if (name.length() < 3 || pos==-1 || pos<name.length()-4)
 			return (null);
-		return (name.substring(name.length() - 2));
+		return (name.substring(pos+1));
 	}
 
+	/** TRUE if the language is English or undefined*/
+	public boolean isEnglishOrDefault() {
+		String lan=language();
+		return(lan==null || MultilingualTheme.isEnglish(lan));
+	}
+	
 	/** TRUE for export-ready themes */
 	public boolean isFinal() {
 		return (name.startsWith("yago"));

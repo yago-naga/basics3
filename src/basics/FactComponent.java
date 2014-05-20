@@ -100,6 +100,14 @@ public class FactComponent {
 		return (forYagoEntity(lan + "/" + name));
 	}
 
+	/** Returns the language of a foreign enitzy (or null)*/
+	public static String getLanguageOfEntity(String name) {
+       if(!name.startsWith("<")) return(null);
+       int pos=name.indexOf('/');
+       if(pos==-1 || pos>4) return(null);
+       return(name.substring(1,pos));
+	}
+	
 	/** Returns the pure entity name */
 	public static String stripBracketsAndLanguage(String entity) {
 		entity = stripBrackets(entity);
