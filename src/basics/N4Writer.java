@@ -9,9 +9,14 @@ import java.util.Map;
 import javatools.util.FileUtils;
 
 /**
- * N4Writer - YAGO2s
+ * Class N4Writer
  * 
- * Writes YAGO facts into a Turtle-compatible output format
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class writes YAGO facts into a Turtle-compatible output format
  * 
  * Output validates with http://www.rdfabout.com/demo/validator
  * 

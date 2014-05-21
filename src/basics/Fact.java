@@ -7,12 +7,17 @@ import javatools.parsers.DateParser;
 import javatools.parsers.NumberParser;
 
 /**
- * Class Fact Represents a fact - YAGO2S
+ * Class Fact
  * 
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ *  
  * @author Fabian M. Suchanek
  * 
- *         Convention: all fact components must be the output of a method of the
- *         class FactComponent
+ *         This class represents a fact for YAGO. Convention: all fact
+ *         components must be the output of a method of the class FactComponent
  */
 public class Fact {
 

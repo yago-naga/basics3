@@ -11,10 +11,15 @@ import javatools.filehandlers.FileSet;
 import javatools.util.FileUtils;
 
 /**
- * FactSource - YAGO2S
+ * Class FactSource
  * 
- * A source of facts (given by an URL, or a file) in any format (N4, TSV, ...)
- * that can be read multiple times.
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class represents a source of facts (given by an URL, or a file) in any
+ * format (N4, TSV, ...) that can be read multiple times.
  * 
  * @author Steffen Metzger
  * 
@@ -65,7 +70,7 @@ public abstract class FactSource implements Iterable<Fact> {
 	}
 
 	/** Fact source from file */
-	protected static class FileFactSource extends FactSource {
+	public static class FileFactSource extends FactSource {
 		protected File file;
 
 		@Override
@@ -81,7 +86,7 @@ public abstract class FactSource implements Iterable<Fact> {
 		public FileFactSource(File file) {
 			super();
 			this.file = file;
-			this.name = file==null?"FactSource":file.toString();
+			this.name = file == null ? "FactSource" : file.toString();
 		}
 
 		@Override

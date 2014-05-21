@@ -7,9 +7,14 @@ import java.io.Writer;
 import javatools.util.FileUtils;
 
 /**
- * YAGO2s - TsvWriter
+ * Class TsvWriter
  * 
- * Writes facts to TSV files
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class writes facts to TSV files
  * 
  * @author Fabian M. Suchanek
  * 

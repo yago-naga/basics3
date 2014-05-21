@@ -10,12 +10,16 @@ import javatools.parsers.DateParser;
 import javatools.parsers.NumberParser;
 
 /**
- * Class FactComponent - YAGO2S
+ * Class FactComponent
  * 
- * Formats an RDF item to be used with Fact.java See yago2s/policies/dataFormat
- * for details
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
  * 
  * @author Fabian M. Suchanek
+ * 
+ *         This class formats a component for a YAGO fact.
  */
 public class FactComponent {
 
@@ -95,32 +99,35 @@ public class FactComponent {
 
 	/** Creates a fact component for a YAGO entity from another language */
 	public static String forForeignYagoEntity(String name, String lan) {
-		if (MultilingualTheme.isEnglish(lan))
+		if (isEnglish(lan))
 			return (forYagoEntity(name));
 		return (forYagoEntity(lan + "/" + name));
 	}
 
-	/** Returns the language of a foreign enitzy (or null)*/
+	/** Returns the language of a foreign enitzy (or null) */
 	public static String getLanguageOfEntity(String name) {
-       if(!name.startsWith("<")) return(null);
-       int pos=name.indexOf('/');
-       if(pos==-1 || pos>4) return(null);
-       return(name.substring(1,pos));
+		if (!name.startsWith("<"))
+			return (null);
+		int pos = name.indexOf('/');
+		if (pos == -1 || pos > 4)
+			return (null);
+		return (name.substring(1, pos));
 	}
-	
+
 	/** Returns the pure entity name */
 	public static String stripBracketsAndLanguage(String entity) {
 		entity = stripBrackets(entity);
 		return (entity.substring(entity.indexOf('/') + 1));
 	}
 
-	/** Returns the pure string of a Wikipedia category*/
+	/** Returns the pure string of a Wikipedia category */
 	public static String stripCat(String cat) {
-		cat=stripBracketsAndLanguage(cat);
-		if(cat.startsWith("wikicat_")) cat=cat.substring("wikicat_".length());
-		cat=cat.replace('_', ' ');
-		cat=Char.decodeBackslash(cat);
-		return(cat);
+		cat = stripBracketsAndLanguage(cat);
+		if (cat.startsWith("wikicat_"))
+			cat = cat.substring("wikicat_".length());
+		cat = cat.replace('_', ' ');
+		cat = Char.decodeBackslash(cat);
+		return (cat);
 	}
 
 	/** Creates a fact component for a Wikipedia title */
@@ -162,7 +169,7 @@ public class FactComponent {
 
 	/** Creates a fact component for a Wikipedia category */
 	public static String forForeignWikiCategory(String word, String lan) {
-		if (MultilingualTheme.isEnglish(lan))
+		if (isEnglish(lan))
 			return (forWikiCategory(word));
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
@@ -177,11 +184,6 @@ public class FactComponent {
 	/** Creates a fact component for a degree */
 	public static String forDegree(double deg) {
 		return (forStringWithDatatype(deg + "", "<degrees>"));
-	}
-
-	/** returns a YAGO entity name for this theme */
-	public static String forTheme(Theme t) {
-		return (FactComponent.forYagoEntity("yagoTheme_" + t.name));
 	}
 
 	/** Translates anything into a FactComponent */
@@ -474,8 +476,13 @@ public class FactComponent {
 		return forStringWithLanguage(cls, lan);
 	}
 
-	/** TRUE if the entity is a wordnet class or a wikipedia category*/
+	/** TRUE if the entity is a wordnet class or a wikipedia category */
 	public static boolean isClass(String entity) {
 		return entity.startsWith("<wordnet_") || entity.startsWith("<wikicat_");
+	}
+
+	/** TRUE if the language is english */
+	public static boolean isEnglish(String lan) {
+		return (lan.equals("en") || lan.equals("eng"));
 	}
 }

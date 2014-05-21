@@ -7,10 +7,16 @@ import java.io.IOException;
 import javatools.filehandlers.FileSet;
 
 /**
- * FactWriter interface - YAGO2S
+ * Class FactWriter
  * 
- * Provides an interface for fact serialisation, allowing you to materialize a
- * set of YAGO facts e.g. as N3/N4 file depending on the chosen implementation.
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class provides an interface for fact serialisation, allowing you to
+ * materialize a set of YAGO facts e.g. as N3/N4 file depending on the chosen
+ * implementation.
  * 
  * @author Steffen Metzger
  * 

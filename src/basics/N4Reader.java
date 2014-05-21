@@ -14,12 +14,18 @@ import javatools.parsers.Char;
 import javatools.util.FileUtils;
 
 /**
- * N4Reader - YAGO2S
+ * N4Reader
  * 
- * Provides a reader for facts from an N4 document. This follows the Turtle
- * Specification http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It
- * (1) understands a first (optional) component in the preceding comment (2) and
- * it does not support all Turtle features
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class provides a reader for facts from an N4 document. This follows the
+ * Turtle Specification
+ * http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It (1)
+ * understands a first (optional) component in the preceding comment (2) and it
+ * does not support all Turtle features
  * 
  * Passes all tests from
  * http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23

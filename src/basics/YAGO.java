@@ -1,9 +1,14 @@
 package basics;
 
 /**
- * Class YAGO - YAGO2S
+ * Class YAGO
  * 
- * Contains YAGO identifiers
+ * This code is part of the YAGO project at the Max Planck Institute for
+ * Informatics and the Telecom ParisTech University. It is licensed under a
+ * Creative Commons Attribution License by the YAGO team:
+ * https://creativecommons.org/licenses/by/3.0/
+ * 
+ * This class contains YAGO identifiers.
  * 
  * @author Fabian M. Suchanek
  */
