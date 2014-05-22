@@ -261,7 +261,7 @@ public class FactComponent {
 	}
 
 	/** returns the language part of a literal */
-	public static String getLanguage(String stringLiteral) {
+	public static String getLanguageOfString(String stringLiteral) {
 		String[] split = literalAndDatatypeAndLanguage(stringLiteral);
 		if (split == null)
 			return (null);
