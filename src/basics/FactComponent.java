@@ -104,9 +104,9 @@ public class FactComponent {
 		return (forYagoEntity(lan + "/" + name));
 	}
 
-	/** Returns the language of a foreign enitzy (or null) */
+	/** Returns the language of a foreign entity (or null) */
 	public static String getLanguageOfEntity(String name) {
-		if (!name.startsWith("<"))
+		if (!name.startsWith("<_"))
 			return (null);
 		int pos = name.indexOf('/');
 		if (pos == -1 || pos > 4)
