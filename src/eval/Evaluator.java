@@ -10,9 +10,9 @@ import javatools.filehandlers.TSVFile;
 
 /**
  * This class is only for the evaluation of the Multilingual YAGO stuff
- * 
+ *
  * @author Fabian
- * 
+ *
  */
 public class Evaluator {
 
@@ -62,7 +62,7 @@ public class Evaluator {
 
 		@Override
 		public boolean measure(int total, int correct, int wrong) {
-			return correct / (correct + wrong) >= ratio;
+			return correct / (double) (correct + wrong) >= ratio;
 		}
 	}
 
@@ -104,11 +104,9 @@ public class Evaluator {
 	}
 
 	public static void main(String[] args) throws Exception {
-		args=new String[]{"c:/fabian/dropbox/shared/multiyago/attributematches"};
-		Measure[] measures = new Measure[] { new All(), new CutOffMeasure(1),
-				new CutOffMeasure(2), new CutOffMeasure(3),
-				new CutOffMeasure(4), new CutOffMeasure(5), new Wilson(0.1) };
-		for (String lan : new String[] { "ar", "de", "fa" }) {
+		args=new String[]{"/Users/suchanek/Dropbox/Shared/multiYAGO/AttributeMatches/"};
+		Measure[] measures = new Measure[] {new CutOffMeasure(10),new CutOffMeasure(15),new CutOffMeasure(20), new Ratio(0.2), new Ratio(0.4), new Ratio(0.5),new Wilson(0.01),new Wilson(0.02),new Wilson(0.05)};
+		for (String lan : new String[] { "fa","ar","de","fr","es","it","ro" }) {
 			D.p("\n",lan);
 			Map<String, Map<String, Boolean>> gold = new HashMap<>();
 			for (List<String> line : new TSVFile(new File(args[0],
@@ -117,14 +115,18 @@ public class Evaluator {
 					Map<String, Boolean> map = gold.get(line.get(0));
 					if (map == null)
 						gold.put(line.get(0), map = new HashMap<>());
-					map.put(line.get(1), line.get(2).equals("1"));
+					map.put(line.get(1), !line.get(2).equals("0"));
 				}
 			}
+
 			int[] yells = new int[measures.length];
 			int[] correctYells = new int[measures.length];
 			double goldYells = 0;
+			int[] weightedyells = new int[measures.length];
+			int[] weightedcorrectYells = new int[measures.length];
+			double weightedgoldYells = 0;
 			String lastAttr="";
-			String lastRel="";
+			String lastTarget="";
 			int lastCorrect=0;
 			int lastWrong=0;
 			int lastTotal=0;
@@ -135,11 +137,11 @@ public class Evaluator {
 				int total = Integer.parseInt(line.get(2));
 				int correct = Integer.parseInt(line.get(3));
 				int wrong = Integer.parseInt(line.get(4));
-				
+
 				if(attr.equals(lastAttr)) {
 					if(correct>lastCorrect) {
 						lastCorrect=correct;
-						lastRel=target;
+						lastTarget=target;
 						lastWrong=wrong;
 						lastTotal=total;
 					}
@@ -150,26 +152,45 @@ public class Evaluator {
 				Map<String, Boolean> map = gold.get(lastAttr);
 				if (map == null)
 					break;
-				Boolean val = map.get(target);
+				Boolean val = map.get(lastTarget);
 				if (val == null)
 					break;
-				if (val)
+				if (val) {
 					goldYells++;
-				for (int i = 0; i < measures.length; i++) {
-					boolean m = measures[i].measure(total, correct, wrong);
-					if (m && val)
-						correctYells[i]++;
-					if (m)
-						yells[i]++;
+					weightedgoldYells+=lastTotal;
 				}
+				for (int i = 0; i < measures.length; i++) {
+					boolean m = measures[i].measure(lastTotal, lastCorrect, lastWrong);
+					if (m && val) {
+						correctYells[i]++;
+						weightedcorrectYells[i]+=lastTotal;
+					}
+					if (m) {
+					    //if(!val) D.p("Incorrect:",measures[i],lastAttr,lastTarget);
+						yells[i]++;
+						weightedyells[i]+=lastTotal;
+					}
+				}
+				}while(false);
+						lastCorrect=correct;
+						lastTarget=target;
+						lastWrong=wrong;
+						lastTotal=total;
+						lastAttr=attr;
 			}
 			for (int i = 0; i < measures.length; i++) {
-				D.p(measures[i]);
 				double prec=correctYells[i] / (double) yells[i];
 				double rec=correctYells[i] / goldYells;
-				D.p(" Precision:", correctYells[i] ,"/", yells[i], "=", prec);
-				D.p(" Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
-				D.p(" F1:", 2*prec*rec/(prec+rec));
+//				D.p(" Precision:", correctYells[i] ,"/", yells[i], "=", prec);
+//				D.p(" Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
+//				D.p(" F1:", 2*prec*rec/(prec+rec));
+				prec=weightedcorrectYells[i] / (double) weightedyells[i];
+				rec=weightedcorrectYells[i] / weightedgoldYells;
+				if(prec>.95)
+				D.p(measures[i],"Prec:",prec,"Rec:",rec);
+//				D.p(" Weighted Precision:", correctYells[i] ,"/", yells[i], "=", prec);
+//				D.p(" Weighted Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
+//				D.p(" Weighted F1:", 2*prec*rec/(prec+rec));
 			}
 
 		}
