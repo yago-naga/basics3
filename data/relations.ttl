@@ -106,7 +106,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <permanentRelationToObject>	rdf:type	rdf:Property .
 <isLocatedIn>	rdfs:domain	<yagoPermanentlyLocatedEntity> .
 <isLocatedIn>	rdfs:range	<yagoGeoEntity> .
-<isLocatedIn>	rdf:type	owl:FunctionalProperty .
+# <isLocatedIn>	rdf:type	owl:FunctionalProperty . # A place can be located in several units
 <isLocatedIn>	rdf:type	owl:TransitiveProperty .
 <isLocatedIn>	 rdfs:subPropertyOf	<placedIn> .
 <occursIn>	rdfs:domain	rdf:Statement .
@@ -114,7 +114,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <occursIn>	rdf:type	rdf:Property .
 <placedIn>	rdfs:domain	owl:Thing .
 <placedIn>	rdfs:range	<yagoGeoEntity> .
-<placedIn>	rdf:type	owl:FunctionalProperty .
+# <placedIn>	rdf:type	owl:FunctionalProperty . # A place can be located in several units
 <_timeToLocation>	rdfs:domain	rdf:Property .
 <_timeToLocation>	rdfs:range	rdf:Property .
 <_timeToLocation>	rdf:type	rdf:Property .
@@ -192,7 +192,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <created>	rdfs:domain	<yagoLegalActor> .
 <created>	rdfs:range	owl:Thing .
 <created>	rdf:type	<objectStartRelation> .
-<isKnownFor>	rdfs:domain	<yagoLegalActor> . 
+<isKnownFor>	rdfs:domain	<yagoLegalActor> .
 <isKnownFor>	rdfs:range	owl:Thing .
 <isKnownFor>	rdf:type	rdf:Property .
 <diedIn>	rdfs:domain	<wordnet_person_100007846> .
@@ -226,11 +226,11 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasGivenName>	 rdfs:subPropertyOf	rdfs:label .
 <graduatedFrom>	rdfs:domain	<wordnet_person_100007846> .
 <graduatedFrom>	rdfs:range	<wordnet_university_108286569> .
-<graduatedFrom>	rdf:type	owl:FunctionalProperty .
+<graduatedFrom>	rdf:type	<yagoFunctionInTime> .
 <graduatedFrom>	rdf:type	<relationLocatedByObject> .
 <hasAcademicAdvisor>	rdfs:domain	<wordnet_person_100007846> .
 <hasAcademicAdvisor>	rdfs:range	<wordnet_person_100007846> .
-<hasAcademicAdvisor>	rdf:type	owl:FunctionalProperty .
+<hasAcademicAdvisor>	rdf:type	<yagoFunctionInTime> .
 <hasChild>	rdfs:domain	<wordnet_person_100007846> .
 <hasChild>	rdfs:range	<wordnet_person_100007846> .
 <hasChild>	rdf:type	rdf:Property .
@@ -248,7 +248,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <isAffiliatedTo>	rdf:type	rdf:Property .
 <isCitizenOf>	rdfs:domain	<wordnet_person_100007846> .
 <isCitizenOf>	rdfs:range	<wordnet_country_108544813> .
-<isCitizenOf>	rdf:type	owl:FunctionalProperty .
+<isCitizenOf>	rdf:type	rdf:Property .
 <isLeaderOf>	rdfs:domain	<wordnet_person_100007846> .
 <isLeaderOf>	rdfs:range	<yagoLegalActorGeo> .
 <isLeaderOf>	rdf:type	rdf:Property .
@@ -268,13 +268,13 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <participatedIn>	rdf:type	<relationLocatedByObject> .
 <isPoliticianOf>	rdfs:domain	<wordnet_person_100007846> .
 <isPoliticianOf>	rdfs:range	<wikicategory_States_of_the_United_States> .
-<isPoliticianOf>	rdf:type	owl:FunctionalProperty .
+<isPoliticianOf>	rdf:type	<yagoFunctionInTime> .
 #<produced>	rdfs:domain	<yagoLegalActor> . # No infobox patterns, see there
 #<produced>	rdfs:range	<wordnet_movie_106613686> .
 #<produced>	rdf:type	<objectStartRelation> .
 <worksAt>	rdfs:domain	<wordnet_person_100007846> .
 <worksAt>	rdfs:range	<wordnet_organization_108008335> .
-<worksAt>	rdf:type	owl:FunctionalProperty .
+<worksAt>	rdf:type	<yagoFunctionInTime> .
 <worksAt>	rdf:type	<relationLocatedByObject> .
 <owns>	rdfs:domain	<yagoLegalActorGeo> .
 <owns>	rdfs:range	owl:Thing .
@@ -302,7 +302,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasArea>	rdf:type	owl:FunctionalProperty .
 <hasCapital>	rdfs:domain	<wordnet_location_100027167> .
 <hasCapital>	rdfs:range	<wordnet_location_100027167> .
-<hasCapital>	rdf:type	owl:FunctionalProperty .
+<hasCapital>	rdf:type	<yagoFunctionInTime> .
 <hasCurrency>	rdfs:domain	<wordnet_location_100027167> .
 <hasCurrency>	rdfs:range	owl:Thing .
 <hasCurrency>	rdf:type	owl:FunctionalProperty .
@@ -311,7 +311,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasEconomicGrowth>	rdf:type	owl:FunctionalProperty .
 <hasExpenses>	rdfs:domain	<yagoLegalActorGeo> .
 <hasExpenses>	rdfs:range	<yagoMonetaryValue> .
-<hasExpenses>	rdf:type	<yagoFunctionInTime> .
+<hasExpenses>	rdf:type	owl:FunctionalProperty .
 <hasExport>	rdfs:domain	<wordnet_location_100027167> .
 <hasExport>	rdfs:range	<yagoMonetaryValue> .
 <hasExport>	rdf:type	owl:FunctionalProperty .
@@ -344,7 +344,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasPopulationDensity>	rdf:type	<yagoFunctionInTime> .
 <hasPoverty>	rdfs:domain	<wordnet_location_100027167> .
 <hasPoverty>	rdfs:range	<%> .
-<hasPoverty>	rdf:type	owl:FunctionalProperty .
+<hasPoverty>	rdf:type	<yagoFunctionInTime> .
 <hasTLD>	rdfs:domain	<wordnet_location_100027167> .
 <hasTLD>	rdfs:range	<yagoTLD> .
 <hasTLD>	rdf:type	owl:FunctionalProperty .
@@ -550,7 +550,7 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasConfidence>	<hasGloss>	"Relation $1 has a confidence of $2 in YAGO" .
 <hasGeonamesId>	<hasGloss>	"$1 has id $2 in Geonames" .
 rdfs:comment	<hasGloss>	"$1 has comment $2" .
-<linksTo> <hasGloss> "The Wikipedia article about $1 links to the Wikipedia article about $2" . 
+<linksTo> <hasGloss> "The Wikipedia article about $1 links to the Wikipedia article about $2" .
 <isConnectedTo> <hasGloss> "There is an airline connection from $1 to $2" .
 <byTransport> <hasGloss> "The connecting airline for $1 is $2" .
 <hasAirportCode> <hasGloss> "The airport code of $1 is $2" .
