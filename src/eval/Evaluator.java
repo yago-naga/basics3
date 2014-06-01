@@ -109,13 +109,19 @@ public class Evaluator {
 		List<Measure> measures = new ArrayList<Measure>();
 		final int numSteps=11;
 		for(double i=0;i<=1.0;i+=1.0/(numSteps-1)) {
-		  measures.add(new Support((int)(i*30)));
+		  measures.add(new Support((int)(i*50)));
  		  measures.add(new Confidence(i));
  		  measures.add(new Pca(i));
-   		  measures.add(new Wilson(i));
+   		  measures.add(new Wilson(i/20.0));
 		}
-		for (String lan : new String[] { "fa","ar","de","fr","es","it","ro" }) {
-			D.p("\n",lan);
+		// Contains for each measure the number of languages
+		// for which precision > 95%
+		int[] numLanHit=new int[measures.size()];
+		// Contains for each measure the recalls per language
+		List<Map<String,Double>> recalls=new ArrayList<>();
+		for(int i=0;i<measures.size();i++) recalls.add(new HashMap<String,Double>());
+		List<String> languages=Arrays.asList("ar","de","es","fa","fr","it","ro");
+		for (String lan : languages) {
 			Map<String, Map<String, Boolean>> gold = new HashMap<>();
 			for (List<String> line : new TSVFile(new File(args[0],
 					"goldAttributeMatches_" + lan + ".txt"))) {
@@ -191,22 +197,28 @@ public class Evaluator {
 				Writer w=new FileWriter(new File(args[0],"plot_"+lan+"_"+measures.get(m).measureName()+".dat"));
 				for(int i=0; i<numSteps;i++) {
 				  double prec=weightedcorrectYells[m+i*numMeasures] / (double) weightedyells[m+i*numMeasures];
+				  if(prec>0.95) numLanHit[m+i*numMeasures]++;
 				  double rec=weightedcorrectYells[m+i*numMeasures] / weightedgoldYells;
 				  w.write(prec+"\t"+rec+"\n");
+                  recalls.get(m+i*numMeasures).put(lan,rec);
 				}
 				w.close();
-//				double prec=correctYells[i] / (double) yells[i];
-//				double rec=correctYells[i] / goldYells;
-//				D.p(" Precision:", correctYells[i] ,"/", yells[i], "=", prec);
-//				D.p(" Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
-//				D.p(" F1:", 2*prec*rec/(prec+rec));
-//				if(prec>.95)
-//				D.p(measures[i],"Prec:",prec,"Rec:",rec);
-//				D.p(" Weighted Precision:", correctYells[i] ,"/", yells[i], "=", prec);
-//				D.p(" Weighted Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
-//				D.p(" Weighted F1:", 2*prec*rec/(prec+rec));
 			}
-
+		}
+			int numMeasures=measures.size()/numSteps;
+			for (int m = 0; m < numMeasures; m++) {
+				Writer w=new FileWriter(new File(args[0],"plot_"+measures.get(m).measureName()+".dat"));
+				for(int i=0; i< numSteps;i++) {
+				  w.write(i*1.0/(numSteps-1)+"\t"+numLanHit[m+i*numMeasures]+"\n");
+				  if(numLanHit[m+i*numMeasures]==languages.size()) {
+				      Writer w2=new FileWriter(new File(args[0],"plot_"+measures.get(m).measureName()+"_"+i+".dat"));
+				      for(String lan : languages) {
+				        w2.write(lan+"\t"+recalls.get(m+i*numMeasures).get(lan)+"\n");
+				      }
+				      w2.close();
+				  }
+				}
+				w.close();
 		}
 	}
 }
