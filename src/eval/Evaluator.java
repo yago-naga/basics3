@@ -1,9 +1,7 @@
 package eval;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 import javatools.administrative.D;
 import javatools.filehandlers.TSVFile;
@@ -19,44 +17,40 @@ public class Evaluator {
 	public abstract static class Measure {
 		public abstract boolean measure(int total, int correct, int wrong);
 
+		public double ratio;
+
 		@Override
 		public String toString() {
-			return this.getClass().getSimpleName();
+			return this.getClass().getSimpleName()+": "+ratio;
 		}
+
+		public String measureName() {
+  		  return this.getClass().getSimpleName();
+		}
+
 	}
 
-	public static class CutOffMeasure extends Measure {
-		public final int cutoff;
+	public static class Support extends Measure {
 
-		@Override
-		public String toString() {
-			return "Cutoff: "+cutoff;
-		}
-
-		public CutOffMeasure(int cutoff) {
-			this.cutoff = cutoff;
+		public Support(int cutoff) {
+			this.ratio = cutoff;
 		}
 
 		@Override
 		public boolean measure(int total, int correct, int wrong) {
-			return correct >= cutoff;
+			return correct >= ratio;
 		}
 	}
 
-	public static class All extends CutOffMeasure {
+	public static class All extends Support {
 		public All() {
 			super(0);
 		}
 	}
 
-	public static class Ratio extends Measure {
-		public final double ratio;
+	public static class Pca extends Measure {
 
-		@Override
-		public String toString() {
-			return "Ratio: "+ratio;
-		}
-		public Ratio(double r) {
+		public Pca(double r) {
 			ratio = r;
 		}
 
@@ -66,21 +60,28 @@ public class Evaluator {
 		}
 	}
 
-	public static class Wilson extends Measure {
-		public final double threshold;
+	public static class Confidence extends Measure {
+
+		public Confidence(double r) {
+			ratio = r;
+		}
 
 		@Override
-		public String toString() {
-			return "Wilson: "+threshold;
+		public boolean measure(int total, int correct, int wrong) {
+			return correct / (double) total >= ratio;
 		}
+	}
+
+	public static class Wilson extends Measure {
+
 		public Wilson(double r) {
-			threshold = r;
+			ratio = r;
 		}
 
 		@Override
 		public boolean measure(int total, int correct, int wrong) {
 			double wilson[] = wilson(total, correct);
-			return (wilson[0] - wilson[1] > threshold);
+			return (wilson[0] - wilson[1] > ratio);
 		}
 	}
 
@@ -105,7 +106,14 @@ public class Evaluator {
 
 	public static void main(String[] args) throws Exception {
 		args=new String[]{"/Users/suchanek/Dropbox/Shared/multiYAGO/AttributeMatches/"};
-		Measure[] measures = new Measure[] {new CutOffMeasure(10),new CutOffMeasure(15),new CutOffMeasure(20), new Ratio(0.2), new Ratio(0.4), new Ratio(0.5),new Wilson(0.01),new Wilson(0.02),new Wilson(0.05)};
+		List<Measure> measures = new ArrayList<Measure>();
+		final int numSteps=11;
+		for(double i=0;i<=1.0;i+=1.0/(numSteps-1)) {
+		  measures.add(new Support((int)(i*30)));
+ 		  measures.add(new Confidence(i));
+ 		  measures.add(new Pca(i));
+   		  measures.add(new Wilson(i));
+		}
 		for (String lan : new String[] { "fa","ar","de","fr","es","it","ro" }) {
 			D.p("\n",lan);
 			Map<String, Map<String, Boolean>> gold = new HashMap<>();
@@ -119,11 +127,11 @@ public class Evaluator {
 				}
 			}
 
-			int[] yells = new int[measures.length];
-			int[] correctYells = new int[measures.length];
+			int[] yells = new int[measures.size()];
+			int[] correctYells = new int[measures.size()];
 			double goldYells = 0;
-			int[] weightedyells = new int[measures.length];
-			int[] weightedcorrectYells = new int[measures.length];
+			int[] weightedyells = new int[measures.size()];
+			int[] weightedcorrectYells = new int[measures.size()];
 			double weightedgoldYells = 0;
 			String lastAttr="";
 			String lastTarget="";
@@ -159,8 +167,8 @@ public class Evaluator {
 					goldYells++;
 					weightedgoldYells+=lastTotal;
 				}
-				for (int i = 0; i < measures.length; i++) {
-					boolean m = measures[i].measure(lastTotal, lastCorrect, lastWrong);
+				for (int i = 0; i < measures.size(); i++) {
+					boolean m = measures.get(i).measure(lastTotal, lastCorrect, lastWrong);
 					if (m && val) {
 						correctYells[i]++;
 						weightedcorrectYells[i]+=lastTotal;
@@ -178,16 +186,22 @@ public class Evaluator {
 						lastTotal=total;
 						lastAttr=attr;
 			}
-			for (int i = 0; i < measures.length; i++) {
-				double prec=correctYells[i] / (double) yells[i];
-				double rec=correctYells[i] / goldYells;
+			int numMeasures=measures.size()/numSteps;
+			for (int m = 0; m < numMeasures; m++) {
+				Writer w=new FileWriter(new File(args[0],"plot_"+lan+"_"+measures.get(m).measureName()+".dat"));
+				for(int i=0; i<numSteps;i++) {
+				  double prec=weightedcorrectYells[m+i*numMeasures] / (double) weightedyells[m+i*numMeasures];
+				  double rec=weightedcorrectYells[m+i*numMeasures] / weightedgoldYells;
+				  w.write(prec+"\t"+rec+"\n");
+				}
+				w.close();
+//				double prec=correctYells[i] / (double) yells[i];
+//				double rec=correctYells[i] / goldYells;
 //				D.p(" Precision:", correctYells[i] ,"/", yells[i], "=", prec);
 //				D.p(" Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
 //				D.p(" F1:", 2*prec*rec/(prec+rec));
-				prec=weightedcorrectYells[i] / (double) weightedyells[i];
-				rec=weightedcorrectYells[i] / weightedgoldYells;
-				if(prec>.95)
-				D.p(measures[i],"Prec:",prec,"Rec:",rec);
+//				if(prec>.95)
+//				D.p(measures[i],"Prec:",prec,"Rec:",rec);
 //				D.p(" Weighted Precision:", correctYells[i] ,"/", yells[i], "=", prec);
 //				D.p(" Weighted Recall:", correctYells[i] ,"/" ,goldYells, "=", rec);
 //				D.p(" Weighted F1:", 2*prec*rec/(prec+rec));
