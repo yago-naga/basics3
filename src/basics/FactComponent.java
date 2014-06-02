@@ -485,4 +485,9 @@ public class FactComponent {
 	public static boolean isEnglish(String lan) {
 		return (lan.equals("en") || lan.equals("eng"));
 	}
+	
+	/** Testing*/
+	public static void main(String[] args) throws Exception {
+		D.p(isMoreSpecific("\"1898-03-05\"^^xsd:date", "\"1898-##-##\"^^xsd:date"));
+	}
 }
