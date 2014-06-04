@@ -164,6 +164,8 @@ public class FactComponent {
 	public static String forWikiCategory(String word) {
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
+		// Remove subsequent spaces. This happens for categories
+		word = word.replaceAll("[ _]+", "_");
 		return (forYagoEntity("wikicat_" + word));
 	}
 
@@ -173,6 +175,8 @@ public class FactComponent {
 			return (forWikiCategory(word));
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
+		// Remove subsequent spaces. This happens for categories
+		word = word.replaceAll("[ _]+", "_");
 		return (forYagoEntity(lan + "/wikicat_" + word));
 	}
 
@@ -485,9 +489,10 @@ public class FactComponent {
 	public static boolean isEnglish(String lan) {
 		return (lan.equals("en") || lan.equals("eng"));
 	}
-	
-	/** Testing*/
+
+	/** Testing */
 	public static void main(String[] args) throws Exception {
-		D.p(isMoreSpecific("\"1898-03-05\"^^xsd:date", "\"1898-##-##\"^^xsd:date"));
+		D.p(isMoreSpecific("\"1898-03-05\"^^xsd:date",
+				"\"1898-##-##\"^^xsd:date"));
 	}
 }

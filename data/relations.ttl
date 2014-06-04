@@ -50,7 +50,7 @@ rdfs:subPropertyOf	rdfs:range	rdf:Property .
 rdfs:subPropertyOf	rdf:type	rdf:Property .
 rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <_hasTypeCheckPattern>	rdf:type	<yagoInternalRelation> .
-<_hasTypeCheckPattern>	rdfs:domain	rdfs:class .
+<_hasTypeCheckPattern>	rdfs:domain	rdfs:Class .
 <_hasTypeCheckPattern>	rdfs:range	xsd:string .
 <hasConfidence>	rdfs:domain	rdf:Property .
 <hasConfidence>	rdfs:range	<yagoFraction> .
@@ -114,6 +114,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <occursIn>	rdf:type	rdf:Property .
 <placedIn>	rdfs:domain	owl:Thing .
 <placedIn>	rdfs:range	<yagoGeoEntity> .
+<placedIn>	rdfs:type	rdf:Property .
 # <placedIn>	rdf:type	owl:FunctionalProperty . # A place can be located in several units
 <_timeToLocation>	rdfs:domain	rdf:Property .
 <_timeToLocation>	rdfs:range	rdf:Property .
