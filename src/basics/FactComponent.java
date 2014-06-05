@@ -106,7 +106,7 @@ public class FactComponent {
 
 	/** Returns the language of a foreign entity (or null) */
 	public static String getLanguageOfEntity(String name) {
-		if (!name.startsWith("<_"))
+		if (!name.startsWith("<"))
 			return (null);
 		int pos = name.indexOf('/');
 		if (pos == -1 || pos > 4)
