@@ -132,6 +132,7 @@ public class Fact {
 	 * billion
 	 */
 	public String makeId() {
+		if(id!=null) return(id);
 		id = "id_";
 		id += FactComponent.hashEntity(subject);
 		id += "_" + FactComponent.hashRelation(relation);
