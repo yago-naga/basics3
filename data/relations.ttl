@@ -114,7 +114,7 @@ rdfs:subPropertyOf	rdf:type	owl:TransitiveProperty .
 <occursIn>	rdf:type	rdf:Property .
 <placedIn>	rdfs:domain	owl:Thing .
 <placedIn>	rdfs:range	<yagoGeoEntity> .
-<placedIn>	rdfs:type	rdf:Property .
+<placedIn>	rdf:type	rdf:Property .
 # <placedIn>	rdf:type	owl:FunctionalProperty . # A place can be located in several units
 <_timeToLocation>	rdfs:domain	rdf:Property .
 <_timeToLocation>	rdfs:range	rdf:Property .
