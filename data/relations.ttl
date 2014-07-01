@@ -420,10 +420,6 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <endedOnDate>	rdfs:range	xsd:date .
 <endedOnDate>	 rdfs:subPropertyOf	<endsExistingOnDate> .
 <endedOnDate>	rdf:type	owl:FunctionalProperty .
-<hasGeonamesId>	rdfs:domain	<wordnet_location_100027167> .
-<hasGeonamesId>	rdfs:range	<geonamesId> .
-<hasGeonamesId>	rdf:type	owl:FunctionalProperty .
-<hasGeonamesId>	rdf:type	<permanentRelationToSubject> .
 rdfs:label	<hasGloss>	"By '$2', someone could mean $1" .
 <redirectedFrom> <hasGloss> "Wikipedia redirects $2 to the page of $1".
 rdf:type	<hasGloss>	"$1 belongs or belonged to the group of $2 (even if fictional)" .
@@ -549,7 +545,6 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <extractionTechnique>	<hasGloss>	"Fact $1 was extracted by technique $2" .
 <extractionSource>	<hasGloss>	"Fact $1 was extracted from $2" .
 <hasConfidence>	<hasGloss>	"Relation $1 has a confidence of $2 in YAGO" .
-<hasGeonamesId>	<hasGloss>	"$1 has id $2 in Geonames" .
 rdfs:comment	<hasGloss>	"$1 has comment $2" .
 <linksTo> <hasGloss> "The Wikipedia article about $1 links to the Wikipedia article about $2" .
 <isConnectedTo> <hasGloss> "There is an airline connection from $1 to $2" .
