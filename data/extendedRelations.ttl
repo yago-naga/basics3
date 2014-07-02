@@ -39,9 +39,6 @@
 <hasWikipediaAbstract>	rdfs:domain	owl:Thing .
 <hasWikipediaAbstract>	rdfs:range	xsd:string .
 <hasWikipediaAbstract>	rdf:type	<yagoExtendedRelation> .
-<hasNumberOfWikipediaLinks>	rdfs:domain	owl:Thing .
-<hasNumberOfWikipediaLinks>	rdfs:range	xsd:decimal .
-<hasNumberOfWikipediaLinks>	rdf:type	<yagoExtendedRelation> .
 <hasCitationTitle>	rdfs:domain	owl:Thing .
 <hasCitationTitle>	rdfs:range	xsd:string .
 <hasCitationTitle>	rdf:type	<yagoExtendedRelation> .
@@ -58,6 +55,5 @@
 <hasWikipediaCategory>	<hasGloss>	"$1 has Wikipedia category $2" .
 <hasWikipediaArticleLength>	<hasGloss>	"$1 has a Wikipedia article with length $2" .
 <hasWikipediaAbstract>	<hasGloss>	"$1 has $2 as Wikipedia abstract text" .
-<hasNumberOfWikipediaLinks>	<hasGloss>	"$1 has $2 links in its Wikipedia article" .
 <hasCitationTitle>	<hasGloss>	"$1 has a citation with the title '$2'" .
 <hasTitleText>	<hasGloss>	"$1 has a title '$2'" .

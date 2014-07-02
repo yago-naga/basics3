@@ -15,7 +15,7 @@
 
 <musicBrainsId>	rdfs:subClassOf	xsd:string .
 <geonamesId>	rdfs:subClassOf	xsd:string .
-<m^2>	rdfs:subClassOf	<yagoQuantity> .
+<m\u005e2>	rdfs:subClassOf	<yagoQuantity> .
 <yagoTLD>	<_hasTypeCheckPattern>	"\.[a-z]{2,5}" .
 <yagoTLD>	rdfs:subClassOf	xsd:string .
 <yagoICD10id>	<_hasTypeCheckPattern>	"[A-Z][0-9]{1,2}\\.[0-9]" .
@@ -25,7 +25,7 @@ xsd:boolean	rdfs:subClassOf	<yagoLiteral> .
 <yagoChar>	<_hasTypeCheckPattern>	"." .
 <yagoChar>	rdfs:subClassOf	xsd:string .
 <yagoFormula>	rdfs:subClassOf	xsd:string .
-</km^2>		rdfs:subClassOf	<yagoQuantity> .
+</km\u005e2>		rdfs:subClassOf	<yagoQuantity> .
 <s>	rdfs:subClassOf	<yagoQuantity> .
 xsd:integer	<_hasTypeCheckPattern>	"([\u005c-\u005c+]?[0-9]++)" .
 xsd:integer	rdfs:subClassOf	xsd:decimal .

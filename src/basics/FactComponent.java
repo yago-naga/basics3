@@ -234,15 +234,13 @@ public class FactComponent {
 		}
 	};
 
-	/** Turtle valid URI characters */
+	/** Turtle valid URI characters. As per http://www.w3.org/TR/turtle/#grammar-production-IRIREF */
 	public static Char17.Legal turtleUri = new Char17.Legal() {
 
 		public boolean isLegal(char c) {
-			if (c == '>')
+			if (Char17.in(c, "<>\"{}|^`\\"))
 				return (false);
-			if (c == '\\')
-				return (false);
-			if (c < 0x20)
+			if (c <= 0x20)
 				return (false);
 			return (true);
 		}

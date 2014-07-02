@@ -288,10 +288,6 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasLongitude>	rdfs:range	<degrees> .
 <hasLongitude>	rdf:type	owl:FunctionalProperty .
 <hasLongitude>	rdf:type	<permanentRelationToSubject> .
-<hasGeoCoordinates>	rdfs:domain	<yagoGeoEntity> .
-<hasGeoCoordinates>	rdfs:range	<yagoGeoCoordinatePair> .
-<hasGeoCoordinates>	rdf:type	owl:FunctionalProperty .
-<hasGeoCoordinates>	rdf:type	<permanentRelationToSubject> .
 <dealsWith>	rdfs:domain	<wordnet_location_100027167> .
 <dealsWith>	rdfs:range	<wordnet_location_100027167> .
 <dealsWith>	rdf:type	rdf:Property .
@@ -299,7 +295,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <exports>	rdfs:range	rdfs:Class .
 <exports>	rdf:type	rdf:Property .
 <hasArea>	rdfs:domain	<wordnet_location_100027167> .
-<hasArea>	rdfs:range	<m^2> .
+<hasArea>	rdfs:range	<m\u005e2> .
 <hasArea>	rdf:type	owl:FunctionalProperty .
 <hasCapital>	rdfs:domain	<wordnet_location_100027167> .
 <hasCapital>	rdfs:range	<wordnet_location_100027167> .
@@ -341,7 +337,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasOfficialLanguage>	rdfs:range	<wordnet_language_106282651> .
 <hasOfficialLanguage>	rdf:type	rdf:Property .
 <hasPopulationDensity>	rdfs:domain	<wordnet_location_100027167> .
-<hasPopulationDensity>	rdfs:range	</km^2> .
+<hasPopulationDensity>	rdfs:range	</km\u005e2> .
 <hasPopulationDensity>	rdf:type	<yagoFunctionInTime> .
 <hasPoverty>	rdfs:domain	<wordnet_location_100027167> .
 <hasPoverty>	rdfs:range	<%> .
@@ -496,7 +492,6 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasLanguageCode>	<hasGloss>	"$1 has the 2-letter language code $2" .
 <hasLatitude>	<hasGloss>	"$1 is at latitude $2 (Negative latitude means 'South')" .
 <hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'West')" .
-<hasGeoCoordinates>	<hasGloss>	"$1 has the geographical location specified by coordinates $2" .
 <hasPoverty>	<hasGloss>	"$1 has or had a poverty of $2" .
 <isPreferredMeaningOf>	<hasGloss>	"$1 has as preferred meaning $2" .
 skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
