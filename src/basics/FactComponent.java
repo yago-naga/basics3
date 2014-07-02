@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import javatools.administrative.D;
 import javatools.datatypes.FinalMap;
-import javatools.parsers.Char;
+import javatools.parsers.Char17;
 import javatools.parsers.DateParser;
 import javatools.parsers.NumberParser;
 
@@ -50,7 +50,7 @@ public class FactComponent {
 				}
 			}
 		}
-		return ('<' + Char.encodeBackslash(s, turtleUri) + '>');
+		return ('<' + Char17.encodeBackslash(s, turtleUri) + '>');
 	}
 
 	/** Creates a fact component for number */
@@ -126,27 +126,27 @@ public class FactComponent {
 		if (cat.startsWith("wikicat_"))
 			cat = cat.substring("wikicat_".length());
 		cat = cat.replace('_', ' ');
-		cat = Char.decodeBackslash(cat);
+		cat = Char17.decodeBackslash(cat);
 		return (cat);
 	}
 
 	/** Creates a fact component for a Wikipedia title */
 	public static String forWikipediaTitle(String name) {
-		name = Char.decodeAmpersand(name).trim();
+		name = Char17.decodeAmpersand(name).trim();
 		return (forYagoEntity(name));
 	}
 
 	/** Creates a fact component for a String with language. We check the syntax */
 	public static String forStringWithLanguage(String string, String language) {
 		if (language != null && language.length() > 1)
-			return ('"' + Char.encodeBackslash(string, turtleString) + "\"@" + language);
-		return ('"' + Char.encodeBackslash(string, turtleString) + "\"");
+			return ('"' + Char17.encodeBackslash(string, turtleString) + "\"@" + language);
+		return ('"' + Char17.encodeBackslash(string, turtleString) + "\"");
 	}
 
 	/** Creates a fact component for a String with datatype. We check the syntax */
 	public static String forStringWithDatatype(String string, String datatype) {
 		if (datatype != null && !datatype.equals(YAGO.string))
-			return ('"' + Char.encodeBackslash(string, turtleString) + "\"^^" + datatype);
+			return ('"' + Char17.encodeBackslash(string, turtleString) + "\"^^" + datatype);
 		return (forStringWithLanguage(string, null));
 	}
 
@@ -221,7 +221,7 @@ public class FactComponent {
 	}
 
 	/** Turtle valid string characters */
-	public static Char.Legal turtleString = new Char.Legal() {
+	public static Char17.Legal turtleString = new Char17.Legal() {
 
 		public boolean isLegal(char c) {
 			if (c == '"')
@@ -235,7 +235,7 @@ public class FactComponent {
 	};
 
 	/** Turtle valid URI characters */
-	public static Char.Legal turtleUri = new Char.Legal() {
+	public static Char17.Legal turtleUri = new Char17.Legal() {
 
 		public boolean isLegal(char c) {
 			if (c == '>')
@@ -279,7 +279,7 @@ public class FactComponent {
 		if (string.startsWith("\""))
 			string = string.substring(1);
 		if (string.endsWith("\""))
-			string = Char.cutLast(string);
+			string = Char17.cutLast(string);
 		return (string);
 	}
 
@@ -290,7 +290,7 @@ public class FactComponent {
 		if (result.startsWith("<"))
 			result = result.substring(1);
 		if (result.endsWith(">"))
-			result = Char.cutLast(result);
+			result = Char17.cutLast(result);
 		return (result);
 	}
 
@@ -302,7 +302,7 @@ public class FactComponent {
 
 	/** Returns a Java string for a YAGO string */
 	public static String asJavaString(String stringLiteral) {
-		return (Char.decodeBackslash(FactComponent
+		return (Char17.decodeBackslash(FactComponent
 				.stripQuotes(getString(stringLiteral))));
 	}
 
@@ -383,7 +383,7 @@ public class FactComponent {
 					&& NumberParser.isFloat(firstString)
 					&& NumberParser.isFloat(secondString)
 					&& first.indexOf('.') != -1
-					&& first.startsWith(Char.cutLast(secondString))
+					&& first.startsWith(Char17.cutLast(secondString))
 					&& first.length() > second.length())
 				return (true);
 			return (false);
@@ -475,8 +475,8 @@ public class FactComponent {
 
 	public static String forInfoboxTemplate(String cls, String lan) {
 		cls = cls.toLowerCase().replace('_', ' ').trim();
-		if (Character.isDigit(Char.last(cls)))
-			cls = Char.cutLast(cls);
+		if (Character.isDigit(Char17.last(cls)))
+			cls = Char17.cutLast(cls);
 		return forStringWithLanguage(cls, lan);
 	}
 

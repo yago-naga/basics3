@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import javatools.administrative.Announce;
 import javatools.filehandlers.FileLines;
-import javatools.parsers.Char;
+import javatools.parsers.Char17;
 import javatools.util.FileUtils;
 
 /**
@@ -123,10 +123,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 				c = READNEW;
 			if (language == null)
 				return (FactComponent.forStringWithDatatype(
-						Char.decodeBackslash(string), datatype));
+						Char17.decodeBackslash(string), datatype));
 			else
 				return (FactComponent.forStringWithLanguage(
-						Char.decodeBackslash(string), language));
+						Char17.decodeBackslash(string), language));
 		case '[':
 			String blank = FileLines.readTo(reader, ']').toString().trim();
 			if (blank.length() != 0) {
@@ -172,9 +172,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			String name = ((char) c) + FileLines.readToSpace(reader).toString();
 
 			// Save some stuff that follows...
-			if (".,<".indexOf(Char.last(name)) != -1 || name.endsWith(";")) {
-				c = Char.last(name);
-				name = Char.cutLast(name);
+			if (".,<".indexOf(Char17.last(name)) != -1 || name.endsWith(";")) {
+				c = Char17.last(name);
+				name = Char17.cutLast(name);
 			} else {
 				c = READNEW;
 			}
@@ -190,7 +190,8 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 			// Prefixes
 			int colon = name.indexOf(':');
 			if (colon == -1) {
-				Announce.warning("Invalid entity", Char.encodeHex(name));
+				Announce.warning("Invalid entity",
+						Char17.encodeHex(name, Char17.alphaNumericAndSpace));
 				FileLines.scrollTo(reader, '.');
 				c = READNEW;
 				return (".");
