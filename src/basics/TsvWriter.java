@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
+import javatools.filehandlers.FileSet;
 import javatools.util.FileUtils;
 
 /**
@@ -53,10 +54,17 @@ public class TsvWriter extends FactWriter {
 		this.writeDoubleValue = writeDoubleValue;
 		out = FileUtils.getBufferedUTF8Writer(f);
 		if (header != null) {
-			for (String line : header.split("\n")) {
-				out.write("// " + line + "\n");
-			}
-			out.write("\n");
+			header=header.replaceAll("\\s+", " ");
+			Fact comment=new Fact(FactComponent.forYagoEntity("yagoTheme_" + FileSet.newExtension(f.getName(), null)),YAGO.hasGloss,FactComponent.forString(header));
+			write(comment);
 		}
+	}
+	
+	/** Test*/
+	public static void main(String[] args) throws Exception {
+		try(FactWriter w=new TsvWriter(new File("c:/fabian/temp/t.tsv"), "Blah blah \n   \t blub \t blah")) {
+			w.write(new Fact("<Elvis>","rdf:type","<livingPerson>"));
+		}
+		
 	}
 }

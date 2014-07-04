@@ -6,6 +6,7 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import javatools.filehandlers.FileSet;
 import javatools.util.FileUtils;
 
 /**
@@ -47,7 +48,11 @@ public class N4Writer extends FactWriter {
 						+ "> .\n");
 			}
 		writer.write("\n");
-
+		if (header != null) {
+			header=header.replaceAll("\\s+", " ");
+			Fact comment=new Fact(FactComponent.forYagoEntity("yagoTheme_" + FileSet.newExtension(f.getName(), null)),YAGO.hasGloss,FactComponent.forString(header));
+			write(comment);
+		}
 	}
 
 	/** Starts a writer to this file */
@@ -72,6 +77,15 @@ public class N4Writer extends FactWriter {
 	@Override
 	public void close() throws IOException {
 		writer.close();
+	}
+
+	
+	/** Test*/
+	public static void main(String[] args) throws Exception {
+		try(FactWriter w=new N4Writer(new File("c:/fabian/temp/t.ttl"), "Blah blah \n   \t blub \t blah")) {
+			w.write(new Fact("<Elvis>","rdf:type","<livingPerson>"));
+		}
+		
 	}
 
 }
