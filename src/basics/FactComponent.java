@@ -1,5 +1,7 @@
 package basics;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -425,7 +427,15 @@ public class FactComponent {
 	/** Makes a Wikipedia URL for an entity */
 	public static String wikipediaURL(String entity) {
 		entity = stripBrackets(entity);
-		return ("<http://en.wikipedia.org/wiki/" + entity + ">");
+		String url = null;
+		try {
+      url = "<http://en.wikipedia.org/wiki/" + 
+            URLEncoder.encode(entity, "UTF-8").replace("+", "%20") + ">";
+    } catch (UnsupportedEncodingException e) {
+      // Should never happen, we are dealing with UTF-8.
+      e.printStackTrace();
+    }
+		return url;
 	}
 
 	/** Parses out the Wordnet name */
