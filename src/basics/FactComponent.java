@@ -98,6 +98,11 @@ public class FactComponent {
 	public static String forYagoEntity(String name) {
 		return (forUri(name.replace(' ', '_')));
 	}
+	
+	/** Reverses the transformation from Wikipedia title to YAGO entity */
+	public static String unYagoEntity(String entity) {
+	  return Char17.decodeBackslash(stripBrackets(entity).replace('_', ' '));
+	}
 
 	/** Creates a fact component for a YAGO entity from another language */
 	public static String forForeignYagoEntity(String name, String lan) {
@@ -424,13 +429,19 @@ public class FactComponent {
 		return arg.startsWith("<id_");
 	}
 
-	/** Makes a Wikipedia URL for an entity */
-	public static String wikipediaURL(String entity) {
-		entity = stripBrackets(entity);
+	/** Makes a Wikipedia URL for an entity coming from the English Wikipedia */
+	 public static String wikipediaURL(String entityName) {
+	   return wikipediaURL(entityName, "en");
+	}
+	 
+	 /** Makes a Wikipedia URL for an entity coming from the LANGUAGE Wikipedia */
+	public static String wikipediaURL(
+	    String entityName, String wikipediaLanguageCode) {
+		entityName = unYagoEntity(entityName);
 		String url = null;
 		try {
-      url = "<http://en.wikipedia.org/wiki/" + 
-            URLEncoder.encode(entity, "UTF-8").replace("+", "%20") + ">";
+      url = "<http://" + wikipediaLanguageCode + ".wikipedia.org/wiki/" + 
+            URLEncoder.encode(entityName, "UTF-8").replace("+", "%20") + ">";
     } catch (UnsupportedEncodingException e) {
       // Should never happen, we are dealing with UTF-8.
       e.printStackTrace();
