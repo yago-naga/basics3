@@ -172,7 +172,7 @@ public class FactComponent {
 		// Capitalize the first letter for consistency
 		word = word.substring(0, 1).toUpperCase() + word.substring(1);
 		// Remove subsequent spaces. This happens for categories
-		word = word.replaceAll("[ _]+", "_");
+		word = word.replaceAll("\\s+", "_");
 		return (forYagoEntity("wikicat_" + word));
 	}
 
