@@ -143,6 +143,12 @@ public class FactComponent {
 		return (forYagoEntity(name));
 	}
 
+	 /** Creates a fact component for a Wikipedia title */
+  public static String forForeignWikipediaTitle(String name, String lan) {
+    name = Char17.decodeAmpersand(name).trim();
+    return (forForeignYagoEntity(name, lan));
+  }
+  
 	/** Creates a fact component for a String with language. We check the syntax */
 	public static String forStringWithLanguage(String string, String language) {
 		if (language != null && language.length() > 1)
