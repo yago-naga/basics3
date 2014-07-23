@@ -98,10 +98,10 @@ public class FactComponent {
 	public static String forYagoEntity(String name) {
 		return (forUri(name.replace(' ', '_')));
 	}
-	
+
 	/** Reverses the transformation from Wikipedia title to YAGO entity */
 	public static String unYagoEntity(String entity) {
-	  return Char17.decodeBackslash(stripBrackets(entity).replace('_', ' '));
+		return Char17.decodeBackslash(stripBrackets(entity).replace('_', ' '));
 	}
 
 	/** Creates a fact component for a YAGO entity from another language */
@@ -143,17 +143,34 @@ public class FactComponent {
 		return (forYagoEntity(name));
 	}
 
-	 /** Creates a fact component for a Wikipedia title */
-  public static String forForeignWikipediaTitle(String name, String lan) {
-    name = Char17.decodeAmpersand(name).trim();
-    return (forForeignYagoEntity(name, lan));
-  }
-  
+	/** Creates a fact component for a Wikipedia title */
+	public static String forForeignWikipediaTitle(String name, String lan) {
+		name = Char17.decodeAmpersand(name).trim();
+		return (forForeignYagoEntity(name, lan));
+	}
+
 	/** Creates a fact component for a String with language. We check the syntax */
 	public static String forStringWithLanguage(String string, String language) {
 		if (language != null && language.length() > 1)
 			return ('"' + Char17.encodeBackslash(string, turtleString) + "\"@" + language);
 		return ('"' + Char17.encodeBackslash(string, turtleString) + "\"");
+	}
+
+	/** Creates a fact component for a String with language. The language code can be given 
+	 * as 2 letter or 3 letter codes, and will be translated to 3 letter codes by help of the
+	 * provided mapping. To get this mapping, use
+	 * 
+	 * Map<String, String> languagemap = PatternHardExtractor.LANGUAGECODEMAPPING
+	 *			.factCollection().getStringMap("<hasThreeLetterLanguageCode>");
+	 *				
+	 * Returns NULL in case of failure.*/
+	public static String forStringWithLanguage(String string, String language,
+			Map<String, String> twoLetterCodes2threeLetterCodes) {
+		if (language.length() == 2)
+			language = twoLetterCodes2threeLetterCodes.get(language);
+		if (language == null || language.length() != 3)
+			return (null);
+		return (forStringWithLanguage(string, language));
 	}
 
 	/** Creates a fact component for a String with datatype. We check the syntax */
@@ -436,22 +453,25 @@ public class FactComponent {
 	}
 
 	/** Makes a Wikipedia URL for an entity coming from the English Wikipedia */
-	 public static String wikipediaURL(String entityName) {
-	   return wikipediaURL(entityName, "en");
+	public static String wikipediaURL(String entityName) {
+		return wikipediaURL(entityName, "en");
 	}
-	 
-	 /** Makes a Wikipedia URL for an entity coming from the LANGUAGE Wikipedia */
-	public static String wikipediaURL(
-	    String entityName, String wikipediaLanguageCode) {
+
+	/** Makes a Wikipedia URL for an entity coming from the LANGUAGE Wikipedia */
+	public static String wikipediaURL(String entityName,
+			String wikipediaLanguageCode) {
 		entityName = unYagoEntity(entityName);
 		String url = null;
 		try {
-      url = "<http://" + wikipediaLanguageCode + ".wikipedia.org/wiki/" + 
-            URLEncoder.encode(entityName, "UTF-8").replace("+", "%20") + ">";
-    } catch (UnsupportedEncodingException e) {
-      // Should never happen, we are dealing with UTF-8.
-      e.printStackTrace();
-    }
+			url = "<http://"
+					+ wikipediaLanguageCode
+					+ ".wikipedia.org/wiki/"
+					+ URLEncoder.encode(entityName, "UTF-8")
+							.replace("+", "%20") + ">";
+		} catch (UnsupportedEncodingException e) {
+			// Should never happen, we are dealing with UTF-8.
+			e.printStackTrace();
+		}
 		return url;
 	}
 
