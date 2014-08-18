@@ -480,6 +480,12 @@ public class FactComponent {
 		return "<http://"+wikipediaLanguageCode+".wikipedia.org>";
 	}
 
+	/** Returns a full Wikipedia URL for English or otherwise just the base Wikipedia URL */
+	public static String wikipediaSourceURL(String entity, String wikipediaLanguageCode) {
+		if(isEnglish(wikipediaLanguageCode)) return(wikipediaURL(entity));
+		else return(wikipediaBaseURL(wikipediaLanguageCode));
+	}
+	
 	/** Parses out the Wordnet name */
 	public static String wordnetWord(String wordnetEntity) {
 		if (!wordnetEntity.startsWith("<wordnet_")
