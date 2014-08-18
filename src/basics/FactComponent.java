@@ -460,7 +460,7 @@ public class FactComponent {
 	/** Makes a Wikipedia URL for an entity coming from the LANGUAGE Wikipedia */
 	public static String wikipediaURL(String entityName,
 			String wikipediaLanguageCode) {
-		entityName = unYagoEntity(entityName);
+		entityName = unYagoEntity(entityName).replace(' ', '_');
 		String url = null;
 		try {
 			url = "<http://"
@@ -473,6 +473,11 @@ public class FactComponent {
 			e.printStackTrace();
 		}
 		return url;
+	}
+
+	/** Makes a Wikipedia base URL such as http://de.wikipedia.org */
+	public static String wikipediaBaseURL(String wikipediaLanguageCode) {
+		return "<http://"+wikipediaLanguageCode+".wikipedia.org>";
 	}
 
 	/** Parses out the Wordnet name */
