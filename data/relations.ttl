@@ -501,7 +501,7 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasSynsetId>	<hasGloss>	"$1 has the WordNet identifier $2" .
 <holdsPoliticalPosition>	rdfs:domain	<wordnet_person_100007846> .
 <holdsPoliticalPosition>	rdfs:range	<wordnet_person_100007846> .
-<holdsPoliticalPosition>	rdf:Property .
+<holdsPoliticalPosition>	rdf:type	rdf:Property .
 <hasSuccessor>	rdfs:domain	rdf:Statement .
 <hasSuccessor>	rdfs:range	<wordnet_person_100007846> .
 <hasSuccessor>	rdf:type	owl:FunctionalProperty .
