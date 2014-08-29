@@ -91,7 +91,7 @@ public class FactComponent {
 
 	/** Creates a fact component for a year. No checks done. */
 	public static String forYear(String year) {
-		return (forStringWithDatatype(year + "-00-00", "xsd:date"));
+		return (forStringWithDatatype(year + "-##-##", "xsd:date"));
 	}
 
 	/** Creates a fact component for a YAGO entity */
