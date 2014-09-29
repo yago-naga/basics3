@@ -42,7 +42,7 @@ public class FactComponent {
 		if (s.startsWith("<") && s.endsWith(">"))
 			return (s);
 		if (s.startsWith(YAGONAMESPACE)) {
-			return ('<' + s.substring(YAGONAMESPACE.length()) + '>');
+			return ('<' + Char17.encodeBackslash(s.substring(YAGONAMESPACE.length()),turtleUri) + '>');
 		}
 		if (s.startsWith("http://")) {
 			for (Entry<String, String> entry : standardPrefixes.entrySet()) {
@@ -135,6 +135,11 @@ public class FactComponent {
 		cat = cat.replace('_', ' ');
 		cat = Char17.decodeBackslash(cat);
 		return (cat);
+	}
+
+	/** TRUE for wiki categories*/
+	public static boolean isCat(String cat) {
+		return (cat.startsWith("<wikicat_"));
 	}
 
 	/** Creates a fact component for a Wikipedia title */
