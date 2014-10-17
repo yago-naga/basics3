@@ -4,12 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import javatools.administrative.D;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char17;
 import javatools.parsers.DateParser;
-import javatools.parsers.NumberParser;
 
 /**
  * Class FactComponent
@@ -42,7 +42,8 @@ public class FactComponent {
 		if (s.startsWith("<") && s.endsWith(">"))
 			return (s);
 		if (s.startsWith(YAGONAMESPACE)) {
-			return ('<' + Char17.encodeBackslash(s.substring(YAGONAMESPACE.length()),turtleUri) + '>');
+			return ('<' + Char17.encodeBackslash(
+					s.substring(YAGONAMESPACE.length()), turtleUri) + '>');
 		}
 		if (s.startsWith("http://")) {
 			for (Entry<String, String> entry : standardPrefixes.entrySet()) {
@@ -67,7 +68,7 @@ public class FactComponent {
 
 	/** Creates a fact component for number. We don't do any syntax checks here. */
 	public static String forNumber(String s) {
-		if (DateParser.isDate(s))
+		if (javaStringIsDate(s))
 			return (forStringWithDatatype(s, forQname("xsd:", "date")));
 		if (s.indexOf('.') == -1 && s.indexOf("e") == -1
 				&& s.indexOf("E") == -1)
@@ -101,7 +102,7 @@ public class FactComponent {
 
 	/** Reverses the transformation from Wikipedia title to YAGO entity */
 	public static String unYagoEntity(String entity) {
-		return Char17.decodeBackslash(stripBrackets(entity).replace('_', ' '));
+		return Char17.decodeBackslash(stripBracketsAndLanguage(entity).replace('_', ' '));
 	}
 
 	/** Creates a fact component for a YAGO entity from another language */
@@ -124,7 +125,9 @@ public class FactComponent {
 	/** Returns the pure entity name */
 	public static String stripBracketsAndLanguage(String entity) {
 		entity = stripBrackets(entity);
-		return (entity.substring(entity.indexOf('/') + 1));
+		if(entity.matches("[a-z]{2}/.*")) return(entity.substring(3));
+		if(entity.matches("[a-z]{3}/.*")) return(entity.substring(4));
+		return (entity);
 	}
 
 	/** Returns the pure string of a Wikipedia category */
@@ -137,7 +140,7 @@ public class FactComponent {
 		return (cat);
 	}
 
-	/** TRUE for wiki categories*/
+	/** TRUE for wiki categories */
 	public static boolean isCat(String cat) {
 		return (cat.startsWith("<wikicat_"));
 	}
@@ -161,14 +164,17 @@ public class FactComponent {
 		return ('"' + Char17.encodeBackslash(string, turtleString) + "\"");
 	}
 
-	/** Creates a fact component for a String with language. The language code can be given 
-	 * as 2 letter or 3 letter codes, and will be translated to 3 letter codes by help of the
-	 * provided mapping. To get this mapping, use
+	/**
+	 * Creates a fact component for a String with language. The language code
+	 * can be given as 2 letter or 3 letter codes, and will be translated to 3
+	 * letter codes by help of the provided mapping. To get this mapping, use
 	 * 
-	 * Map<String, String> languagemap = PatternHardExtractor.LANGUAGECODEMAPPING
-	 *			.factCollection().getStringMap("<hasThreeLetterLanguageCode>");
-	 *				
-	 * Returns NULL in case of failure.*/
+	 * Map<String, String> languagemap =
+	 * PatternHardExtractor.LANGUAGECODEMAPPING
+	 * .factCollection().getStringMap("<hasThreeLetterLanguageCode>");
+	 * 
+	 * Returns NULL in case of failure.
+	 */
 	public static String forStringWithLanguage(String string, String language,
 			Map<String, String> twoLetterCodes2threeLetterCodes) {
 		if (language.length() == 2)
@@ -241,7 +247,7 @@ public class FactComponent {
 		if (s.startsWith("<")) {
 			return (s);
 		}
-		if (DateParser.isDate(s)) {
+		if (javaStringIsDate(s)) {
 			return (forDate(s));
 		}
 		if (Character.isDigit(s.charAt(0)) || s.charAt(0) == '-'
@@ -269,7 +275,10 @@ public class FactComponent {
 		}
 	};
 
-	/** Turtle valid URI characters. As per http://www.w3.org/TR/turtle/#grammar-production-IRIREF */
+	/**
+	 * Turtle valid URI characters. As per
+	 * http://www.w3.org/TR/turtle/#grammar-production-IRIREF
+	 */
 	public static Char17.Legal turtleUri = new Char17.Legal() {
 
 		public boolean isLegal(char c) {
@@ -408,13 +417,13 @@ public class FactComponent {
 				return (false);
 			String secondString = asJavaString(second);
 			String firstString = asJavaString(first);
-			if (DateParser.isDate(firstString)
-					&& DateParser.isDate(secondString)
+			if (javaStringIsDate(firstString)
+					&& javaStringIsDate(secondString)
 					&& DateParser.includes(secondString, firstString))
 				return (true);
 			if (D.equal(getDatatype(first), getDatatype(second))
-					&& NumberParser.isFloat(firstString)
-					&& NumberParser.isFloat(secondString)
+					&& javaStringIsFloat(firstString)
+					&& javaStringIsFloat(secondString)
 					&& first.indexOf('.') != -1
 					&& first.startsWith(Char17.cutLast(secondString))
 					&& first.length() > second.length())
@@ -422,6 +431,24 @@ public class FactComponent {
 			return (false);
 		}
 		return (false);
+	}
+
+	/** Pattern for a date */
+	public static final Pattern DATEPATTERN = Pattern
+			.compile("-?[#\\d]++-[#\\d]++-[#\\d]++");
+
+	/** Tells whether this string is a date */
+	public static boolean javaStringIsDate(CharSequence s) {
+		return (DATEPATTERN.matcher(s).matches());
+	}
+
+	/** Pattern for a float */
+	public static final Pattern FLOATPATTERN = Pattern
+			.compile("([\\-\\+]?\\d++(?:\\.[0-9]++)?(?:[Ee]\\-?[0-9]++)?)");
+
+	/** Tells whether this Java string is a float */
+	public static boolean javaStringIsFloat(CharSequence s) {
+		return (FLOATPATTERN.matcher(s).matches());
 	}
 
 	/** Returns a hash for a Java String */
@@ -482,15 +509,21 @@ public class FactComponent {
 
 	/** Makes a Wikipedia base URL such as http://de.wikipedia.org */
 	public static String wikipediaBaseURL(String wikipediaLanguageCode) {
-		return "<http://"+wikipediaLanguageCode+".wikipedia.org>";
+		return "<http://" + wikipediaLanguageCode + ".wikipedia.org>";
 	}
 
-	/** Returns a full Wikipedia URL for English or otherwise just the base Wikipedia URL */
-	public static String wikipediaSourceURL(String entity, String wikipediaLanguageCode) {
-		if(isEnglish(wikipediaLanguageCode)) return(wikipediaURL(entity));
-		else return(wikipediaBaseURL(wikipediaLanguageCode));
+	/**
+	 * Returns a full Wikipedia URL for English or otherwise just the base
+	 * Wikipedia URL
+	 */
+	public static String wikipediaSourceURL(String entity,
+			String wikipediaLanguageCode) {
+		if (isEnglish(wikipediaLanguageCode))
+			return (wikipediaURL(entity));
+		else
+			return (wikipediaBaseURL(wikipediaLanguageCode));
 	}
-	
+
 	/** Parses out the Wordnet name */
 	public static String wordnetWord(String wordnetEntity) {
 		if (!wordnetEntity.startsWith("<wordnet_")

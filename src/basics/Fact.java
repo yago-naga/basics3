@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 
 import javatools.administrative.D;
 import javatools.parsers.DateParser;
-import javatools.parsers.NumberParser;
 
 /**
  * Class Fact
@@ -13,7 +12,7 @@ import javatools.parsers.NumberParser;
  * Informatics and the Telecom ParisTech University. It is licensed under a
  * Creative Commons Attribution License by the YAGO team:
  * https://creativecommons.org/licenses/by/3.0/
- *  
+ * 
  * @author Fabian M. Suchanek
  * 
  *         This class represents a fact for YAGO. Convention: all fact
@@ -132,7 +131,8 @@ public class Fact {
 	 * billion
 	 */
 	public String makeId() {
-		if(id!=null) return(id);
+		if (id != null)
+			return (id);
 		id = "id_";
 		id += FactComponent.hashEntity(subject);
 		id += "_" + FactComponent.hashRelation(relation);
@@ -166,8 +166,8 @@ public class Fact {
 		if (FactComponent.isLiteral(object)) {
 			String datatype = getDataType();
 			if (datatype != null && datatype.equals("xsd:date")) {
-				String[] split = DateParser.getDate(object);
-				if (split != null && split.length == 3) {
+				String[] split = getObjectAsJavaString().split("-");
+				if (split.length == 3) {
 					for (int i = 0; i < 3; i++) {
 						split[i] = split[i].replace('#', '0');
 						while (split[i].length() < 2)
@@ -176,7 +176,9 @@ public class Fact {
 					val = split[0] + "." + split[1] + split[2];
 				}
 			} else if (datatype != null) {
-				val = NumberParser.getNumber(FactComponent.stripQuotes(object));
+				String object = getObjectAsJavaString();
+				if (FactComponent.javaStringIsFloat(object))
+					val = object;
 			}
 		}
 		return val;
