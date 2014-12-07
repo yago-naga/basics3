@@ -493,7 +493,7 @@ rdfs:range	<hasGloss>	"The range of $1 is the group of $2" .
 <hasLatitude>	<hasGloss>	"$1 is at latitude $2 (Negative latitude means 'South')" .
 <hasLongitude>	<hasGloss>	"$1 is at longitude $2 (Negative longitude means 'West')" .
 <hasPoverty>	<hasGloss>	"$1 has or had a poverty of $2" .
-<isPreferredMeaningOf>	<hasGloss>	"$1 has as preferred meaning $2" .
+<isPreferredMeaningOf>	<hasGloss>	"By '$2', we usually mean $1" .
 skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <hasWikipediaUrl>	<hasGloss>	"$1 has the Wikipedia URL $2" .
 <hasGeonamesClassId>	<hasGloss>	"$1 has the geonames.org identifier $2" .
