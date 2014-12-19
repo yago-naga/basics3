@@ -171,3 +171,7 @@
 <wordnet_plant_100017222>	<isPreferredMeaningOf>	"plant"@eng .
 
 <wordnet_politician_110450303>	<isPreferredMeaningOf>	"politician"@eng .
+
+# For the Ipod
+<wordnet_device_103183080>	<isPreferredMeaningOf>	"audio player"@eng .
+<wordnet_device_103183080>	<isPreferredMeaningOf>	"media player"@eng .
