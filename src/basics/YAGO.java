@@ -16,6 +16,7 @@ package basics;
 public class YAGO {
 
 	public static final String function = "owl:FunctionalProperty";
+	public static final String functionInTime = "<yagoFunctionInTime>";
 	public static final String url = "<yagoURL>";
 	public static final String string = "xsd:string";
 	public static final String yago = "<YAGO_(database)>";

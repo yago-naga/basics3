@@ -30,4 +30,5 @@ public class RDFS {
 	public static final String disjoint = "owl:disjointWith";
 	public static final String sameas= "owl:sameAs";
 	public static final String comment= "rdfs:comment";
+	public static final String nothing= "owl:Nothing";
 }
