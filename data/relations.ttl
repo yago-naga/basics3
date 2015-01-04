@@ -332,7 +332,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasGDP>	rdf:type	<yagoFunctionInTime> .
 <hasNumberOfPeople>	rdfs:domain	<yagoLegalActorGeo> .
 <hasNumberOfPeople>	rdfs:range	xsd:nonNegativeInteger .
-<hasNumberOfPeople>	rdf:type	<yagoFunction> .
+<hasNumberOfPeople>	rdf:type	<yagoFunctionInTime> .
 <hasOfficialLanguage>	rdfs:domain	<wordnet_location_100027167> .
 <hasOfficialLanguage>	rdfs:range	<wordnet_language_106282651> .
 <hasOfficialLanguage>	rdf:type	rdf:Property .
