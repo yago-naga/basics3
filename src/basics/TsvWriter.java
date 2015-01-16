@@ -41,7 +41,7 @@ public class TsvWriter extends FactWriter {
 	}
 
 	public TsvWriter(File f, String header) throws IOException {
-		this(f, false, header);
+		this(f, true, header);
 	}
 
 	public TsvWriter(File f, boolean writeDoubleValue) throws IOException {
