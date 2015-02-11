@@ -325,6 +325,16 @@ public class FactComponent {
 		return (string);
 	}
 
+	/** removes the qualifier appended to the entity name 
+	 * (e.g. Gerd_Müller_(politician) ==> Gerd_Müller */
+  public static String stripQualifier(String string) {
+    if (!string.endsWith(")")) return string;
+    int openingBracketIndex = string.lastIndexOf('(');
+    if (openingBracketIndex < 1) return string;
+    return string.substring(0, openingBracketIndex - 1);
+  }
+	
+	
 	/** removes brackets */
 	public static String stripBrackets(String result) {
 		if (result == null)
