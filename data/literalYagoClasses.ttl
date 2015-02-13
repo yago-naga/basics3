@@ -60,3 +60,5 @@ xsd:date	rdfs:subClassOf	<yagoLiteral> .
 xsd:gYear	<_hasTypeCheckPattern>	"[0-9]{1,4}" .
 <%>	<_hasTypeCheckPattern>	"[0-9]{1,2}(\\.[0-9]{1,2})" .
 xsd:gYear	rdfs:subClassOf	xsd:integer .
+<yagoISIN>	rdfs:subClassOf	xsd:string .
+<yagoISIN>	<_hasTypeCheckPattern>	"[A-Z][A-Z][A-Z0-9]{9}[0-9]" .
