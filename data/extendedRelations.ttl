@@ -49,10 +49,10 @@
 <hasCitationTitle>	rdfs:range	xsd:string .
 <hasCitationTitle>	rdf:type	<yagoExtendedRelation> .
 <hasCitationTitle>	 rdfs:subPropertyOf	<hasContext> .
-<hasTitleText>	rdfs:domain	owl:Thing .
-<hasTitleText>	rdfs:range	xsd:string .
-<hasTitleText>	rdf:type	<yagoExtendedRelation> .
-<hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
+# excluded <hasTitleText>	rdfs:domain	owl:Thing .
+# excluded <hasTitleText>	rdfs:range	xsd:string .
+# excluded <hasTitleText>	rdf:type	<yagoExtendedRelation> .
+# excluded <hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
 <hasInternalWikipediaLinkTo>	<hasGloss>	"$1 has internal link target $2 in Wikipedia" .
 <hasExternalWikipediaLinkTo>	<hasGloss>	"$1 has external link target $2 in Wikipedia" .
 <hasAnchorText>	<hasGloss>	"Link $1 has anchor text $2" .
