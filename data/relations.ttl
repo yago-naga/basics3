@@ -288,8 +288,10 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasLongitude>	rdfs:range	<degrees> .
 <hasLongitude>	rdf:type	owl:FunctionalProperty .
 <hasLongitude>	rdf:type	<permanentRelationToSubject> .
-<dealsWith>	rdfs:domain	<wordnet_location_100027167> .
-<dealsWith>	rdfs:range	<wordnet_location_100027167> .
+# <dealsWith>	rdfs:domain	<wordnet_location_100027167> .
+# <dealsWith>	rdfs:range	<wordnet_location_100027167> .
+<dealsWith>	rdfs:domain	<wordnet_country_108544813> .
+<dealsWith>	rdfs:range	<wordnet_country_108544813> .
 <dealsWith>	rdf:type	rdf:Property .
 <exports>	rdfs:domain	<wordnet_location_100027167> .
 <exports>	rdfs:range	rdfs:Class .
@@ -298,7 +300,8 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasArea>	rdfs:range	<m\u005e2> .
 <hasArea>	rdf:type	owl:FunctionalProperty .
 <hasCapital>	rdfs:domain	<wordnet_location_100027167> .
-<hasCapital>	rdfs:range	<wordnet_location_100027167> .
+# <hasCapital>	rdfs:range	<wordnet_location_100027167> .
+<hasCapital>	rdfs:range	<wordnet_city_108524735>	.
 <hasCapital>	rdf:type	<yagoFunctionInTime> .
 <hasCurrency>	rdfs:domain	<wordnet_location_100027167> .
 <hasCurrency>	rdfs:range	owl:Thing .
