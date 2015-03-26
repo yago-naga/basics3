@@ -73,6 +73,7 @@
 <European_Union>	rdfs:label	"EU"@eng .
 <European_Union>	rdfs:label	"EC"@eng .
 <United_States>	rdfs:label	"US"@eng .
+<United_States>	rdfs:label	"USA"@eng .
 <United_Nations>	rdfs:label	"UN"@eng .
 <United_Kingdom>	rdfs:label	"UK"@eng .
 <Great_Britain>	rdfs:label	"GB"@eng .
