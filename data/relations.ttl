@@ -297,7 +297,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <exports>	rdfs:range	rdfs:Class .
 <exports>	rdf:type	rdf:Property .
 <hasArea>	rdfs:domain	<wordnet_location_100027167> .
-<hasArea>	rdfs:range	<m\u005e2> .
+<hasArea>	rdfs:range	<km\u005e2> .
 <hasArea>	rdf:type	owl:FunctionalProperty .
 <hasCapital>	rdfs:domain	<wordnet_location_100027167> .
 # <hasCapital>	rdfs:range	<wordnet_location_100027167> .
