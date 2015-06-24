@@ -30,7 +30,7 @@
 <hasContextSucceedingAnchor>	rdf:type	<yagoExtendedRelation> .
 <hasWikipediaId>    rdfs:domain owl:Thing .
 <hasWikipediaId>    rdfs:range  xsd:nonNegativeInteger .
-<hasWikipediaId>    rdf:type    owl:FunctionalProperty .
+<hasWikipediaId>    rdf:type    <yagoExtendedRelation> .
 <hasWikipediaCategory>	rdfs:domain	owl:Thing .
 <hasWikipediaCategory>	rdfs:range	xsd:string .
 <hasWikipediaCategory>	rdf:type	<yagoExtendedRelation> .
@@ -68,3 +68,6 @@
 <hasWikipediaAbstract>	<hasGloss>	"$1 has $2 as Wikipedia abstract text" .
 <hasCitationTitle>	<hasGloss>	"$1 has a citation with the title '$2'" .
 <hasTitleText>	<hasGloss>	"$1 has a title '$2'" .
+<_yagoMetadata>    rdfs:domain xsd:String .
+<_yagoMetadata>    rdfs:range  xsd:String .
+<_yagoMetadata>    rdf:type    <yagoMetadataRelation> .
