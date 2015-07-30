@@ -175,3 +175,6 @@
 # For the Ipod
 <wordnet_device_103183080>	<isPreferredMeaningOf>	"audio player"@eng .
 <wordnet_device_103183080>	<isPreferredMeaningOf>	"media player"@eng .
+
+<wordnet_shrimp_101986806>	<isPreferredMeaningOf>	"shrimp"@eng .
+#... and not "derogatory name for small people"
