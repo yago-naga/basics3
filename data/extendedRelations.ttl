@@ -56,6 +56,7 @@
 # excluded <hasTitleText>	rdfs:range	xsd:string .
 # excluded <hasTitleText>	rdf:type	<yagoExtendedRelation> .
 # excluded <hasTitleText>	 rdfs:subPropertyOf	<hasContext> .
+# excluded <hasTitleText>	<hasGloss>	"$1 has a title '$2'" .
 <hasInternalWikipediaLinkTo>	<hasGloss>	"$1 has internal link target $2 in Wikipedia" .
 <hasExternalWikipediaLinkTo>	<hasGloss>	"$1 has external link target $2 in Wikipedia" .
 <hasAnchorText>	<hasGloss>	"Link $1 has anchor text $2" .
@@ -67,7 +68,6 @@
 <hasWikipediaArticleLength>	<hasGloss>	"$1 has a Wikipedia article with length $2" .
 <hasWikipediaAbstract>	<hasGloss>	"$1 has $2 as Wikipedia abstract text" .
 <hasCitationTitle>	<hasGloss>	"$1 has a citation with the title '$2'" .
-<hasTitleText>	<hasGloss>	"$1 has a title '$2'" .
 <_yagoMetadata>    rdfs:domain xsd:String .
 <_yagoMetadata>    rdfs:range  xsd:String .
 <_yagoMetadata>    rdf:type    <yagoMetadataRelation> .
