@@ -39,4 +39,5 @@ public class YAGO {
 	public static final String integer = "xsd:integer";
 	public static final String decimal = "xsd:decimal";
 	public static final String date = "xsd:date";
+	public static final String hasTranslation = "<_hasTranslation>"
 }
