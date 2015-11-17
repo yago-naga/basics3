@@ -296,7 +296,7 @@ public class FactComponent {
     if (string == null) return (null);
     if (string.startsWith("\"")) string = string.substring(1);
     int lanPos = string.lastIndexOf("\"@");
-    if (lanPos != -1 && lanPos > string.length() - 4) {
+    if (lanPos != -1 && lanPos > string.length() - 6) {
       string = string.substring(0, lanPos);
     } else if (string.endsWith("\"")) {
       string = Char17.cutLast(string);
@@ -321,9 +321,18 @@ public class FactComponent {
     return (result);
   }
 
+  /** Strips the http://.../ from a URI. Warning: strips away until the last '/', which may belong to the entity title in Wikipedfia URLS! Use stripWikipediaPrefix*/
   public static String stripPrefix(String entityWithPrefix) {
     int pos = Math.max(entityWithPrefix.lastIndexOf('#'), entityWithPrefix.lastIndexOf('/'));
     return (stripBrackets(entityWithPrefix.substring(pos + 1)));
+  }
+
+  /** Strips http://en.wikipedia.org/wiki/ from a URI, or returns NULL*/
+  public static String stripWikipediaPrefix(String entityWithPrefix) {
+    entityWithPrefix = stripBrackets(entityWithPrefix);
+    int pos = entityWithPrefix.indexOf("wikipedia.org/wiki/");
+    if (pos == -1) return (null);
+    return (entityWithPrefix.substring(pos + 19));
   }
 
   /** Returns a Java string for a YAGO string */
