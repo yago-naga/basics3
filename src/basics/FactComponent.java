@@ -49,6 +49,22 @@ public class FactComponent {
     return ('<' + Char17.encodeBackslash(s, turtleUri) + '>');
   }
 
+  /** Creates a fact component for a URI, does not encode it */
+  public static String forEncodedUri(String s) {
+    if (s.startsWith("<") && s.endsWith(">")) return (s);
+    if (s.startsWith(YAGONAMESPACE)) {
+      return ('<' + s.substring(YAGONAMESPACE.length()) + '>');
+    }
+    if (s.startsWith("http://")) {
+      for (Entry<String, String> entry : standardPrefixes.entrySet()) {
+        if (s.startsWith(entry.getValue())) {
+          return (entry.getKey() + s.substring(entry.getValue().length()));
+        }
+      }
+    }
+    return ('<' + s + '>');
+  }
+
   /** Creates a fact component for number */
   public static String forNumber(int i) {
     return (forStringWithDatatype(i + "", forQname("xsd:", "integer")));
