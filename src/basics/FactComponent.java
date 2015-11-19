@@ -272,7 +272,7 @@ public class FactComponent {
 
     @Override
     public boolean isLegal(char c) {
-      if (Char17.in(c, "<>\"{}|^`\\")) return (false);
+      if (Char17.in(c, "<>\"{}|^`\\%")) return (false);
       if (c <= 0x20) return (false);
       return (true);
     }

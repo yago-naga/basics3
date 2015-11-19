@@ -44,7 +44,7 @@ xsd:decimal	rdfs:subClassOf	<yagoLiteral> .
 <yagoFraction>	<_hasTypeCheckPattern>	"0\.[0-9]+" .
 <yago0to100>	rdfs:subClassOf	xsd:decimal .
 <yago0to100>	<_hasTypeCheckPattern>	"[0-9][0-9](\.[0-9])?" .
-<%>	rdfs:subClassOf	xsd:decimal .
+<percent>	rdfs:subClassOf	xsd:decimal .
 <yagoQuantity>	rdfs:subClassOf	<yagoLiteral> .
 xsd:string	rdfs:subClassOf	<yagoLiteral> .
 xsd:date	rdfs:subClassOf	<yagoLiteral> .
@@ -59,7 +59,7 @@ xsd:date	rdfs:subClassOf	<yagoLiteral> .
 <yagoWordInContext>	<_hasTypeCheckPattern>	"\u005c^.*" .
 <yagoWordInContext>	rdfs:subClassOf	xsd:string .
 xsd:gYear	<_hasTypeCheckPattern>	"[0-9]{1,4}" .
-<%>	<_hasTypeCheckPattern>	"[0-9]{1,2}(\\.[0-9]{1,2})" .
+<percent>	<_hasTypeCheckPattern>	"[0-9]{1,2}(\\.[0-9]{1,2})" .
 xsd:gYear	rdfs:subClassOf	xsd:integer .
 <yagoISIN>	rdfs:subClassOf	xsd:string .
 <yagoISIN>	<_hasTypeCheckPattern>	"[A-Z][A-Z][A-Z0-9]{9}[0-9]" .

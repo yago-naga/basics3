@@ -307,7 +307,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasCurrency>	rdfs:range	owl:Thing .
 <hasCurrency>	rdf:type	owl:FunctionalProperty .
 <hasEconomicGrowth>	rdfs:domain	<wordnet_location_100027167> .
-<hasEconomicGrowth>	rdfs:range	<%> .
+<hasEconomicGrowth>	rdfs:range	<percent> .
 <hasEconomicGrowth>	rdf:type	owl:FunctionalProperty .
 <hasExpenses>	rdfs:domain	<yagoLegalActorGeo> .
 <hasExpenses>	rdfs:range	<yagoMonetaryValue> .
@@ -325,7 +325,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasImport>	rdfs:range	<yagoMonetaryValue> .
 <hasImport>	rdf:type	owl:FunctionalProperty .
 <hasInflation>	rdfs:domain	<wordnet_location_100027167> .
-<hasInflation>	rdfs:range	<%> .
+<hasInflation>	rdfs:range	<percent> .
 <hasInflation>	rdf:type	<yagoFunctionInTime> .
 <hasMotto>	rdfs:domain	<yagoLegalActorGeo> .
 <hasMotto>	rdfs:range	xsd:string .
@@ -343,13 +343,13 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <hasPopulationDensity>	rdfs:range	</km\u005e2> .
 <hasPopulationDensity>	rdf:type	<yagoFunctionInTime> .
 <hasPoverty>	rdfs:domain	<wordnet_location_100027167> .
-<hasPoverty>	rdfs:range	<%> .
+<hasPoverty>	rdfs:range	<percent> .
 <hasPoverty>	rdf:type	<yagoFunctionInTime> .
 <hasTLD>	rdfs:domain	<wordnet_location_100027167> .
 <hasTLD>	rdfs:range	<yagoTLD> .
 <hasTLD>	rdf:type	owl:FunctionalProperty .
 <hasUnemployment>	rdfs:domain	<wordnet_location_100027167> .
-<hasUnemployment>	rdfs:range	<%> .
+<hasUnemployment>	rdfs:range	<percent> .
 <hasUnemployment>	rdf:type	<yagoFunctionInTime> .
 #<hasUTCOffset>	rdfs:domain	<wordnet_location_100027167> .
 #<hasUTCOffset>	rdfs:range	xsd:integer .
