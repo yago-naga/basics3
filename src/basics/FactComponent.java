@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javatools.administrative.D;
@@ -116,12 +117,14 @@ public class FactComponent {
     return (forYagoEntity(lan + "/" + name));
   }
 
+  /** Pattern for language*/
+  public static final Pattern LAN = Pattern.compile("<([a-z]{2,3})/");
+
   /** Returns the language of a foreign entity (or null) */
   public static String getLanguageOfEntity(String name) {
-    if (!name.startsWith("<")) return (null);
-    int pos = name.indexOf('/');
-    if (pos == -1 || pos > 4) return (null);
-    return (name.substring(1, pos));
+    Matcher m = LAN.matcher(name);
+    if (!m.lookingAt()) return (null);
+    return (m.group(1));
   }
 
   /** Returns the pure entity name */
@@ -559,6 +562,6 @@ public class FactComponent {
 
   /** Testing */
   public static void main(String[] args) throws Exception {
-    D.p(isMoreSpecific("\"1898-03-05\"^^xsd:date", "\"1898-##-##\"^^xsd:date"));
+    D.p(getLanguageOfEntity("<de/Elvis>"));
   }
 }
