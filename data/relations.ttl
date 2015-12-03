@@ -515,7 +515,7 @@ skos:prefLabel	<hasGloss>	"$1 has as preferred name $1" .
 <playsFor>	rdfs:range	<wordnet_organization_108008335> .
 <playsFor>	rdf:type	rdf:Property .
 <holdsPoliticalPosition>	<hasGloss>	"$1 holds or held the political office $2" .
-<hasSuccessor>	<hasGloss>	"$2 was successor of $1" .
+<hasSuccessor>	<hasGloss>	"$2 is or was the successor of the person in the fact with id $1" .
 <hasPredecessor>	<hasGloss>	"$2 was predecessor of $1" .
 <playsFor>	<hasGloss>	"$1 plays (or played) for $2" .
 <startedOnDate>	<hasGloss>	"$1 had a start event (creation, ratification, beginning, etc.) on $2" .
