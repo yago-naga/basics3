@@ -72,6 +72,16 @@ public class TsvReader extends PeekIterator<Fact> {
 		lines = new FileLines(f, "UTF8");
 	}
 
+	/** Parses out the gloss and the theme group from the object of a hasGloss-fact about a theme*/
+	public static String[] glossAndGroup(String themeGloss) {
+   int pos=themeGloss.lastIndexOf('.');
+   int endPos=themeGloss.lastIndexOf(' ');
+   if(endPos==-1 || endPos<pos) {
+     return(new String[]{themeGloss.substring(pos+1),null});
+   }   
+   return(new String[]{themeGloss.substring(pos+1,endPos),themeGloss.substring(endPos+1)});
+	}
+	
 	/** Test program shows that reading TSV is twice as fact as reading TTL */
 	public static void main(String[] args) throws Exception {
 		Announce.startTimer();

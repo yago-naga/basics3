@@ -25,67 +25,63 @@ import javatools.util.FileUtils;
  * 
  */
 public class N4Writer extends FactWriter {
-	/** Writes the file */
-	protected Writer writer;
 
-	/** Starts a writer to this file */
-	public N4Writer(File f, String header, String base,
-			Map<String, String> prefixes) throws Exception {
-		super(f);
-		writer = FileUtils.getBufferedUTF8Writer(f);
-		for (String line : header.split("\n")) {
-			writer.write("# " + line + "\n");
-		}
-		writer.write("\n@base <" + base + "> .\n");
-		for (String prefix : FactComponent.standardPrefixes.keySet()) {
-			writer.write("@prefix " + prefix + " <"
-					+ FactComponent.standardPrefixes.get(prefix) + "> .\n");
-		}
-		if (prefixes != null)
-			for (Map.Entry<String, String> prefix : prefixes.entrySet()) {
-				writer.write("@prefix " + prefix.getKey() + " <"
-						+ FactComponent.standardPrefixes.get(prefix.getValue())
-						+ "> .\n");
-			}
-		writer.write("\n");
-		if (header != null) {
-			header=header.replaceAll("\\s+", " ");
-			Fact comment=new Fact(FactComponent.forYagoEntity("yagoTheme_" + FileSet.newExtension(f.getName(), null)),YAGO.hasGloss,FactComponent.forString(header));
-			write(comment);
-		}
-	}
+  /** Writes the file */
+  protected Writer writer;
 
-	/** Starts a writer to this file */
-	public N4Writer(File f, String header) throws Exception {
-		this(f, header, "http://yago-knowledge.org/resource/",
-				new HashMap<String, String>());
-	}
+  /** Starts a writer to this file */
+  public N4Writer(File f, String header, String base, Map<String, String> prefixes) throws Exception {
+    super(f);
+    writer = FileUtils.getBufferedUTF8Writer(f);
+    if (header != null) {
+      for (String line : header.split("\n")) {
+        writer.write("# " + line + "\n");
+      }
+    }
+    writer.write("\n@base <" + base + "> .\n");
+    for (String prefix : FactComponent.standardPrefixes.keySet()) {
+      writer.write("@prefix " + prefix + " <" + FactComponent.standardPrefixes.get(prefix) + "> .\n");
+    }
+    if (prefixes != null) for (Map.Entry<String, String> prefix : prefixes.entrySet()) {
+      writer.write("@prefix " + prefix.getKey() + " <" + FactComponent.standardPrefixes.get(prefix.getValue()) + "> .\n");
+    }
+    writer.write("\n");
+    if (header != null) {
+      header = header.replaceAll("\\s+", " ");
+      Fact comment = new Fact(FactComponent.forYagoEntity("yagoTheme_" + FileSet.newExtension(f.getName(), null)), YAGO.hasGloss,
+          FactComponent.forString(header));
+      write(comment);
+    }
+  }
 
-	/** Writes a fact */
-	@Override
-	public synchronized void write(Fact f) throws IOException {
-		if (f.getId() != null)
-			writer.write("#@ " + f.getId() + "\n");
-		writer.write(f.subject);
-		writer.write("\t");
-		writer.write(f.relation);
-		writer.write("\t");
-		writer.write(f.object);
-		writer.write(" .\n");
-	}
+  /** Starts a writer to this file */
+  public N4Writer(File f, String header) throws Exception {
+    this(f, header, "http://yago-knowledge.org/resource/", new HashMap<String, String>());
+  }
 
-	@Override
-	public void close() throws IOException {
-		writer.close();
-	}
+  /** Writes a fact */
+  @Override
+  public synchronized void write(Fact f) throws IOException {
+    if (f.getId() != null) writer.write("#@ " + f.getId() + "\n");
+    writer.write(f.subject);
+    writer.write("\t");
+    writer.write(f.relation);
+    writer.write("\t");
+    writer.write(f.object);
+    writer.write(" .\n");
+  }
 
-	
-	/** Test*/
-	public static void main(String[] args) throws Exception {
-		try(FactWriter w=new N4Writer(new File("c:/fabian/temp/t.ttl"), "Blah blah \n   \t blub \t blah")) {
-			w.write(new Fact("<Elvis>","rdf:type","<livingPerson>"));
-		}
-		
-	}
+  @Override
+  public void close() throws IOException {
+    writer.close();
+  }
+
+  /** Test*/
+  public static void main(String[] args) throws Exception {
+    try (FactWriter w = new N4Writer(new File("c:/fabian/temp/t.ttl"), "Blah blah \n   \t blub \t blah")) {
+      w.write(new Fact("<Elvis>", "rdf:type", "<livingPerson>"));
+    }
+
+  }
 
 }
