@@ -35,11 +35,12 @@ public class Tsv2Ttl {
         Announce.error("Argument must be a TSV or TTL file");
     }
     if (output.exists() && output.length() > 200) Announce.error("Output file already exists:", output);
+    Announce.doing("Translating", input, "to", output);
     try (FactWriter out = FactWriter.from(output)) {
       for (Fact f : FactSource.from(input)) {
         out.write(f);
       }
     }
-
+    Announce.done();
   }
 }
