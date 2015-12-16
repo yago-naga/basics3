@@ -14,14 +14,14 @@ import javatools.parsers.DateParser;
 
 /**
  * Class FactComponent
- * 
+ *
  * This code is part of the YAGO project at the Max Planck Institute for
  * Informatics and the Telecom ParisTech University. It is licensed under a
  * Creative Commons Attribution License by the YAGO team:
  * https://creativecommons.org/licenses/by/3.0/
- * 
+ *
  * @author Fabian M. Suchanek
- * 
+ *
  *         This class formats a component for a YAGO fact.
  */
 public class FactComponent {
@@ -161,6 +161,17 @@ public class FactComponent {
     return (forForeignYagoEntity(name, lan));
   }
 
+  /** Creates a fact component (containing the YAGO entity) for a Wikipedia URL */
+  public static String forWikipediaURL(String url) {
+    if (url == null || !url.startsWith("http://")) return null;
+    int wiki = url.indexOf(".wikipedia.org/wiki/");
+    if (wiki < 0) return null;
+    String language = url.substring(7, wiki);
+    String title = url.substring(wiki + 20);
+    if ("en".equals(language)) return forUri(title);
+    return forUri(language + "/" + title);
+  }
+
   /** Creates a fact component for a String with language. We check the syntax */
   public static String forStringWithLanguage(String string, String language) {
     if (language != null && language.length() > 1) return ('"' + Char17.encodeBackslash(string, turtleString) + "\"@" + language);
@@ -171,11 +182,11 @@ public class FactComponent {
    * Creates a fact component for a String with language. The language code
    * can be given as 2 letter or 3 letter codes, and will be translated to 3
    * letter codes by help of the provided mapping. To get this mapping, use
-   * 
+   *
    * Map<String, String> languagemap =
    * PatternHardExtractor.LANGUAGECODEMAPPING
    * .factCollection().getStringMap("<hasThreeLetterLanguageCode>");
-   * 
+   *
    * Returns NULL in case of failure.
    */
   public static String forStringWithLanguage(String string, String language, Map<String, String> twoLetterCodes2threeLetterCodes) {
@@ -323,7 +334,7 @@ public class FactComponent {
     return (string);
   }
 
-  /** removes the qualifier appended to the entity name 
+  /** removes the qualifier appended to the entity name
    * (e.g. Gerd_Müller_(politician) ==> Gerd_Müller */
   public static String stripQualifier(String string) {
     if (!string.endsWith(")")) return string;
@@ -421,7 +432,8 @@ public class FactComponent {
       String firstString = asJavaString(first);
       if (javaStringIsDate(firstString) && javaStringIsDate(secondString) && DateParser.includes(secondString, firstString)) return (true);
       if (D.equal(getDatatype(first), getDatatype(second)) && javaStringIsFloat(firstString) && javaStringIsFloat(secondString)
-          && first.indexOf('.') != -1 && first.startsWith(Char17.cutLast(secondString)) && first.length() > second.length()) return (true);
+          && first.indexOf('.') != -1 && first.startsWith(Char17.cutLast(secondString)) && first.length() > second.length())
+        return (true);
       return (false);
     }
     return (false);
