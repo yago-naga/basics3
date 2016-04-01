@@ -71,3 +71,6 @@
 <_yagoMetadata>    rdfs:domain xsd:String .
 <_yagoMetadata>    rdfs:range  xsd:String .
 <_yagoMetadata>    rdf:type    <yagoMetadataRelation> .
+<_hasLinkLikelihood>    rdfs:domain xsd:String .
+<_hasLinkLikelihood>    rdfs:range  xsd:double .
+<_hasLinkLikelihood>    rdf:type    <yagoExtendedRelation> .
