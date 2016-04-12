@@ -161,13 +161,15 @@ public class FactComponent {
     return (forForeignYagoEntity(name, lan));
   }
 
+  /** Pattern for Wikipedia URLs*/
+  public static Pattern wikipediaUrlPattern = Pattern.compile("https?://([a-z]{1,3}).wikipedia.org/wiki/(.*)");
+
   /** Creates a fact component (containing the YAGO entity) for a Wikipedia URL */
   public static String forWikipediaURL(String url) {
-    if (url == null || !url.startsWith("http://")) return null;
-    int wiki = url.indexOf(".wikipedia.org/wiki/");
-    if (wiki < 0) return null;
-    String language = url.substring(7, wiki);
-    String title = url.substring(wiki + 20);
+    Matcher m = wikipediaUrlPattern.matcher(url);
+    if (!m.matches()) return (null);
+    String language = m.group(1);
+    String title = Char17.decodePercentage(m.group(2));
     if ("en".equals(language)) return forUri(title);
     return forUri(language + "/" + title);
   }
