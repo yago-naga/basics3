@@ -100,3 +100,9 @@
 
 # Bug fixes from Svitlana
 <wordnet_emulator_0> 	rdfs:subClassOf		<wordnet_software_106566077> .
+
+# Bug fix from Luis
+# <wordnet_book_106410904> (41872 instances): “written corpus”
+# <wordnet_book_102870092> (533 instances): “physical object”
+# <wordnet_picture_book_103931651> is only a subclass of 102870092. Adding 106410904.
+<wordnet_picture_book_103931651>	rdfs:subClassOf	<wordnet_book_106410904> .
