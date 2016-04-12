@@ -29,6 +29,10 @@ public class FactComponent {
   /** YAGO namespace */
   public static final String YAGONAMESPACE = "http://yago-knowledge.org/resource/";
 
+  /** Pattern for Wikipedia URLs*/
+  public static Pattern wikipediaUrlPattern =
+      Pattern.compile("https?://([a-z]{1,3}).wikipedia.org/wiki/(.*)");
+
   /** Standard namespace prefixes that this N4Reader will assume */
   public static final Map<String, String> standardPrefixes = new FinalMap<String, String>("rdf:", "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
       "rdfs:", "http://www.w3.org/2000/01/rdf-schema#", "xsd:", "http://www.w3.org/2001/XMLSchema#", "owl:", "http://www.w3.org/2002/07/owl#",
@@ -161,10 +165,8 @@ public class FactComponent {
     return (forForeignYagoEntity(name, lan));
   }
 
-  /** Pattern for Wikipedia URLs*/
-  public static Pattern wikipediaUrlPattern = Pattern.compile("https?://([a-z]{1,3}).wikipedia.org/wiki/(.*)");
-
-  /** Creates a fact component (containing the YAGO entity) for a Wikipedia URL */
+  /** Creates a fact component (containing the YAGO entity) for a
+   Wikipedia URL */
   public static String forWikipediaURL(String url) {
     Matcher m = wikipediaUrlPattern.matcher(url);
     if (!m.matches()) return (null);
