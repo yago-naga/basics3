@@ -20,7 +20,13 @@ import javatools.parsers.DateParser;
  */
 public class Fact {
 
-	/** ID (or NULL) */
+	/** Use this to annotate hacks that are needed to make YAGO work*/
+  public @interface ImplementationNote {
+  
+    String value();
+  }
+
+  /** ID (or NULL) */
 	private String id;
 
 	/** Argument 1 */
