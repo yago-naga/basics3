@@ -48,7 +48,9 @@ public class Fact {
 	public Fact(String id, String arg1, String relation, String object) {
 		this.subject = arg1.intern();
 		this.relation = relation.intern();
-		this.id = id.intern();
+		if (id != null) {
+			this.id = id.intern();
+		}
 		this.object = object.intern();
 		this.hashCode = arg1.hashCode() ^ relation.hashCode()
 				^ object.hashCode();
