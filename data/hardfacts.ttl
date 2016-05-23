@@ -28,6 +28,8 @@
 <wordnet_person_100007846>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
+<wordnet_candidate_109890749>	rdfs:subClassOf	<yagoLegalActor> .
+<wordnet_winner_110782940>	rdfs:subClassOf	<yagoLegalActor> .
 #@ <hardId11>
 <yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@eng .
 <hardId11>	rdfs:comment	"Additional YAGO class for individuals with geographical coordinates" .

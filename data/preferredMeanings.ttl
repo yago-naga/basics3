@@ -128,9 +128,7 @@
 
 <wordnet_traveler_109629752>	<isPreferredMeaningOf>	"runner"@eng .
 
-<yagoLegalActorGeo>	<isPreferredMeaningOf>	"winner"@eng .
-
-<yagoLegalActorGeo>	<isPreferredMeaningOf>	"nominee"@eng .
+<wordnet_candidate_109890749>	<isPreferredMeaningOf>	"nominee"@eng .
 
 <wordnet_broadcasting_company_108002015>	<isPreferredMeaningOf>	"broadcaster"@eng .
 
