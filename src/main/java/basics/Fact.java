@@ -46,12 +46,12 @@ public class Fact {
 	 * FactComponent!
 	 */
 	public Fact(String id, String arg1, String relation, String object) {
-		this.subject = arg1.intern();
-		this.relation = relation.intern();
+		this.subject = arg1;
+		this.relation = relation;
 		if (id != null) {
-			this.id = id.intern();
+			this.id = id;
 		}
-		this.object = object.intern();
+		this.object = object;
 		this.hashCode = arg1.hashCode() ^ relation.hashCode()
 				^ object.hashCode();
 	}
