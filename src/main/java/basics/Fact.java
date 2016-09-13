@@ -52,9 +52,6 @@ public class Fact {
 			this.id = id;
 		}
 		this.object = object;
-		//this.hashCode = arg1.hashCode() ^ relation.hashCode()
-		//		^ object.hashCode();
-		//Using the new hashCode, same arg1 and object resulted the same hashCode for the same relation before
 		this.hashCode = arg1.hashCode() * relation.hashCode()
 				* object.hashCode();
 	}
