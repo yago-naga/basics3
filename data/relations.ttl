@@ -181,7 +181,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <actedIn>	rdfs:range	<wordnet_movie_106613686> .
 <actedIn>	rdf:type	rdf:Property .
 <wasBornIn>	rdfs:domain	<wordnet_person_100007846> .
-<wasBornIn>	rdfs:range	<wordnet_city_108524735> .
+<wasBornIn>	rdfs:range	<yagoGeoEntity> .
 <wasBornIn>	rdf:type	owl:FunctionalProperty .
 <wasBornIn>	rdf:type	<subjectStartRelation> .
 <wasBornIn>	rdf:type	<relationLocatedByObject> .
@@ -197,7 +197,7 @@ rdfs:label	rdf:type	<permanentRelationToSubject> .
 <isKnownFor>	rdfs:range	owl:Thing .
 <isKnownFor>	rdf:type	rdf:Property .
 <diedIn>	rdfs:domain	<wordnet_person_100007846> .
-<diedIn>	rdfs:range	<wordnet_city_108524735> .
+<diedIn>	rdfs:range	<yagoGeoEntity> .
 <diedIn>	rdf:type	owl:FunctionalProperty .
 <diedIn>	rdf:type	<subjectEndRelation> .
 <diedIn>	rdf:type	<relationLocatedByObject> .

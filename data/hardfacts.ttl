@@ -28,6 +28,8 @@
 <wordnet_person_100007846>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_organization_108008335>	rdfs:subClassOf	<yagoLegalActor> .
 <wordnet_location_100027167>	rdfs:subClassOf	<yagoLegalActorGeo> .
+<wordnet_candidate_109890749>	rdfs:subClassOf	<yagoLegalActor> .
+<wordnet_winner_110782940>	rdfs:subClassOf	<yagoLegalActor> .
 #@ <hardId11>
 <yagoGeoEntity>	rdfs:label	"yagoGeoEntity"@eng .
 <hardId11>	rdfs:comment	"Additional YAGO class for individuals with geographical coordinates" .
@@ -44,6 +46,7 @@
 <wordnet_way_104564698>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109334396>	rdfs:subClassOf	<yagoGeoEntity> .
 <wordnet_land_109335240>	rdfs:subClassOf	<yagoGeoEntity> .
+<wordnet_location_100027167>	rdfs:subClassOf	<yagoGeoEntity> .
 <yagoPermanentlyLocatedEntity>	rdfs:label	"yagoPermanentlyLocatedEntity"@eng .
 #@ <hardId12>
 <yagoPermanentlyLocatedEntity>	rdfs:subClassOf	owl:Thing .
