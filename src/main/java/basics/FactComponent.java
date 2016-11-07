@@ -30,8 +30,7 @@ public class FactComponent {
   public static final String YAGONAMESPACE = "http://yago-knowledge.org/resource/";
 
   /** Pattern for Wikipedia URLs*/
-  public static Pattern wikipediaUrlPattern =
-      Pattern.compile("https?://([a-z]{1,3}).wikipedia.org/wiki/(.*)");
+  public static Pattern wikipediaUrlPattern = Pattern.compile("https?://([a-z]{1,3}).wikipedia.org/wiki/(.*)");
 
   /** Standard namespace prefixes that this N4Reader will assume */
   public static final Map<String, String> standardPrefixes = new FinalMap<String, String>("rdf:", "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -217,20 +216,21 @@ public class FactComponent {
 
   /** Creates a fact component for a Wikipedia category */
   public static String forWikiCategory(String word) {
-    // Capitalize the first letter for consistency
-    word = word.substring(0, 1).toUpperCase() + word.substring(1);
-    // Remove subsequent spaces. This happens for categories
-    word = word.replaceAll("\\s+", "_");
-    return (forYagoEntity("wikicat_" + word));
+    return (forForeignWikiCategory(word, "eng"));
   }
 
   /** Creates a fact component for a Wikipedia category */
   public static String forForeignWikiCategory(String word, String lan) {
-    if (isEnglish(lan)) return (forWikiCategory(word));
+    // We may have encodings in the string
+    word = Char17.decodeAmpersand(word);
     // Capitalize the first letter for consistency
+    // We still have inconsistencies then with "Living_people" and "Living_People"
     word = word.substring(0, 1).toUpperCase() + word.substring(1);
-    // Remove subsequent spaces. This happens for categories
-    word = word.replaceAll("[ _]+", "_");
+    // Remove subsequent spaces and weird spaces
+    word = word.replaceAll("[_\\p{Zs}]+", "_");
+    // Remove backslashes that appear from time to time
+    word = word.replace("\\", "");
+    if (isEnglish(lan)) return (forYagoEntity("wikicat_" + word));
     return (forYagoEntity(lan + "/wikicat_" + word));
   }
 
@@ -578,6 +578,6 @@ public class FactComponent {
 
   /** Testing */
   public static void main(String[] args) throws Exception {
-    D.p(getLanguageOfEntity("<de/Elvis>"));
+    D.p(forWikiCategory("Al-Balqa`_ Applied_University_alumni"));
   }
 }
