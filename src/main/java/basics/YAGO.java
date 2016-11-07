@@ -41,4 +41,5 @@ public class YAGO {
 	public static final String date = "xsd:date";
 	public static final String hasTranslation = "<_hasTranslation>";
 	public static final String hasWikiDataImageUrl = "<hasWikiDataImageUrl>";
+	public static final String hasLicense = "<hasLicense>";
 }
