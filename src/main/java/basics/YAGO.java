@@ -42,4 +42,8 @@ public class YAGO {
 	public static final String hasTranslation = "<_hasTranslation>";
 	public static final String hasWikiDataImageUrl = "<hasWikiDataImageUrl>";
 	public static final String hasLicense = "<hasLicense>";
+	public static final String hasAuthor = "<hasAuthor>";
+	public static final String hasTrademark = "<hasTrademark>";
+	public static final String hasAttrbuitionTag = "<hasAttrbuitionTag>";
+	public static final String hasExternalAttributionLink = "<hasExternalAttributionLink>";
 }
