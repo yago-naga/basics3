@@ -45,5 +45,4 @@ public class YAGO {
 	public static final String hasAuthor = "<hasAuthor>";
 	public static final String hasTrademark = "<hasTrademark>";
 	public static final String hasAttrbuitionTag = "<hasAttrbuitionTag>";
-	public static final String hasExternalAttributionLink = "<hasExternalAttributionLink>";
 }
