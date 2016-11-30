@@ -15,25 +15,29 @@ import javatools.parsers.Char17;
 import javatools.util.FileUtils;
 
 /**
- * N4Reader
- * 
- * This code is part of the YAGO project at the Max Planck Institute for
- * Informatics and the Telecom ParisTech University. It is licensed under a
- * Creative Commons Attribution License by the YAGO team:
- * https://creativecommons.org/licenses/by/3.0/
- * 
- * This class provides a reader for facts from an N4 document. This follows the
- * Turtle Specification
- * http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It (1)
- * understands a first (optional) component in the preceding comment (2) and it
- * does not support all Turtle features
- * 
- * Passes all tests from
- * http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23
- * http://www.w3.org/2000/10/rdf-tests/rdfcore/ntriples/test.nt
- * 
- * @author Fabian M. Suchanek
- * 
+Copyright 2016 Fabian M. Suchanek
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
+ 
+This class provides a reader for facts from an N4 document. This follows the
+Turtle Specification
+http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It (1)
+understands a first (optional) component in the preceding comment (2) and it
+does not support all Turtle features
+
+Passes all tests from
+http://www.w3.org/TeamSubmission/turtle/#sec-conformance except 23
+http://www.w3.org/2000/10/rdf-tests/rdfcore/ntriples/test.nt
  */
 public class N4Reader implements Iterator<Fact>, Closeable {
 
