@@ -40,9 +40,15 @@ public class YAGO {
 	public static final String decimal = "xsd:decimal";
 	public static final String date = "xsd:date";
 	public static final String hasTranslation = "<_hasTranslation>";
-	public static final String hasWikiDataImageUrl = "<hasWikiDataImageUrl>";
 	public static final String hasLicense = "<hasLicense>";
 	public static final String hasAuthor = "<hasAuthor>";
 	public static final String hasTrademark = "<hasTrademark>";
 	public static final String hasAttrbuitionTag = "<hasAttrbuitionTag>";
+	public static final String hasName = "<hasName>";
+	public static final String hasUrl = "<hasUserUrl>";
+	public static final String hasWikiDataImage = "<hasImageID>";
+	public static final String hasWikiPage = "<hasWikiPage>";
+	public static final String hasImageUrl = "<hasImageUrl>";
+	
+
 }
