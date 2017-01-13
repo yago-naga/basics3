@@ -49,6 +49,5 @@ public class YAGO {
 	public static final String hasWikiDataImage = "<hasImageID>";
 	public static final String hasWikiPage = "<hasWikiPage>";
 	public static final String hasImageUrl = "<hasImageUrl>";
-	
 
 }
