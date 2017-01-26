@@ -82,7 +82,7 @@ public class YAGO {
   
   public static final String hasUrl = "<hasUserUrl>";
   
-  public static final String hasWikiDataImage = "<hasImageID>";
+  public static final String hasImageID = "<hasImageID>";
   
   public static final String hasWikiPage = "<hasWikiPage>";
   
