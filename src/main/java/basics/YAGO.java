@@ -76,16 +76,18 @@ public class YAGO {
 
   public static final String hasTrademark = "<hasTrademark>";
 
-  public static final String hasAttrbuitionTag = "<hasAttrbuitionTag>";
+  public static final String hasAttributionTag = "<hasAttributionTag>";
   
   public static final String hasName = "<hasName>";
   
-  public static final String hasUrl = "<hasUserUrl>";
+  public static final String hasUrl = "<hasUrl>";
   
   public static final String hasWikiDataImage = "<hasImageID>";
   
   public static final String hasWikiPage = "<hasWikiPage>";
   
   public static final String hasImageUrl = "<hasImageUrl>";
+  
+  public static final String hasOTRSId = "<hasOTRSPermissionTicketID>";
   
 }
