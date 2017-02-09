@@ -464,10 +464,35 @@ public class FactComponent {
     return (FLOATPATTERN.matcher(s).matches());
   }
 
+  final static char[] base = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?".toCharArray();
+
   /** Returns a hash for a Java String */
   public static String hash(String string) {
-    int hash = string.hashCode();
-    return (Long.toString((long) hash - (long) Integer.MIN_VALUE, Character.MAX_RADIX));
+    char[] str = new char[string.length()];
+    string.getChars(0, str.length, str, 0);
+    final int len = 10; // max useful len for a hash of type long: 65
+
+    // FNV-1a hash, see https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+    long hash = 0xcbf29ce484222325L;
+    for (int i = 0; i < str.length; i++) {
+      hash ^= (str[i] ^ 0xff);
+      hash *= 1099511628211L;
+    }
+
+    // convert as number in base 64, using characters of array base
+    char[] out = new char[len];
+    // optimize modulo for (1<<s)-1, see https://graphics.stanford.edu/~seander/bithacks.html#ModulusDivisionEasy
+    long radix = 63;
+    int pos = len;
+    if (hash < 0) {
+      hash = -hash;
+    }
+    while (hash > 0 && pos > 0) {
+      out[--pos] = base[(int) (hash & radix)];
+      hash = hash >> 6;
+    }
+
+    return new String(out, pos, len - pos);
   }
 
   /** Returns a hash for an entity */
