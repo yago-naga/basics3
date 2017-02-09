@@ -25,7 +25,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class formats a component for a YAGO fact.
  */
@@ -138,8 +138,17 @@ public class FactComponent {
   /** Returns the pure entity name */
   public static String stripBracketsAndLanguage(String entity) {
     entity = stripBrackets(entity);
-    if (entity.matches("[a-z]{2}/.*")) return (entity.substring(3));
-    if (entity.matches("[a-z]{3}/.*")) return (entity.substring(4));
+    int slash = entity.indexOf('/');
+    // matches "[a-z]{2,3}/.*"
+    if (slash == 2 || slash == 3) {
+      for (int i = 0; i < slash; i++) {
+        char c = entity.charAt(i);
+        if (c < 'a' || c > 'z') {
+          return entity;
+        }
+      }
+      return entity.substring(slash + 1);
+    }
     return (entity);
   }
 
