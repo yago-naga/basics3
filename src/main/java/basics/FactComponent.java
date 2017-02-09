@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import basics.Fact.ImplementationNote;
 import javatools.administrative.D;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char17;
@@ -474,6 +475,7 @@ public class FactComponent {
   }
 
   /** Characters which are used to represent a hash value as String */
+  @ImplementationNote("Current implementation of hash needs a HASHBASE with 2^k characters")
   final static char[] HASHBASE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?".toCharArray();
 
   /** Returns a hash for a Java String */
