@@ -473,7 +473,8 @@ public class FactComponent {
     return (FLOATPATTERN.matcher(s).matches());
   }
 
-  final static char[] base = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?".toCharArray();
+  /** Characters which are used to represent a hash value as String */
+  final static char[] HASHBASE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?".toCharArray();
 
   /** Returns a hash for a Java String */
   public static String hash(String string) {
@@ -497,7 +498,7 @@ public class FactComponent {
       hash = -hash;
     }
     while (hash > 0 && pos > 0) {
-      out[--pos] = base[(int) (hash & radix)];
+      out[--pos] = HASHBASE[(int) (hash & radix)];
       hash = hash >> 6;
     }
 
