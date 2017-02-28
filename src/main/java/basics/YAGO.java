@@ -90,4 +90,8 @@ public class YAGO {
   
   public static final String hasOTRSId = "<hasOTRSPermissionTicketID>";
   
+  public static final String hasLongDescription = "<hasLongDescription>";
+  
+  public static final String hasShortDescription = "<hasShortDescription>";
+  
 }
