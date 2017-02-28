@@ -27,6 +27,7 @@ owl:FunctionalProperty	rdfs:subClassOf	rdf:Property .
 owl:FunctionalProperty	rdfs:subClassOf	<yagoFunctionInTime> .
 owl:SymmetricProperty	rdfs:subClassOf	rdf:Property .
 owl:TransitiveProperty	rdfs:subClassOf	rdf:Property .
+owl:sameAs	rdfs:domain	owl:Thing .
 <yagoInternalRelation>	rdfs:subClassOf	rdf:Property .
 rdfs:comment	rdfs:domain	rdfs:Resource .
 rdfs:comment	rdfs:range	xsd:string .

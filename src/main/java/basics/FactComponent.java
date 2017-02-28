@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import basics.Fact.ImplementationNote;
 import javatools.administrative.D;
 import javatools.datatypes.FinalMap;
 import javatools.parsers.Char17;
@@ -25,7 +26,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class formats a component for a YAGO fact.
  */
@@ -138,8 +139,17 @@ public class FactComponent {
   /** Returns the pure entity name */
   public static String stripBracketsAndLanguage(String entity) {
     entity = stripBrackets(entity);
-    if (entity.matches("[a-z]{2}/.*")) return (entity.substring(3));
-    if (entity.matches("[a-z]{3}/.*")) return (entity.substring(4));
+    int slash = entity.indexOf('/');
+    // matches "[a-z]{2,3}/.*"
+    if (slash == 2 || slash == 3) {
+      for (int i = 0; i < slash; i++) {
+        char c = entity.charAt(i);
+        if (c < 'a' || c > 'z') {
+          return entity;
+        }
+      }
+      return entity.substring(slash + 1);
+    }
     return (entity);
   }
 
@@ -464,10 +474,37 @@ public class FactComponent {
     return (FLOATPATTERN.matcher(s).matches());
   }
 
+  /** Characters which are used to represent a hash value as String */
+  @ImplementationNote("Current implementation of hash needs a HASHBASE with 2^k characters")
+  final static char[] HASHBASE = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?".toCharArray();
+
   /** Returns a hash for a Java String */
   public static String hash(String string) {
-    int hash = string.hashCode();
-    return (Long.toString((long) hash - (long) Integer.MIN_VALUE, Character.MAX_RADIX));
+    char[] str = new char[string.length()];
+    string.getChars(0, str.length, str, 0);
+    final int len = 10; // max useful len for a hash of type long: 65
+
+    // FNV-1a hash, see https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+    long hash = 0xcbf29ce484222325L;
+    for (int i = 0; i < str.length; i++) {
+      hash ^= (str[i] ^ 0xff);
+      hash *= 1099511628211L;
+    }
+
+    // convert as number in base 64, using characters of array base
+    char[] out = new char[len];
+    // optimize modulo for (1<<s)-1, see https://graphics.stanford.edu/~seander/bithacks.html#ModulusDivisionEasy
+    long radix = 63;
+    int pos = len;
+    if (hash < 0) {
+      hash = -hash;
+    }
+    while (hash > 0 && pos > 0) {
+      out[--pos] = HASHBASE[(int) (hash & radix)];
+      hash = hash >> 6;
+    }
+
+    return new String(out, pos, len - pos);
   }
 
   /** Returns a hash for an entity */
