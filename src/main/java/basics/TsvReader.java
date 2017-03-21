@@ -21,7 +21,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class provides a reader for facts from an TSV document. Supports: 2
 columns (relation will be "&lt;relation>"); 3 columns (ids will be null); 4
@@ -35,6 +35,9 @@ public class TsvReader extends PeekIterator<Fact> {
 
   private File file = null;
 
+  /** Show warning for first line with wrong number of columns */
+  private boolean showColumnWarning = true;
+
   /** Creates a N4 reader */
   public TsvReader(Reader r) throws IOException {
     lines = new FileLines(r);
@@ -44,25 +47,29 @@ public class TsvReader extends PeekIterator<Fact> {
   protected Fact internalNext() throws Exception {
     String entireLine;
     do {
-      if (!lines.hasNext()) return (null);
-      entireLine = lines.next();
-    } while (entireLine.isEmpty() || entireLine.startsWith("// "));
-    String[] line = entireLine.split("\t");
-    switch (line.length) {
-      case 2:
-        return (new Fact(line[0], "<relation>", line[1]));
-      case 3:
-        if (line[0].startsWith("#")) return (new Fact(line[0], line[1], "<relation>", line[2]));
-        return (new Fact(line[0], line[1], line[2]));
-      case 4:
-      case 5:
-        String id = line[0];
-        if (id.isEmpty() || id.equals("null")) id = null;
-        return (new Fact(id, line[1], line[2], line[3]));
-      default:
-        Announce.warning("Unsupported number of columns (", line.length, "), aborting read", file == null ? "" : " from file " + file);
-        return (null);
-    }
+      do {
+        if (!lines.hasNext()) return (null);
+        entireLine = lines.next();
+      } while (entireLine.isEmpty() || entireLine.startsWith("// "));
+      String[] line = entireLine.split("\t");
+      switch (line.length) {
+        case 2:
+          return (new Fact(line[0], "<relation>", line[1]));
+        case 3:
+          if (line[0].startsWith("#")) return (new Fact(line[0], line[1], "<relation>", line[2]));
+          return (new Fact(line[0], line[1], line[2]));
+        case 4:
+        case 5:
+          String id = line[0];
+          if (id.isEmpty() || id.equals("null")) id = null;
+          return (new Fact(id, line[1], line[2], line[3]));
+        default:
+          if (showColumnWarning) {
+            Announce.warning("Unsupported number of columns (", line.length, ")", file == null ? "" : " from file " + file);
+            showColumnWarning = false;
+          }
+      }
+    } while (true);
   }
 
   @Override

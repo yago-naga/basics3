@@ -27,8 +27,8 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
- 
+limitations under the License.
+
 This class provides a reader for facts from an N4 document. This follows the
 Turtle Specification
 http://www.w3.org/TeamSubmission/turtle/#sec-grammar-grammar It (1)
@@ -108,7 +108,6 @@ public class N4Reader implements Iterator<Fact>, Closeable {
             language = "";
             while (Character.isLetter(c = reader.read()) || c == '-')
               language += (char) c;
-            c = READNEW;
             break;
           case '^':
             reader.read();
@@ -141,9 +140,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
         return (".");
       case ',':
         c = READNEW;
-        Announce.warning("Commas are not supported");
-        FileLines.scrollTo(reader, '.');
-        return (".");
+        //Announce.warning("Commas are not supported");
+        //FileLines.scrollTo(reader, '.');
+        return (",");
       case ';':
         c = READNEW;
         // Announce.warning("Semicolons are not supported");
@@ -181,10 +180,11 @@ public class N4Reader implements Iterator<Fact>, Closeable {
         // Prefixes
         int colon = name.indexOf(':');
         if (colon == -1) {
-          Announce.warning("Invalid entity", Char17.encodeHex(name, Char17.alphaNumericAndSpace));
+          return FactComponent.forEncodedUri(name);
+          /*Announce.warning("Invalid entity", Char17.encodeHex(name, Char17.alphaNumericAndSpace));
           FileLines.scrollTo(reader, '.');
           c = READNEW;
-          return (".");
+          return (".");*/
         }
         String prefix = name.substring(0, colon + 1);
         name = name.substring(colon + 1);
@@ -220,8 +220,23 @@ public class N4Reader implements Iterator<Fact>, Closeable {
     return nextFact != null;
   }
 
-  /** Holds the previous subject (for ;-lists) */
-  protected String prevSubj;
+  /** Holds the previous subject, predicate and object (in this order) */
+  protected String[] state = new String[3];
+
+  /** Save the next item at this index of state */
+  protected int stateIdx = 0;
+
+  protected int delimToIndex(char c) {
+    switch (c) {
+      case '.':
+        return 0;
+      case ';':
+        return 1;
+      case ',':
+        return 2;
+    }
+    return -1;
+  }
 
   /** returns the next fact */
   protected Fact internalNext() throws Exception {
@@ -261,62 +276,41 @@ public class N4Reader implements Iterator<Fact>, Closeable {
       }
 
       // Fact identifier
+      // TODO: where is this used?
       String factId = null;
-      // Subject Verb Object dot
-      String subject = null;
-      String predicate = null;
-      String object = null;
-      String dot = null;
-      Fact f = null;
-
-      // subject
       if (item.startsWith("&")) {
         factId = item.substring(1);
-        subject = nextItem();
-      } else {
-        subject = item;
+        item = nextItem();
       }
 
-      if (subject.equals(".")) {
-        // Announce.warning("Dot on empty line");
+      // check for . ; ,
+      int idx = -1;
+      if (item.length() == 1 && (idx = delimToIndex(item.charAt(0))) >= 0) {
+        stateIdx = idx;
         continue;
       }
-      // predicate
-      predicate = nextItem();
-      if (predicate.equals(".")) {
-        Announce.warning("Only one item on line", subject);
-        continue;
-      }
-
-      if (predicate != null && predicate.endsWith(";")) {
-        f = new Fact(factId, prevSubj, subject, predicate.replaceAll(";", ""));
-        dot = ";";
-      }
-
-      else {
-        object = nextItem();
-        if (object.equals(";") || object.equals(".")) {
-          f = new Fact(factId, prevSubj, subject, predicate);
-          dot = object;
-
-        } else if (object != null && !(object.startsWith("\"") && object.endsWith("\"")) && object.contains(";")) {
-          f = new Fact(factId, subject, predicate, object.replaceAll(";", ""));
-          dot = ";";
-          prevSubj = subject;
-        } else {
-          dot = nextItem();
-          f = new Fact(factId, subject, predicate, object);
-          prevSubj = subject;
-
-        }
-      }
-      if (!(dot.equals(".") || dot.equals(";"))) {
-        // Line too long
-        Announce.warning("More than three items on line", factId, subject, predicate, object, dot);
+      // sanity check
+      if (stateIdx > 2) {
+        Announce.warning("More than three items on line", factId, " state ", state[0], state[1], state[2], item, " state index ", stateIdx);
         FileLines.scrollTo(reader, '.');
         continue;
       }
-      return (f);
+
+      // save item
+      state[stateIdx++] = item;
+
+      // we now have all three parts
+      if (stateIdx == 3) {
+        char lastChar = Char17.last(state[2]);
+        idx = delimToIndex(lastChar);
+        if (idx >= 0) {
+          state[2] = Char17.cutLast(state[2]);
+          stateIdx = idx;
+        }
+
+        return new Fact(factId, state[0], state[1], state[2]);
+      }
+
     }
   }
 
@@ -331,12 +325,12 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 
   /**
    * Test
-   * 
+   *
    * @throws IOException
    */
   public static void main(String[] args) throws Exception {
 
-    for (Fact f : FactSource.from(new File("./data/relations.ttl"))) {
+    for (Fact f : FactSource.from(new File("./data/wikidata-test.ttl"))) {
       D.p(f);
     }
 
