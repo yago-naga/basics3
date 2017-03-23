@@ -99,9 +99,17 @@ public class N4Reader implements Iterator<Fact>, Closeable {
       case '"':
         String language = null;
         String datatype = null;
-        String string = FileLines.readTo(reader, '"').toString();
-        while (string.endsWith("\\") && !string.endsWith("\\\\"))
-          string += '"' + FileLines.readTo(reader, '"').toString();
+        String string = "";
+        do {
+          String next = FileLines.readTo(reader, '"').toString();
+          string += (string.length() > 0 ? "\"" : "") + next;
+          // check whether the last character of the last segment is escaped
+          int i = 0;
+          for (; i < next.length(); i++) {
+            if (next.charAt(i) == '\\') i++;
+          }
+          if (i == next.length()) break;
+        } while (true);
         c = reader.read();
         switch (c) {
           case '@':
