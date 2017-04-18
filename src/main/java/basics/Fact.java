@@ -1,5 +1,6 @@
 package basics;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javatools.administrative.D;
@@ -17,7 +18,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class represents a fact for YAGO. Convention: all fact
 components must be the output of a method of the class FactComponent.
@@ -52,11 +53,11 @@ public class Fact {
   public Fact(String id, String arg1, String relation, String object) {
     this.subject = arg1;
     this.relation = relation;
+    this.object = object;
     if (id != null) {
       this.id = id;
     }
-    this.object = object;
-    this.hashCode = arg1.hashCode() * relation.hashCode() * object.hashCode();
+    this.hashCode = Objects.hash(arg1, relation, object);
   }
 
   /**
