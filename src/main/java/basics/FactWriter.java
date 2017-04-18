@@ -19,12 +19,12 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
  This class provides an interface for fact serialisation, allowing you to
  materialize a set of YAGO facts e.g. as N3/N4 file depending on the chosen
  implementation.
-  
+
  */
 public abstract class FactWriter implements Closeable {
 
@@ -37,6 +37,8 @@ public abstract class FactWriter implements Closeable {
   };
 
   public abstract void write(Fact f) throws IOException;
+
+  public abstract void flush() throws IOException;
 
   public FactWriter(File f) {
     file = f;
@@ -60,4 +62,5 @@ public abstract class FactWriter implements Closeable {
     }
     throw new RuntimeException("Unsupported output file format for writing to: " + f);
   }
+
 }

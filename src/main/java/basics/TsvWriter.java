@@ -20,7 +20,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class writes facts to TSV files
  */
@@ -33,6 +33,11 @@ public class TsvWriter extends FactWriter {
   @Override
   public void close() throws IOException {
     out.close();
+  }
+
+  @Override
+  public void flush() throws IOException {
+    out.flush();
   }
 
   @Override
@@ -69,6 +74,6 @@ public class TsvWriter extends FactWriter {
     try (FactWriter w = new TsvWriter(new File("c:/fabian/temp/t.tsv"), "Blah blah \n   \t blub \t blah")) {
       w.write(new Fact("<Elvis>", "rdf:type", "<livingPerson>"));
     }
-
   }
+
 }

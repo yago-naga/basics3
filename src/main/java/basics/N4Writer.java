@@ -22,7 +22,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class writes YAGO facts into a Turtle-compatible output format.
 Output validates with http://www.rdfabout.com/demo/validator
@@ -77,6 +77,11 @@ public class N4Writer extends FactWriter {
   @Override
   public void close() throws IOException {
     writer.close();
+  }
+
+  @Override
+  public void flush() throws IOException {
+    writer.flush();
   }
 
   /** Test*/
