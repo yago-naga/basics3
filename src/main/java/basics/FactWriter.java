@@ -36,8 +36,13 @@ public abstract class FactWriter implements Closeable {
     return (file);
   };
 
+  /** Appends a fact to the output */
   public abstract void write(Fact f) throws IOException;
 
+  /** Appends a comment to the output */
+  public abstract void writeComment(String comment) throws IOException;
+
+  /** Flushes buffers to disk */
   public abstract void flush() throws IOException;
 
   public FactWriter(File f) {

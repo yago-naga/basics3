@@ -76,4 +76,11 @@ public class TsvWriter extends FactWriter {
     }
   }
 
+  @Override
+  public void writeComment(String comment) throws IOException {
+    out.write("# ");
+    out.write(comment);
+    out.write("\n");
+  }
+
 }

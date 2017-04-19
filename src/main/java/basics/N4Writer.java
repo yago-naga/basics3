@@ -92,4 +92,11 @@ public class N4Writer extends FactWriter {
 
   }
 
+  @Override
+  public void writeComment(String comment) throws IOException {
+    writer.write("# ");
+    writer.write(comment);
+    writer.write("\n");
+  }
+
 }
