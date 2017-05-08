@@ -23,7 +23,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. 
+limitations under the License.
 
 This class represents a source form which facts can be read (e.g., a file).
  */
@@ -40,7 +40,7 @@ public abstract class FactSource implements Iterable<Fact> {
 
   /**
    * returns a fact source from a file or URL
-   * 
+   *
    * @throws MalformedURLException
    */
   public static FactSource from(String f) throws MalformedURLException {
@@ -54,12 +54,12 @@ public abstract class FactSource implements Iterable<Fact> {
   }
 
   /** returns a fact reader depending on the extension */
-  protected static Iterator<Fact> factReader(Reader reader, String fileExtension) throws Exception {
+  protected static Iterator<Fact> factReader(Reader reader, String fileExtension, String info) throws Exception {
     switch (fileExtension) {
       case ".ttl":
-        return (new N4Reader(reader));
+        return (new N4Reader(reader, info));
       case ".tsv":
-        return (new TsvReader(reader));
+        return (new TsvReader(reader, info));
       default:
         throw new RuntimeException("Unknown file format " + fileExtension);
     }
@@ -77,8 +77,9 @@ public abstract class FactSource implements Iterable<Fact> {
     @Override
     public Iterator<Fact> iterator() {
       try {
-        return factReader(FileUtils.getBufferedUTF8Reader(file), FileSet.extension(file));
+        return factReader(FileUtils.getBufferedUTF8Reader(file), FileSet.extension(file), file.toString());
       } catch (Exception e) {
+        System.err.println("Error while opening file " + file);
         throw new RuntimeException(e);
       }
     }
@@ -104,7 +105,7 @@ public abstract class FactSource implements Iterable<Fact> {
     @Override
     public Iterator<Fact> iterator() {
       try {
-        return factReader(FileUtils.getBufferedUTF8Reader(file.openStream()), FileSet.extension(file.toString()));
+        return factReader(FileUtils.getBufferedUTF8Reader(file.openStream()), FileSet.extension(file.toString()), file.toString());
       } catch (Exception e) {
         e.printStackTrace();
         return (null);

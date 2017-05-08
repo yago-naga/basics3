@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javatools.administrative.Announce;
 import javatools.administrative.D;
+import javatools.datatypes.IterableForIterator;
 import javatools.filehandlers.FileLines;
 import javatools.parsers.Char17;
 import javatools.util.FileUtils;
@@ -44,6 +45,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
   /** Reads the file */
   protected Reader reader;
 
+  /** Information to be displayed in error messages */
+  protected String info = "<unknown source>";
+
   /** Maps custom prefixes */
   protected Map<String, String> prefixes = new TreeMap<String, String>();
 
@@ -54,6 +58,12 @@ public class N4Reader implements Iterator<Fact>, Closeable {
   public N4Reader(Reader r) throws IOException {
     reader = r;
     next();
+  }
+
+  /** Creates a N4 reader */
+  public N4Reader(Reader r, String info) throws IOException {
+    this(r);
+    this.info = info;
   }
 
   /** Creates a N4 reader */
@@ -134,14 +144,14 @@ public class N4Reader implements Iterator<Fact>, Closeable {
       case '[':
         String blank = FileLines.readTo(reader, ']').toString().trim();
         if (blank.length() != 0) {
-          Announce.warning("Properties of blank node ignored", blank);
+          Announce.warning("Properties of blank node ignored", blank, " (", info, ")");
         }
         c = READNEW;
         return (FactComponent.forYagoEntity("blank" + (blankCounter++)));
       case '(':
         c = READNEW;
         String list = FileLines.readTo(reader, ')').toString().trim();
-        Announce.warning("Cannot handle list", list);
+        Announce.warning("Cannot handle list", list, "(", info, ")");
         return (FactComponent.forQname("rdf:", "nil"));
       case '.':
         c = READNEW;
@@ -260,7 +270,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
         FileLines.scrollTo(reader, '.');
         if (FactComponent.standardPrefixes.containsKey(prefix)) {
           if (dest.equals(FactComponent.standardPrefixes.get(prefix))) continue;
-          else Announce.warning("Redefining standard prefix", prefix, "from", FactComponent.standardPrefixes.get(prefix), "to", dest);
+          else Announce.warning("Redefining standard prefix", prefix, "from", FactComponent.standardPrefixes.get(prefix), "to", dest, "(", info, ")");
         }
         prefixes.put(prefix, dest);
         continue;
@@ -278,7 +288,7 @@ public class N4Reader implements Iterator<Fact>, Closeable {
 
       // Unknown
       if (item.startsWith("@")) {
-        Announce.warning("Unknown directive:", item);
+        Announce.warning("Unknown directive:", item, "(", info, ")");
         FileLines.scrollTo(reader, '.');
         continue;
       }
@@ -299,7 +309,8 @@ public class N4Reader implements Iterator<Fact>, Closeable {
       }
       // sanity check
       if (stateIdx > 2) {
-        Announce.warning("More than three items on line", factId, " state ", state[0], state[1], state[2], item, " state index ", stateIdx);
+        Announce.warning("More than three items on line", factId, " state ", state[0], state[1], state[2], item, " state index ", stateIdx, "(", info,
+            ")");
         FileLines.scrollTo(reader, '.');
         continue;
       }
@@ -338,6 +349,10 @@ public class N4Reader implements Iterator<Fact>, Closeable {
    */
   public static void main(String[] args) throws Exception {
 
+    for (Fact f : IterableForIterator.get(new N4Reader(new File(args[0])))) {
+      D.p(f);
+    }
+    System.exit(0);
     for (Fact f : FactSource.from(new File("./data/wikidata-test.ttl"))) {
       D.p(f);
     }

@@ -33,14 +33,27 @@ public class TsvReader extends PeekIterator<Fact> {
   /** Reads the file */
   protected FileLines lines;
 
-  private File file = null;
+  /** Information to be displayed in error messages */
+  protected String info = "<unknown source>";
 
   /** Show warning for first line with wrong number of columns */
   private boolean showColumnWarning = true;
 
-  /** Creates a N4 reader */
+  /** Creates a TSV reader */
   public TsvReader(Reader r) throws IOException {
     lines = new FileLines(r);
+  }
+
+  /** Creates a TSV reader */
+  TsvReader(Reader r, String info) throws IOException {
+    this(r);
+    this.info = info;
+  }
+
+  /** Creates a TSV reader */
+  public TsvReader(File f) throws IOException {
+    lines = new FileLines(f, "UTF8");
+    info = f.toString();
   }
 
   @Override
@@ -65,7 +78,7 @@ public class TsvReader extends PeekIterator<Fact> {
           return (new Fact(id, line[1], line[2], line[3]));
         default:
           if (showColumnWarning && !line[0].startsWith("#")) {
-            Announce.warning("Unsupported number of columns (", line.length, ")", file == null ? "" : " from file " + file);
+            Announce.warning("Unsupported number of columns: ", line.length, " (", info, ")");
             showColumnWarning = false;
           }
       }
@@ -75,11 +88,6 @@ public class TsvReader extends PeekIterator<Fact> {
   @Override
   public void close() {
     super.close();
-  }
-
-  public TsvReader(File f) throws IOException {
-    file = f;
-    lines = new FileLines(f, "UTF8");
   }
 
   /** Parses out the gloss and the theme group from the object of a hasGloss-fact about a theme*/
