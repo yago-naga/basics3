@@ -64,7 +64,7 @@ public class TsvReader extends PeekIterator<Fact> {
           if (id.isEmpty() || id.equals("null")) id = null;
           return (new Fact(id, line[1], line[2], line[3]));
         default:
-          if (showColumnWarning) {
+          if (showColumnWarning && !line[0].startsWith("#")) {
             Announce.warning("Unsupported number of columns (", line.length, ")", file == null ? "" : " from file " + file);
             showColumnWarning = false;
           }
