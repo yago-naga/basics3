@@ -12,8 +12,8 @@ import javatools.administrative.Announce;
 import javatools.administrative.D;
 import javatools.datatypes.IterableForIterator;
 import javatools.filehandlers.FileLines;
+import javatools.filehandlers.FileUtils;
 import javatools.parsers.Char17;
-import javatools.util.FileUtils;
 
 /**
 Copyright 2016 Fabian M. Suchanek

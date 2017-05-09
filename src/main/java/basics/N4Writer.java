@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javatools.filehandlers.FileSet;
-import javatools.util.FileUtils;
+import javatools.filehandlers.FileUtils;
 
 /**
 Copyright 2016 Fabian M. Suchanek

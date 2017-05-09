@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import javatools.filehandlers.FileSet;
-import javatools.util.FileUtils;
+import javatools.filehandlers.FileUtils;
 
 /**
 Copyright 2016 Fabian M. Suchanek

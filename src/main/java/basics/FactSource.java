@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import javatools.administrative.D;
 import javatools.filehandlers.FileSet;
-import javatools.util.FileUtils;
+import javatools.filehandlers.FileUtils;
 
 /**
 Copyright 2016 Fabian M. Suchanek, with contributions by Steffen Metzger
