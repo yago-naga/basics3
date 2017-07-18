@@ -24,7 +24,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 This class provides a reader for facts from an TSV document. Supports: 2
-columns (relation will be "&lt;relation>"); 3 columns (ids will be null); 4
+columns (relation will be "&lt;relation&gt;"); 3 columns (ids will be null); 4
 columns (id subject relation object); 5 columns (id subject relation object
 value)
  */

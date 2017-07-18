@@ -201,9 +201,9 @@ public class FactComponent {
    * can be given as 2 letter or 3 letter codes, and will be translated to 3
    * letter codes by help of the provided mapping. To get this mapping, use
    *
-   * Map<String, String> languagemap =
+   * Map&lt;String, String&gt; languagemap =
    * PatternHardExtractor.LANGUAGECODEMAPPING
-   * .factCollection().getStringMap("<hasThreeLetterLanguageCode>");
+   * .factCollection().getStringMap("&lt;hasThreeLetterLanguageCode&gt;");
    *
    * Returns NULL in case of failure.
    */
@@ -354,7 +354,7 @@ public class FactComponent {
   }
 
   /** removes the qualifier appended to the entity name
-   * (e.g. Gerd_Müller_(politician) ==> Gerd_Müller */
+   * (e.g. Gerd_Müller_(politician) ==&gt; Gerd_Müller */
   public static String stripQualifier(String string) {
     if (!string.endsWith(")")) return string;
     int openingBracketIndex = string.lastIndexOf('(');
