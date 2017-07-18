@@ -407,12 +407,12 @@ public class FactComponent {
 
   /** TRUE for literals */
   public static boolean isLiteral(String entity) {
-    return (entity.startsWith("\""));
+    return entity != null && (entity.startsWith("\""));
   }
 
   /** TRUE for urls */
   public static boolean isUri(String entity) {
-    return (entity.startsWith("<"));
+    return entity != null && (entity.startsWith("<"));
   }
 
   /**
