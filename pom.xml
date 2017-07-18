@@ -1,13 +1,68 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.yago-knowledge</groupId>
+	<groupId>de.mpg.mpi-inf</groupId>
 	<artifactId>basics3</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>Basics3 is a collection of Java classes used by the YAGO project.</description>
+	<url>https://github.com/yago-naga/basics3</url>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 	</properties>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Daniel Bär</name>
+		</developer>
+		
+		<developer>
+			<name>Johannes Hoffart</name>
+		</developer>
+		
+		<developer>
+			<name>Thomas Rebele</name>
+		</developer>
+		
+		<developer>
+			<name>Fabian Suchanek</name>
+			<email>fabian at suchanek.name</email>
+		</developer>
+		
+		<developer>
+			<name>Ghazaleh Haratinezhad Torbati</name>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/yago-naga/basics3.git</connection>
+		<developerConnection>scm:git:ssh://github.com:yago-naga/basics3.git</developerConnection>
+		<url>http://github.com/yago-naga/basics3/tree/master</url>
+	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+
+
 	<build>
 		<resources>
 			<resource>
@@ -42,13 +97,77 @@
 					<argLine>-Xmx15G</argLine>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<useReleaseProfile>false</useReleaseProfile>
+					<arguments>-Pbasics3-release</arguments>
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>de.mpg.mpi-inf</groupId>
 			<artifactId>javatools</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
