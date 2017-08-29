@@ -92,7 +92,8 @@ public class TsvReader extends PeekIterator<Fact> {
 
   /** Parses out the gloss and the theme group from the object of a hasGloss-fact about a theme*/
   public static String[] glossAndGroup(String themeGloss) {
-    int pos = themeGloss.lastIndexOf('.');
+    int pos = themeGloss.lastIndexOf(" T ") + 17;
+    if(pos < 17 || pos >= themeGloss.length()) pos = 0;
     int endPos = themeGloss.lastIndexOf(' ');
     if (endPos == -1 || endPos < pos) {
       return (new String[] { themeGloss.substring(pos + 1), null });
