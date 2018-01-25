@@ -96,4 +96,9 @@ public class YAGO {
   
   public static final String isNamedEntity = "<isNamedEntity>";
 
+  public static final String hasLatitude = "<hasLatitude>";
+
+  public static final String hasLongitude = "<hasLongitude>";
+
+  public static final String hasGeoLocation = "<hasGeoLocation>";
 }
