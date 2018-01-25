@@ -94,4 +94,6 @@ public class YAGO {
   
   public static final String hasShortDescription = "<hasShortDescription>";
   
+  public static final String isNamedEntity = "<isNamedEntity>";
+
 }
