@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.mpg.mpi-inf</groupId>
 	<artifactId>basics3</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Basics3 is a collection of Java classes used by the YAGO project.</description>
