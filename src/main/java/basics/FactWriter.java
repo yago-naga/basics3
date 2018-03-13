@@ -49,7 +49,7 @@ public abstract class FactWriter implements Closeable {
     file = f;
 
     // Make sure the target directory has been created.
-    f.getParentFile().mkdirs();
+    f.getAbsoluteFile().getParentFile().mkdirs();
   }
 
   /** Returns a fact writer for a file */
