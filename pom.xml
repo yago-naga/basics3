@@ -1,12 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<!-- deploy with following command to central maven repository:
+	<!-- 
+		********************************************************************************
+		Instructions for uploading to Maven Central repository
+		********************************************************************************
+		1. Setup an accound, following the instructions at
+			http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-2.Signup
+		2. Deploy with following command to central maven repository:
 			mvn clean deploy -Pdeploy
 		-->
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.mpg.mpi-inf</groupId>
 	<artifactId>basics3</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Basics3 is a collection of Java classes used by the YAGO project.</description>
@@ -177,7 +183,7 @@
 		<dependency>
 			<groupId>de.mpg.mpi-inf</groupId>
 			<artifactId>javatools</artifactId>
-			<version>1.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
