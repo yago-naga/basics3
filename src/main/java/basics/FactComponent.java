@@ -249,6 +249,15 @@ public class FactComponent {
     return (forYagoEntity(lan + "/wikicat_" + word));
   }
 
+  /** Creates a fact component for a GeoNames entity */
+  public static String forGeoNamesId(String geonamesId) {
+    return (forYagoEntity(GeoNames.GEONAMES_NAMESPACE + geonamesId));
+  }
+
+  public static String geoNamesIdFromEntity(String genonamesYagoId) {
+    return stripBrackets(genonamesYagoId.replace(GeoNames.GEONAMES_NAMESPACE, ""));
+  }
+
   /** Creates a fact component for a GeoNames class */
   public static String forGeoNamesClass(String word) {
     return (forYagoEntity("geoclass_" + word));
