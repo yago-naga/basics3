@@ -14,14 +14,14 @@ The source code of javatools is licensed under [Apache License v2.0](http://www.
 ### Developers
 
 The Basics3 development is lead by (in alphabetical order):
-* Daniel Bär
 * [Johannes Hoffart](http://www.mpi-inf.mpg.de/~jhoffart)
 * Thomas Rebele
 * [Fabian Suchanek](https://suchanek.name)
-* Ghazaleh Haratinezhad Torbati
 
 Contributors include (in alphabetical order):
+* Daniel Bär
 * [Asia J. Biega](http://people.mpi-inf.mpg.de/~jbiega/)
 * Steffen Metzger
+* Ghazaleh Haratinezhad Torbati
 * Mohamed Amir Yosef
 
