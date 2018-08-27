@@ -542,6 +542,11 @@ public class FactComponent {
     return arg.startsWith("<id_");
   }
 
+  /** TRUE if the argument is an entity id starting with _ (empty node used for reification) */
+  public static boolean isEmptyNode(String arg) {
+    return arg.startsWith("<_");
+  }
+
   /** Makes a Wikipedia URL for an entity coming from the English Wikipedia */
   public static String wikipediaURL(String entityName) {
     return wikipediaURL(entityName, "en");
