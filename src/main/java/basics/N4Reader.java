@@ -80,6 +80,9 @@ public class N4Reader implements Iterator<Fact>, Closeable {
   /** Current character */
   protected int c = READNEW;
 
+  /** Language tags might contain dialect suffix which is ignored. Flag to print the information.*/
+  private boolean printedLanguageTagContainedDialect = false;
+
   /** returns the next item */
   protected String nextItem() throws IOException {
     if (c == READNEW) c = FileLines.firstCharAfterSpace(reader);
@@ -124,8 +127,17 @@ public class N4Reader implements Iterator<Fact>, Closeable {
         switch (c) {
           case '@':
             language = "";
-            while (Character.isLetter(c = reader.read()) || c == '-')
+            while (Character.isLetterOrDigit(c = reader.read()) || c == '-')
               language += (char) c;
+            if (language.matches(".+-\\d+"))
+            {
+              language = language.substring(0, language.indexOf('-'));
+              if (!printedLanguageTagContainedDialect)
+              {
+                Announce.warning("At least one language tag contained dialect suffix, which was ignored. (example: @es-419)");
+                printedLanguageTagContainedDialect = true;
+              }
+            }
             break;
           case '^':
             reader.read();
