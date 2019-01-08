@@ -4,7 +4,7 @@
 		********************************************************************************
 		Instructions for uploading to Maven Central repository
 		********************************************************************************
-		1. Setup an accound, following the instructions at
+		1. Setup an account, following the instructions at
 			http://central.sonatype.org/pages/ossrh-guide.html#SonatypeOSSMavenRepositoryUsageGuide-2.Signup
 		2. Deploy with following command to central maven repository:
 			mvn clean deploy -Pdeploy
