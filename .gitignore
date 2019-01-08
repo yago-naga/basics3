@@ -5,3 +5,7 @@
 .project
 
 .settings
+
+#IntelliJ generated files
+/*.iml
+.idea
